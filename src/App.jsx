@@ -1,16 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { Routes, Route } from 'react-router-dom'
 import LoginScreen from './pages/login/Login'
+import RegisterAccount from './pages/registerAccount/RegisterAccount'
+import Layout from './layouts/Layout'
 import './App.css'
 
 function App() {
-
   return (
-    <>
-      <LoginScreen></LoginScreen>
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<LoginScreen />} />
+        <Route path="/cadastro" element={<RegisterAccount />} />
+      </Route>
+    </Routes>
   )
 }
 

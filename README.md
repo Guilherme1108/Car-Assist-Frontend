@@ -8,6 +8,9 @@ Para mais informações, acessar o repositório principal: [Car Assist](https://
 - Vite 8.0.6
 - JavaScript
 
+## Bibliotecas
+- lucide-react
+
 ## Como rodar
 
 ```bash

@@ -1,25 +1,28 @@
-import React from 'react'
 import './Login.css'
+import { useNavigate } from 'react-router-dom'
+import Input from '../../components/input/Input'
+import Button from '../../components/button/Button'
 
 const LoginScreen = () => {
+
+  const navigate = useNavigate();
+
   return (
     <div className='loginScreen'>
-        <img src="" alt="logo" />
 
-        <span>BEM VINDO</span>
+      <div className='container'>
+        <Input type='text' placeholder='Nome'></Input>
 
-        <div className='container'>
-            <input type="Email" />
+        <Input type='text' placeholder='Nome'></Input>
 
-            <input type="Senha" />
+        <Button text='Login' variant='primary'></Button>
+      </div>
 
-            <button>Login</button>
-        </div>
+      <div className='containerOpcoes'>
+        <p className='esqueciSenha'>Esqueci minha senha</p>
+        <p onClick={() => navigate('/cadastro')}>Criar uma conta</p>
+      </div>
 
-        
-
-        <p>Esqueci minha senha</p>
-        <p>Criar uma conta</p>
     </div>
   )
 }

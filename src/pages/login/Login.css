@@ -1,25 +1,18 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
 .loginScreen {
-    height: 100vh;
-    width: 100vw;
+    min-height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 }
 
-img {
-    height: 100px;
-    width: 100px;
+
+span {
+    font-size: 2rem;
 }
 
 .container {
-    height: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,16 +20,25 @@ img {
     gap: 24px;
 }
 
-input {
-    height: 50px;
-    width: 300px;
+.senha {
+    margin-bottom: 24px;
 }
 
-button {
-    height: 50px;
-    width: 100px;
+.containerOpcoes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
 }
 
 p {
-    height: 100px;
+    font-size: 1rem;
+    height: 1rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.esqueciSenha {
+    color: #FF0000;
 }
