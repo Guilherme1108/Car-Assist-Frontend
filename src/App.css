@@ -1,3 +1,8 @@
 #root {
   height: 100%;
 }
+
+:root {
+  --primary-color: #3C3C3C;
+  --secondary-color: #C80B0B;
+}

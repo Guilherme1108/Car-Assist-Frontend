@@ -1,6 +1,7 @@
 import './Login.css'
-import logo from '../../assets/logo.svg'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import Input from '../../components/input/Input'
+import Button from '../../components/button/Button'
 
 const LoginScreen = () => {
 
@@ -10,11 +11,11 @@ const LoginScreen = () => {
     <div className='loginScreen'>
 
       <div className='container'>
-        <input type="text" placeholder='Email' />
+        <Input type='text' placeholder='Nome'></Input>
 
-        <input className='senha' type="Senha" placeholder='Senha' />
+        <Input type='text' placeholder='Nome'></Input>
 
-        <button>Login</button>
+        <Button text='Login' variant='primary'></Button>
       </div>
 
       <div className='containerOpcoes'>
