@@ -7,6 +7,10 @@ const LoginScreen = () => {
 
   const navigate = useNavigate();
 
+  const handleApprove= () => {
+    navigate('/menu')
+  }
+
   return (
     <div className='loginScreen'>
 
@@ -15,7 +19,7 @@ const LoginScreen = () => {
 
         <Input type='text' placeholder='Nome'></Input>
 
-        <Button text='Login' variant='primary'></Button>
+        <Button text='Login' variant='primary' onClick={handleApprove}></Button>
       </div>
 
       <div className='containerOpcoes'>
