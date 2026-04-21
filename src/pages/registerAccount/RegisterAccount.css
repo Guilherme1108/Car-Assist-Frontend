@@ -4,9 +4,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
     padding-left: 50px;
     padding-right: 50px;
     gap: 50px;
+    padding-bottom: 12px;
+}
+
+.titlePage {
+    font-size: 1.25rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .formElement {
@@ -16,8 +29,20 @@
     flex-direction: column;
 }
 
+
+
 .buttons {
     display: flex;
     gap: 24px;
-    
+}
+
+@media (min-height: 1024px) {
+
+    .titlePage {
+        font-size: 2rem;
+    }
+
+    .formElement label {
+        font-size: 1.25rem;
+    }
 }

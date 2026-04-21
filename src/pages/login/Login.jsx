@@ -14,6 +14,8 @@ const LoginScreen = () => {
   return (
     <div className='loginScreen'>
 
+      <span className="textWelcome">Bem Vindo</span>
+
       <div className='container'>
         <Input type='text' placeholder='Nome'></Input>
 

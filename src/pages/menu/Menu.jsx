@@ -1,5 +1,8 @@
 import "./Menu.css";
+import imagemCarro from '../../assets/carroTeste.webp'
 import {useNavigate} from "react-router-dom";
+import { CopyPlus } from "lucide-react";
+import BottomBar from "../../components/bottomBar/BottomBar";
 
 const MenuScreen = () => {
   return (
@@ -12,11 +15,11 @@ const MenuScreen = () => {
       <div className="cards">
 
         <div className="card">
-          <img className="imgCar" src="" alt="" />
+          <img className="imgCar" src={imagemCarro} alt="" />
 
           <span className="carName">Civic SI</span>
 
-          <div lowerInformations>
+          <div className="lowerInformations">
             <span className="carPlate">EXE3006</span>
             <span className="carPoints">100</span>
           </div>
@@ -24,11 +27,11 @@ const MenuScreen = () => {
         </div>
 
         <div className="card">
-          <img className="imgCar" src="" alt="" />
+          <img className="imgCar" src={imagemCarro} alt="" />
 
           <span className="carName">Civic SI</span>
 
-          <div lowerInformations>
+          <div className="lowerInformations">
             <span className="carPlate">EXE3006</span>
             <span className="carPoints">100</span>
           </div>
@@ -36,7 +39,7 @@ const MenuScreen = () => {
         </div>
 
         <div className="card">
-          <img className="imgCar" src="" alt="" />
+          <img className="imgCar" src={imagemCarro} alt="" />
 
           <span className="carName">Civic SI</span>
 
@@ -48,7 +51,17 @@ const MenuScreen = () => {
         </div>
 
       </div>
+
+      <button className="addCarButton">
+        <CopyPlus size={18} />
+        <p className="textScore">Adicionar Carro</p>
+      </button>
+
+      <BottomBar></BottomBar>
+
     </div>
+    
+    
   );
 };
 
