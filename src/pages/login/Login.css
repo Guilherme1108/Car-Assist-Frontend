@@ -42,8 +42,9 @@ p {
     color: #FF0000;
 }
 
-@media (min-height: 1024px) {
+@media (min-width: 768px) {
   .textWelcome {
-    font-size: 2.25 rem;
+    font-size: 2.25rem;
+    color: blueviolet;
   }
 }

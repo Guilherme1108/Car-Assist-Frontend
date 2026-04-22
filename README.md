@@ -10,6 +10,7 @@ Para mais informações, acessar o repositório principal: [Car Assist](https://
 
 ## Bibliotecas
 - lucide-react
+- react-router-dom
 
 ## Como rodar
 

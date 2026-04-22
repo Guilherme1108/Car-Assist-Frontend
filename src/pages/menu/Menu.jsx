@@ -1,6 +1,6 @@
 import "./Menu.css";
 import imagemCarro from '../../assets/carroTeste.webp'
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CopyPlus } from "lucide-react";
 import BottomBar from "../../components/bottomBar/BottomBar";
 
@@ -8,8 +8,15 @@ const MenuScreen = () => {
   return (
     <div className="menuScreen">
       <div className="containerScore">
-        <span className="garagePoints">80</span>
-        <p className="textScore">Score da garagem</p>
+        <div className="textsScore">
+          <span className="garagePoints">80</span>
+          <p className="textScore">Score da garagem</p>
+        </div>
+
+        <div className="bar">
+          <div className="filledBar"></div>
+        </div>
+
       </div>
 
       <div className="cards">
@@ -60,8 +67,8 @@ const MenuScreen = () => {
       <BottomBar></BottomBar>
 
     </div>
-    
-    
+
+
   );
 };
 
