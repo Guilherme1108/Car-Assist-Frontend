@@ -6,7 +6,7 @@ import './Topbar.css'
 const Topbar = () => {
   const location = useLocation();
 
-  const pagesWithIcons = ["/menu"]; // adiciona mais rotas aqui depois
+  const pagesWithIcons = ["/home"]; // adicionar mais rotas aqui depois
   const showIcons = pagesWithIcons.includes(location.pathname)
 
   return (

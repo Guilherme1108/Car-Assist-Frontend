@@ -1,4 +1,4 @@
-.menuScreen {
+.homeScreen {
     min-height: 100%;
     width: 100%;
     display: flex;
@@ -95,7 +95,7 @@
 
 @media (min-width: 768px) {
 
-    .menuScreen {
+    .homeScreen {
         padding-left: 80px;
         padding-right: 80px;
     }
@@ -140,5 +140,19 @@
         flex-direction: row;
         justify-content: space-between;
         flex-wrap: wrap;
+    }
+
+    .card {
+        height: 450px;
+        width: 42%;
+    }
+
+    .carName {
+        font-size: 2rem;
+    }
+
+    .carPlate,
+    .carPoints {
+        font-size: 1.25rem;
     }
 }

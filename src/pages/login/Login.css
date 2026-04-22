@@ -45,6 +45,5 @@ p {
 @media (min-width: 768px) {
   .textWelcome {
     font-size: 2.25rem;
-    color: blueviolet;
   }
 }

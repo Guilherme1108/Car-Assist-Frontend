@@ -8,7 +8,7 @@ const LoginScreen = () => {
   const navigate = useNavigate();
 
   const handleApprove= () => {
-    navigate('/menu')
+    navigate('/home')
   }
 
   return (

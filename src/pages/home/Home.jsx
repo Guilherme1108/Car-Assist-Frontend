@@ -1,12 +1,15 @@
-import "./Menu.css";
+import "./Home.css";
 import imagemCarro from '../../assets/carroTeste.webp'
 import { useNavigate } from "react-router-dom";
 import { CopyPlus } from "lucide-react";
 import BottomBar from "../../components/bottomBar/BottomBar";
 
-const MenuScreen = () => {
+const HomeScreen = () => {
+
+  const navigate = useNavigate();
+
   return (
-    <div className="menuScreen">
+    <div className="homeScreen">
       <div className="containerScore">
         <div className="textsScore">
           <span className="garagePoints">80</span>
@@ -21,7 +24,10 @@ const MenuScreen = () => {
 
       <div className="cards">
 
-        <div className="card">
+        <div className="card"
+        onClick={() => {
+          navigate('./veiculo')
+        }}>
           <img className="imgCar" src={imagemCarro} alt="" />
 
           <span className="carName">Civic SI</span>
@@ -72,4 +78,4 @@ const MenuScreen = () => {
   );
 };
 
-export default MenuScreen;
+export default HomeScreen;
