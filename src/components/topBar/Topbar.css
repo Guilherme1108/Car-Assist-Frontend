@@ -1,15 +1,16 @@
 .topBar {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-
-    height: 150px;
+    align-items: flex-start;
+    height: 120px;
     padding: 0 16px;
 }
 
 .side {
     display: flex;
+    align-items: flex-start;
     gap: 12px;
+    padding-top: 24px;
 }
 
 .left {

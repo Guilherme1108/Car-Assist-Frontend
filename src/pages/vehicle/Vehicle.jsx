@@ -1,54 +1,67 @@
-import "./Vehicle.css"
-import imagemCarro from '../../assets/carroTeste.webp'
-import { SquarePen } from "lucide-react";
-
+import "./Vehicle.css";
+import {useNavigate} from "react-router-dom";
+import imagemCarro from "../../assets/carroTeste.webp";
+import {SquarePen} from "lucide-react";
+import BottomBar from "../../components/bottomBar/BottomBar";
 
 const VehicleScreen = () => {
-    return (
-        <div className="vehicleScreen">
-            <div className="cardCarro">
-                <div className="superiorCard">
-                    <h1 className="titleVeiculo">Veiculo</h1>
-                    <img src={SquarePen} alt="" className="buttonEdit" />
-                </div>
-                <img src={imagemCarro} alt="" className="carImage" />
 
-                <div className="carInformations">
+  const navigate = useNavigate();
 
-                    <div className="containerPlate">
-                        <span className="titleInformations">Placa</span>
-                        <span className="contentInformation">EXE3006</span>
-                    </div>
-
-                    <div className="containerPlate">
-                        <span className="titleInformations">Cor</span>
-                        <span className="contentInformation">Vermelho</span>
-                    </div> 
-
-                    <div className="containerPlate">
-                        <span className="titleInformations">Marca</span>
-                        <span className="contentInformation">Honda</span>
-                    </div>
-
-                    <div className="containerPlate">
-                        <span className="titleInformations">Ano</span>
-                        <span className="contentInformation">2008</span>
-                    </div>
-                </div>
-
-                <span>Histórico de donos</span>
-
-                <div className="containerButtons">
-                    <button className="buttonGastos">Gastos</button>
-                    <button className="buttonTransferencia">Transferência</button>
-                </div>
-                <button className="buttonHistManutencao">Histórico de Manutenções</button>
-                
-            </div>
-            
+  return (
+    <div className="vehicleScreen">
+      <div className="cardCarro">
+        <div className="superiorCard">
+          <h1 className="titleVeiculo">Civic SI</h1>
+          <SquarePen size={32} className="btnEditar" />
         </div>
-        
-    )
-}
 
-export default VehicleScreen
+        <img src={imagemCarro} alt="" className="carImage" />
+
+        <div className="carInformations">
+          <div className="cardInformationBlock">
+            <span className="titleInformation">Placa</span>
+            <span className="contentInformation">EXE3006</span>
+          </div>
+
+          <div className="cardInformationBlock">
+            <span className="titleInformation">Cor</span>
+            <span className="contentInformation">Vermelho</span>
+          </div>
+
+          <div className="cardInformationBlock">
+            <span className="titleInformation">Marca</span>
+            <span className="contentInformation">Honda</span>
+          </div>
+
+          <div className="cardInformationBlock">
+            <span className="titleInformation">Ano</span>
+            <span className="contentInformation">2008</span>
+          </div>
+        </div>
+      </div>
+
+      <li className="historicoDonos">Histórico de donos</li>
+
+      <div className="dividingLine"></div>
+
+      <div className="containerButtons">
+        <button className="buttonGastos">Gastos</button>
+        <button className="buttonTransferencia">Transferência</button>
+      </div>
+
+      <button
+        className="buttonHistManutencao"
+        onClick={() => {
+          navigate("./manutencao");
+        }}
+      >
+        Histórico de Manutenções
+      </button>
+
+      <BottomBar></BottomBar>
+    </div>
+  );
+};
+
+export default VehicleScreen;

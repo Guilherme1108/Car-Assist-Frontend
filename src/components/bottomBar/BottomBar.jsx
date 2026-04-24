@@ -15,15 +15,15 @@ const BottomBar = () => {
         className={`item ${isActive("/garage") ? "active" : ""}`}
         onClick={() => navigate("/garage")}
       >
-        <Wrench size={22} />
+        <Wrench size={32} />
       </div>
 
       
       <div
-        className={`item ${isActive("/menu") ? "active" : ""}`}
-        onClick={() => navigate("/menu")}
+        className={`item ${isActive("/home") ? "active" : ""}`}
+        onClick={() => navigate("/home")}
       >
-        <Home size={22} />
+        <Home size={32} />
       </div>
 
       
@@ -32,7 +32,7 @@ const BottomBar = () => {
         className={`item ${isActive("/profile") ? "active" : ""}`}
         onClick={() => navigate("/profile")}
       >
-        <User size={22} />
+        <User size={32} />
       </div>
     </div>
   );
