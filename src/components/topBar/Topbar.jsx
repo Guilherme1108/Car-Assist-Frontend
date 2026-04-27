@@ -11,7 +11,7 @@ const Topbar = () => {
   const pagesWithIcons = ["/home"]; // adicionar mais rotas aqui depois
   const showIcons = pagesWithIcons.includes(location.pathname)
 
-  const pagesWithreturnIcon = ["/home/veiculo", "/home/veiculo/manutencao"]; // adicionar mais rotas aqui depois
+  const pagesWithreturnIcon = ["/home/veiculo", "/home/veiculo/manutencao", "/home/veiculo/gastos"]; // adicionar mais rotas aqui depois
   const showReturnIcon = pagesWithreturnIcon.includes(location.pathname)
 
   return (

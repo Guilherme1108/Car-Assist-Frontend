@@ -12,8 +12,8 @@ const BottomBar = () => {
     <div className="bottomBar">
 
         <div
-        className={`item ${isActive("/garage") ? "active" : ""}`}
-        onClick={() => navigate("/garage")}
+        className={`item ${isActive("/services") ? "active" : ""}`}
+        onClick={() => navigate("/services")}
       >
         <Wrench size={32} />
       </div>

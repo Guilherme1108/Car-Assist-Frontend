@@ -46,7 +46,9 @@ const VehicleScreen = () => {
       <div className="dividingLine"></div>
 
       <div className="containerButtons">
-        <button className="buttonGastos">Gastos</button>
+        <button className="buttonGastos" onClick={() => {
+          navigate("./gastos")
+        }}>Gastos</button>
         <button className="buttonTransferencia">Transferência</button>
       </div>
 

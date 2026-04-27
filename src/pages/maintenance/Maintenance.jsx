@@ -1,36 +1,145 @@
 import './Maintenance.css'
 import { useNavigate } from 'react-router-dom'
 import {SquarePen} from "lucide-react";
+import BottomBar from "../../components/bottomBar/BottomBar";
 
 const MaintenanceScreen = () => {
 
     const navigate = useNavigate
 
     return(
-        <div className="maintenenceScreen">
-            <h1>Histórico <br /> de <br /> Manutenções</h1>
+        <div className="maintenanceScreen">
+            <h1 className='maintenanceTitle'>Histórico <br /> de <br /> Manutenções</h1>
 
-            <div className="containermaintenences">
+            <div className="containerMaintenences">
 
                 <div className="maintenance">
                     <div className="informationsMaintenance">
                         <div className="topInformationMaintenance">
-                            <span className="dateMaintenance"></span>
-                            <span className="price"></span>
+                            <span className="dateMaintenance">29/09/2025</span>
+                            <span className="price">R$99,99</span>
                         </div>
 
-                        <span className="typeMaintenance"></span>
+                        <span className="typeMaintenance">Manutenção Preventiva</span>
                         
                     </div>
+
+                    <SquarePen size={32} className="btnEditar" />
                 </div>
 
-                <SquarePen size={32} className="btnEditar" />
+                <div className="maintenance">
+                    <div className="informationsMaintenance">
+                        <div className="topInformationMaintenance">
+                            <span className="dateMaintenance">29/09/2025</span>
+                            <span className="price">R$99,99</span>
+                        </div>
+
+                        <span className="typeMaintenance">Manutenção Preventiva</span>
+                        
+                    </div>
+
+                    <SquarePen size={32} className="btnEditar" />
+                </div>
+
+                <div className="maintenance">
+                    <div className="informationsMaintenance">
+                        <div className="topInformationMaintenance">
+                            <span className="dateMaintenance">29/09/2025</span>
+                            <span className="price">R$99,99</span>
+                        </div>
+
+                        <span className="typeMaintenance">Manutenção Preventiva</span>
+                        
+                    </div>
+
+                    <SquarePen size={32} className="btnEditar" />
+                </div>
+
+                <div className="maintenance">
+                    <div className="informationsMaintenance">
+                        <div className="topInformationMaintenance">
+                            <span className="dateMaintenance">29/09/2025</span>
+                            <span className="price">R$99,99</span>
+                        </div>
+
+                        <span className="typeMaintenance">Manutenção Preventiva</span>
+                        
+                    </div>
+
+                    <SquarePen size={32} className="btnEditar" />
+                </div>
+
+                <div className="maintenance">
+                    <div className="informationsMaintenance">
+                        <div className="topInformationMaintenance">
+                            <span className="dateMaintenance">29/09/2025</span>
+                            <span className="price">R$99,99</span>
+                        </div>
+
+                        <span className="typeMaintenance">Manutenção Preventiva</span>
+                        
+                    </div>
+
+                    <SquarePen size={32} className="btnEditar" />
+                </div>
+
+                <div className="maintenance">
+                    <div className="informationsMaintenance">
+                        <div className="topInformationMaintenance">
+                            <span className="dateMaintenance">29/09/2025</span>
+                            <span className="price">R$99,99</span>
+                        </div>
+
+                        <span className="typeMaintenance">Manutenção Preventiva</span>
+                        
+                    </div>
+
+                    <SquarePen size={32} className="btnEditar" />
+                </div>
+
+                <div className="maintenance">
+                    <div className="informationsMaintenance">
+                        <div className="topInformationMaintenance">
+                            <span className="dateMaintenance">29/09/2025</span>
+                            <span className="price">R$99,99</span>
+                        </div>
+
+                        <span className="typeMaintenance">Manutenção Preventiva</span>
+                        
+                    </div>
+
+                    <SquarePen size={32} className="btnEditar" />
+                </div>
+
+                <div className="maintenance">
+                    <div className="informationsMaintenance">
+                        <div className="topInformationMaintenance">
+                            <span className="dateMaintenance">29/09/2025</span>
+                            <span className="price">R$99,99</span>
+                        </div>
+
+                        <span className="typeMaintenance">Manutenção Preventiva</span>
+                        
+                    </div>
+
+                    <SquarePen size={32} className="btnEditar" />
+                </div>
+
+                
+
+                
 
             </div>
 
-            <button className="buttonGerarRelatorio">Gerar Relátorio</button>
+            <div className="buttonsMaintenance">
+                <button className="buttonGerarRelatorio">Gerar Relátorio</button>
 
-            <button className="buttonNovaManutencao">Gerar Relátorio</button>
+                <button className="buttonNovaManutencao">Nova Manutenção</button>
+            </div>
+
+            
+
+            <BottomBar></BottomBar>
 
         </div>
     )
