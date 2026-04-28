@@ -8,11 +8,13 @@ const LoginScreen = () => {
   const navigate = useNavigate();
 
   const handleApprove= () => {
-    navigate('/menu')
+    navigate('/home')
   }
 
   return (
     <div className='loginScreen'>
+
+      <span className="textWelcome">Bem Vindo</span>
 
       <div className='container'>
         <Input type='text' placeholder='Nome'></Input>

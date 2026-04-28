@@ -13,6 +13,8 @@ const RegisterAccountScreen = () => {
 
     return (
         <div className="registerAccountScreen">
+
+            <span className="titlePage">Cadastrar</span>
             <div className='form'>
                 <div className="formElement">
                     <label htmlFor="">Nome</label>

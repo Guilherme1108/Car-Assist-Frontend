@@ -1,0 +1,108 @@
+.maintenanceScreen {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    box-sizing: border-box;
+}
+
+.maintenanceTitle {
+    height: 10%;
+    font-size: 1.25rem;
+    text-align: center;
+    font-weight: 400;
+    margin: 0;
+}
+
+.containerMaintenences {
+    height: 500px;
+    width: 100%;
+    border: 1px solid #707070;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow-y: auto;
+}
+
+.maintenance {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+    border-bottom: 1.5px solid #f4a7a7;
+    padding: 0 6px;
+}
+
+.informationsMaintenance {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.topInformationMaintenance {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 15px;
+}
+
+.dateMaintenance,
+.price {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.typeMaintenance {
+    font-size: 1.1rem;
+    color: #333;
+    padding-bottom: 20px;
+    width: 95%;
+}
+
+.btnEditar:hover {
+    background-color: #eeeeee;
+}
+
+.buttonsMaintenance {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 0;
+    padding-bottom: 80px;
+}
+
+.buttonGerarRelatorio,
+.buttonNovaManutencao {
+    width: 100%;
+    max-width: 300px;
+    height: 55px;
+    background-color: #2D2D2D;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+.buttonGerarRelatorio:active,
+.buttonNovaManutencao:active {
+    transform: scale(0.98);
+}
+
+.buttonGerarRelatorio:hover,
+.buttonNovaManutencao:hover {
+    background-color: #1a1a1a;
+}

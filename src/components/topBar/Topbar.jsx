@@ -1,11 +1,44 @@
 import logo from '../../assets/logo.svg'
+import { Calendar, MessageSquare, ChevronLeft } from "lucide-react"
+import { useLocation, useNavigate } from "react-router-dom"
 import './Topbar.css'
 
 const Topbar = () => {
+  const location = useLocation();
+
+  const navigate = useNavigate()
+
+  const pagesWithIcons = ["/home"]; // adicionar mais rotas aqui depois
+  const showIcons = pagesWithIcons.includes(location.pathname)
+
+  const pagesWithreturnIcon = ["/home/veiculo", "/home/veiculo/manutencao", "/home/veiculo/gastos"]; // adicionar mais rotas aqui depois
+  const showReturnIcon = pagesWithreturnIcon.includes(location.pathname)
+
   return (
-    <div className="topo">
-      <img src={logo} alt="logo" />
-    </div>
+    <div className="topBar">
+  <div className="side left">
+    {showIcons && (
+      <>
+        <Calendar size={32} />
+        <MessageSquare size={32} />
+      </>
+    )}
+
+{showReturnIcon && (
+      <>
+        <ChevronLeft size={32} 
+        onClick={() => {
+          navigate(-1)
+        }} />
+      </>
+    )}
+
+  </div>
+
+  <img src={logo} alt="logo" className="logo" />
+
+  <div className="side right" />
+</div>
   )
 }
 
