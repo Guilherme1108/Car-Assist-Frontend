@@ -2,7 +2,7 @@ import "./Vehicle.css";
 import {useNavigate} from "react-router-dom";
 import imagemCarro from "../../assets/carroTeste.webp";
 import {SquarePen} from "lucide-react";
-import BottomBar from "../../components/bottomBar/BottomBar";
+import NavBar from "../../components/navBar/NavBar";
 
 const VehicleScreen = () => {
 
@@ -61,7 +61,7 @@ const VehicleScreen = () => {
         Histórico de Manutenções
       </button>
 
-      <BottomBar></BottomBar>
+      <NavBar></NavBar>
     </div>
   );
 };

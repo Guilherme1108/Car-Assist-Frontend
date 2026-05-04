@@ -1,6 +1,6 @@
 import "./Expenses.css";
 import {useNavigate} from "react-router-dom";
-import BottomBar from "../../components/bottomBar/BottomBar";
+import NavBar from "../../components/navBar/NavBar";
 
 const ExpensesScreen = () => {
   const expenses = [
@@ -36,7 +36,7 @@ const ExpensesScreen = () => {
         <div className="expenseLabel totalLabel">Total</div>
         <span className="expenseValue totalValue">R$ 1380,00</span>
       </div>
-      <BottomBar></BottomBar>
+      <NavBar></NavBar>
     </div>
   );
 };

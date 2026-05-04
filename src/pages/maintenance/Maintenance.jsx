@@ -1,7 +1,7 @@
 import './Maintenance.css'
 import { useNavigate } from 'react-router-dom'
 import {SquarePen} from "lucide-react";
-import BottomBar from "../../components/bottomBar/BottomBar";
+import NavBar from "../../components/navBar/NavBar";
 
 const MaintenanceScreen = () => {
 
@@ -139,7 +139,7 @@ const MaintenanceScreen = () => {
 
             
 
-            <BottomBar></BottomBar>
+            <NavBar></NavBar>
 
         </div>
     )

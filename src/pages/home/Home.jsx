@@ -2,7 +2,7 @@ import "./Home.css";
 import imagemCarro from '../../assets/carroTeste.webp'
 import { useNavigate } from "react-router-dom";
 import { CopyPlus } from "lucide-react";
-import BottomBar from "../../components/bottomBar/BottomBar";
+import NavBar from "../../components/navBar/NavBar";
 
 const HomeScreen = () => {
 
@@ -70,7 +70,7 @@ const HomeScreen = () => {
         <p className="textScore">Adicionar Carro</p>
       </button>
 
-      <BottomBar></BottomBar>
+      <NavBar></NavBar>
 
     </div>
 
