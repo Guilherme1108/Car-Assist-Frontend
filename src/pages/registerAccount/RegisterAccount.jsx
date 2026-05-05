@@ -1,11 +1,54 @@
+import { useState } from 'react'
 import Input from '../../components/input/Input'
 import Button from '../../components/button/Button'
 import { useNavigate } from 'react-router-dom'
+import api from '../../services/api';
 import './RegisterAccount.css'
 
 const RegisterAccountScreen = () => {
-
     const navigate = useNavigate()
+
+    const [formData, setFormData] = useState({
+        nome: '',
+        cpf: '',
+        data_nascimento: '',
+        email: '',
+        senha: '',
+        confirmeSenha: '',
+        is_ativo: true 
+    })
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    }
+
+    const handleRegister = async () => {
+        if (formData.senha !== formData.confirmeSenha) {
+            alert("As senhas não são iguais!");
+            return;
+        }
+
+        try {
+            const { confirmeSenha, ...dataToSave } = formData;
+            
+            const payload = {
+                ...dataToSave,
+                cpf: dataToSave.cpf.replace(/\D/g, '')
+            };
+
+            await api.post('/users', payload);
+            
+            alert("Conta criada com sucesso!");
+            navigate('/'); 
+        } catch (error) {
+            console.error("Erro ao cadastrar", error);
+            alert("Erro ao conectar com o servidor.");
+        }
+    };
 
     const handleCancel = () => {
         navigate('/')
@@ -13,46 +56,79 @@ const RegisterAccountScreen = () => {
 
     return (
         <div className="registerAccountScreen">
-
             <span className="titlePage">Cadastrar</span>
+            
             <div className='form'>
                 <div className="formElement">
-                    <label htmlFor="">Nome</label>
-                    <Input type='text' placeholder=''></Input>
+                    <label>Nome</label>
+                    <Input 
+                        name="nome"
+                        value={formData.nome}
+                        onChange={handleChange}
+                        type='text' 
+                        placeholder='Seu nome completo' 
+                    />
                 </div>
 
                 <div className="formElement">
-                    <label htmlFor="">CPF</label>
-                    <Input type='text' placeholder=''></Input>
+                    <label>CPF</label>
+                    <Input 
+                        name="cpf"
+                        value={formData.cpf}
+                        onChange={handleChange}
+                        type='text' 
+                        placeholder='000.000.000-00' 
+                    />
                 </div>
 
                 <div className="formElement">
-                    <label htmlFor="">Data Nascimento</label>
-                    <Input type='date' placeholder=''></Input>
+                    <label>Data Nascimento</label>
+                    <Input 
+                        name="data_nascimento"  
+                        value={formData.data_nascimento}
+                        onChange={handleChange}
+                        type='date' 
+                    />
                 </div>
 
                 <div className="formElement">
-                    <label htmlFor="">Email</label>
-                    <Input type='text' placeholder=''></Input>
+                    <label>Email</label>
+                    <Input 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        type='email' 
+                        placeholder='exemplo@email.com' 
+                    />
                 </div>
 
                 <div className="formElement">
-                    <label htmlFor="">Senha</label>
-                    <Input type='text' placeholder=''></Input>
+                    <label>Senha</label>
+                    <Input 
+                        name="senha"
+                        value={formData.senha}
+                        onChange={handleChange}
+                        type='password' 
+                        placeholder='Crie uma senha' 
+                    />
                 </div>
 
                 <div className="formElement">
-                    <label htmlFor="">Confirme a Senha</label>
-                    <Input type='text' placeholder=''></Input>
+                    <label>Confirme a Senha</label>
+                    <Input 
+                        name="confirmeSenha"
+                        value={formData.confirmeSenha}
+                        onChange={handleChange}
+                        type='password' 
+                        placeholder='Escreva a mesma senha' 
+                    />
                 </div>
             </div>
-
 
             <div className="buttons">
-                <Button text='Cancelar' variant='secondary' onClick={handleCancel}></Button>
-                <Button text='Cadastrar' variant='primary'></Button>
+                <Button text='Cancelar' variant='secondary' onClick={handleCancel} />
+                <Button text='Cadastrar' variant='primary' onClick={handleRegister} />
             </div>
-
         </div>
     )
 }

@@ -9,3 +9,19 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     font-size: 16px;
 }
+
+/* Muda a cor do texto dd/mm/aaaa quando está vazio */
+.inputDefault[type="date"]::-webkit-datetime-edit-text,
+.inputDefault[type="date"]::-webkit-datetime-edit-month-field,
+.inputDefault[type="date"]::-webkit-datetime-edit-day-field,
+.inputDefault[type="date"]::-webkit-datetime-edit-year-field {
+    color: #999;
+}
+
+/* Voltar para preto quando digitar */
+.inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-text,
+.inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-month-field,
+.inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-day-field,
+.inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-year-field {
+    color: #000; 
+}
