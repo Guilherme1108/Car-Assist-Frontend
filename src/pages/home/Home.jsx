@@ -63,6 +63,18 @@ const HomeScreen = () => {
 
         </div>
 
+        <div className="card">
+          <img className="imgCar" src={imagemCarro} alt="" />
+
+          <span className="carName">Civic SI</span>
+
+          <div className="lowerInformations">
+            <span className="carPlate">EXE3006</span>
+            <span className="carPoints">100</span>
+          </div>
+
+        </div>
+
       </div>
 
       <button className="addCarButton">

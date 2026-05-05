@@ -163,4 +163,16 @@
         margin-left: 20%;
     }
 
+    .cards {
+        width: 1000px;
+        flex-direction: row;
+        justify-content: start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    .card {
+        height: 450px;
+        width: 1000px;
+    }
 }

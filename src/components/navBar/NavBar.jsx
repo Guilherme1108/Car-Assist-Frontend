@@ -12,7 +12,7 @@ const NavBar = () => {
   return (
     <div className="navBar">
       <div className="spaceImage">
-        <img src={logo} alt="logo" className="logo" />
+        <img src={logo} alt="logo" className="logoNavBar" />
       </div>
 
       <div className="containerIcons">
