@@ -23,5 +23,12 @@
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-month-field,
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-day-field,
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-year-field {
-    color: #000; 
+    color: #000;
+}
+
+@media (min-width: 1024px) {
+    .inputDefault {
+        height: 70px;
+        width: 500px;
+    }
 }

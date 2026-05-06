@@ -56,7 +56,7 @@ const RegisterAccountScreen = () => {
 
     return (
         <div className="registerAccountScreen">
-            <span className="titlePage">Cadastrar</span>
+            <span className="titlePage titleCadastrar">Cadastrar</span>
             
             <div className='form'>
                 <div className="formElement">

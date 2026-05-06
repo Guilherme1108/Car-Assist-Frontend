@@ -8,3 +8,9 @@
   display: flex;
   flex: 1;
 }
+
+@media (min-width: 1024px) {
+  .content {
+    margin-left: 20%;
+  }
+}

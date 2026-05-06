@@ -1,10 +1,23 @@
 .loginScreen {
     min-height: 100%;
     width: 100%;
+}
+
+.imgCarroLogin {
+    display: none;
+}
+
+.loginRightSide {
+    min-height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+}
+
+.cadastroLeftSide {
+    display: none;
 }
 
 .textWelcome {
@@ -43,7 +56,59 @@ p {
 }
 
 @media (min-width: 768px) {
-  .textWelcome {
-    font-size: 2.25rem;
-  }
+    .textWelcome {
+        font-size: 2.25rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .loginScreen {
+        position: relative;
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 9999;
+    }
+
+    .imgCarroLogin {
+        display: flex;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 95%;
+        height: auto;
+        object-fit: contain;
+        z-index: 1;
+    }
+
+    .loginRightSide {
+        min-height: 100%;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .cadastroLeftSide {
+        display: flex;
+        height: 100%;
+        width: 50%;
+        border-bottom-right-radius: 100px;
+        border-top-right-radius: 100px;
+        background-color: #D5242B;
+    }
+
+    .container,
+    .containerOpcoes {
+        z-index: 2;
+    }
+
+    .esqueciSenha {
+        color: #000;
+    }
 }

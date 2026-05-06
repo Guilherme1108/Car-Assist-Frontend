@@ -46,3 +46,17 @@
         font-size: 1.25rem;
     }
 }
+
+@media (min-width: 1024px) {
+    .form {
+        z-index: 2;
+    }
+
+    .titleCadastrar {
+        color: white;
+    }
+
+    .formElement label {
+        color: white;
+    }
+}

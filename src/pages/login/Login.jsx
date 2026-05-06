@@ -4,6 +4,8 @@ import Input from '../../components/input/Input';
 import Button from '../../components/button/Button';
 import api from '../../services/api';
 import './Login.css';
+import RegisterAccountScreen from '../registerAccount/RegisterAccount';
+import imagemF40 from '../../assets/f40_desktop.svg'
 
 const LoginScreen = () => {
   const navigate = useNavigate();
@@ -31,10 +33,10 @@ const LoginScreen = () => {
 
     try {
       const response = await api.get(`/users?email=${email}`);
-      
+
       if (response.data.length > 0) {
         const user = response.data[0];
-        
+
         if (user.senha === password) {
           localStorage.setItem('user', JSON.stringify(user));
           navigate('/home');
@@ -52,34 +54,45 @@ const LoginScreen = () => {
 
   return (
     <div className='loginScreen'>
-      <span className="textWelcome">Bem Vindo</span>
 
-      <div className='container'>
-        <Input 
-          type='text' 
-          placeholder='Email'
-          name="email"
-          value={credentials.email}
-          onChange={handleChange}
-        />
-
-        <Input 
-          type='password'
-          placeholder='Senha'
-          name="password"
-          value={credentials.password}
-          onChange={handleChange}
-        />
-
-        <Button text='Login' variant='primary' onClick={handleLogin} />
+      <img src={imagemF40} alt="Carro" className="imgCarroLogin" />
+      
+      <div className="cadastroLeftSide">
+        <RegisterAccountScreen></RegisterAccountScreen>
       </div>
 
-      <div className='containerOpcoes'>
-        <p className='esqueciSenha'>Esqueci minha senha</p>
-        <p onClick={() => navigate('/cadastro')} style={{ cursor: 'pointer' }}>
-          Criar uma conta
-        </p>
+      <div className="loginRightSide">
+        <span className="textWelcome">Bem Vindo</span>
+
+        <div className='container'>
+          <Input
+            type='text'
+            placeholder='Email'
+            name="email"
+            value={credentials.email}
+            onChange={handleChange}
+          />
+
+          <Input
+            type='password'
+            placeholder='Senha'
+            name="password"
+            value={credentials.password}
+            onChange={handleChange}
+          />
+
+          <Button text='Login' variant='primary' onClick={handleLogin} />
+        </div>
+
+        <div className='containerOpcoes'>
+          <p className='esqueciSenha'>Esqueci minha senha</p>
+          <p onClick={() => navigate('/cadastro')} style={{ cursor: 'pointer' }}>
+            Criar uma conta
+          </p>
+        </div>
+
       </div>
+
     </div>
   );
 };
