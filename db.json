@@ -44,6 +44,51 @@
       "senha": "dsadas",
       "is_ativo": true,
       "id": "QStXfGC-NWw"
+    },
+    {
+      "nome": "gustavo",
+      "cpf": "11111111111",
+      "data_nascimento": "2011-01-09",
+      "email": "gustavo@gmail.com",
+      "senha": "123",
+      "is_ativo": true,
+      "id": "PNdnLlkbbjY"
+    },
+    {
+      "nome": "abc",
+      "cpf": "12312312311",
+      "data_nascimento": "2026-06-11",
+      "email": "abc@gamil.com",
+      "senha": "12345678",
+      "is_ativo": true,
+      "id": "xql7mWgRW_0"
+    },
+    {
+      "nome": "abc",
+      "cpf": "12312312322",
+      "data_nascimento": "2312-03-12",
+      "email": "gustavo@gmail.com",
+      "senha": "12345678",
+      "is_ativo": true,
+      "id": "m6ZXDIEBVNI"
+    },
+    {
+      "nome": "abc",
+      "cpf": "33333333322",
+      "data_nascimento": "2121-02-23",
+      "email": "gustavo@gmail.com",
+      "senha": "guilherme",
+      "is_ativo": true,
+      "id": "LLpwcKDueiA"
+    },
+    {
+      "nome": "guilherme",
+      "cpf": "12345678910",
+      "data_nascimento": "2122-03-12",
+      "email": "exemplo@gmail.com",
+      "senha": "guigui123",
+      "is_ativo": true,
+      "id": "DXsKWjIagsw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

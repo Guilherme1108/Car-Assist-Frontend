@@ -1,136 +1,151 @@
-import { useState } from 'react'
-import Input from '../../components/input/Input'
-import Button from '../../components/button/Button'
-import { useNavigate } from 'react-router-dom'
-import api from '../../services/api';
-import './RegisterAccount.css'
+import {useState} from "react";
+import Input from "../../components/input/Input";
+import Button from "../../components/button/Button";
+import {useNavigate} from "react-router-dom";
+import api from "../../services/api";
+import "./RegisterAccount.css";
 
-const RegisterAccountScreen = () => {
-    const navigate = useNavigate()
+const RegisterAccountScreen = ({onToggle}) => {
+  const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        nome: '',
-        cpf: '',
-        data_nascimento: '',
-        email: '',
-        senha: '',
-        confirmeSenha: '',
-        is_ativo: true 
-    })
+  const [formData, setFormData] = useState({
+    nome: "",
+    cpf: "",
+    data_nascimento: "",
+    email: "",
+    senha: "",
+    confirmeSenha: "",
+    is_ativo: true,
+  });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const isDesktop = window.innerWidth >= 1024;
+
+  const handleRegister = async () => {
+    if (formData.senha.length < 8) {
+      alert("A senha deve ter no mínimo 8 caracteres");
+      return;
     }
 
-    const handleRegister = async () => {
-        if (formData.senha !== formData.confirmeSenha) {
-            alert("As senhas não são iguais!");
-            return;
-        }
-
-        try {
-            const { confirmeSenha, ...dataToSave } = formData;
-            
-            const payload = {
-                ...dataToSave,
-                cpf: dataToSave.cpf.replace(/\D/g, '')
-            };
-
-            await api.post('/users', payload);
-            
-            alert("Conta criada com sucesso!");
-            navigate('/'); 
-        } catch (error) {
-            console.error("Erro ao cadastrar", error);
-            alert("Erro ao conectar com o servidor.");
-        }
-    };
-
-    const handleCancel = () => {
-        navigate('/')
+    if (formData.senha !== formData.confirmeSenha) {
+      alert("As senhas não são iguais!");
+      return;
     }
 
-    return (
-        <div className="registerAccountScreen">
-            <span className="titlePage titleCadastrar">Cadastrar</span>
-            
-            <div className='form'>
-                <div className="formElement">
-                    <label>Nome</label>
-                    <Input 
-                        name="nome"
-                        value={formData.nome}
-                        onChange={handleChange}
-                        type='text' 
-                        placeholder='Seu nome completo' 
-                    />
-                </div>
+    try {
+      const {confirmeSenha, ...dataToSave} = formData;
 
-                <div className="formElement">
-                    <label>CPF</label>
-                    <Input 
-                        name="cpf"
-                        value={formData.cpf}
-                        onChange={handleChange}
-                        type='text' 
-                        placeholder='000.000.000-00' 
-                    />
-                </div>
+      const payload = {
+        ...dataToSave,
+        cpf: dataToSave.cpf.replace(/\D/g, ""),
+      };
 
-                <div className="formElement">
-                    <label>Data Nascimento</label>
-                    <Input 
-                        name="data_nascimento"  
-                        value={formData.data_nascimento}
-                        onChange={handleChange}
-                        type='date' 
-                    />
-                </div>
+      await api.post("/users", payload);
 
-                <div className="formElement">
-                    <label>Email</label>
-                    <Input 
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        type='email' 
-                        placeholder='exemplo@email.com' 
-                    />
-                </div>
+      if (isDesktop) {
+        alert("Conta criada com sucesso!");
+        onToggle();
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Erro ao cadastrar", error);
+      alert("Erro ao conectar com o servidor.");
+    }
+  };
 
-                <div className="formElement">
-                    <label>Senha</label>
-                    <Input 
-                        name="senha"
-                        value={formData.senha}
-                        onChange={handleChange}
-                        type='password' 
-                        placeholder='Crie uma senha' 
-                    />
-                </div>
+  const handleCancel = () => {
+    if (isDesktop) {
+      onToggle();
+    } else {
+      navigate("/");
+    }
+  };
 
-                <div className="formElement">
-                    <label>Confirme a Senha</label>
-                    <Input 
-                        name="confirmeSenha"
-                        value={formData.confirmeSenha}
-                        onChange={handleChange}
-                        type='password' 
-                        placeholder='Escreva a mesma senha' 
-                    />
-                </div>
-            </div>
+  return (
+    <div className="registerAccountScreen">
+      <span className="titlePage titleCadastrar">Cadastrar</span>
 
-            <div className="buttons">
-                <Button text='Cancelar' variant='secondary' onClick={handleCancel} />
-                <Button text='Cadastrar' variant='primary' onClick={handleRegister} />
-            </div>
+      <div className="form">
+        <div className="formElement">
+          <label>Nome</label>
+          <Input
+            name="nome"
+            value={formData.nome}
+            onChange={handleChange}
+            type="text"
+            placeholder="Seu nome completo"
+          />
         </div>
-    )
-}
 
-export default RegisterAccountScreen
+        <div className="formElement">
+          <label>CPF</label>
+          <Input
+            name="cpf"
+            value={formData.cpf}
+            onChange={handleChange}
+            type="text"
+            placeholder="000.000.000-00"
+          />
+        </div>
+
+        <div className="formElement">
+          <label>Data Nascimento</label>
+          <Input
+            name="data_nascimento"
+            value={formData.data_nascimento}
+            onChange={handleChange}
+            type="date"
+          />
+        </div>
+
+        <div className="formElement">
+          <label>Email</label>
+          <Input
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            type="email"
+            placeholder="exemplo@email.com"
+          />
+        </div>
+
+        <div className="formElement">
+          <label>Senha</label>
+          <Input
+            name="senha"
+            value={formData.senha}
+            onChange={handleChange}
+            type="password"
+            placeholder="Crie uma senha"
+          />
+        </div>
+
+        <div className="formElement">
+          <label>Confirme a Senha</label>
+          <Input
+            name="confirmeSenha"
+            value={formData.confirmeSenha}
+            onChange={handleChange}
+            type="password"
+            placeholder="Escreva a mesma senha"
+          />
+        </div>
+      </div>
+
+      <div className="buttons">
+        <Button text="Cancelar" variant="secondary" onClick={handleCancel} />
+        <Button text="Cadastrar" variant="primary" onClick={handleRegister} />
+      </div>
+    </div>
+  );
+};
+
+export default RegisterAccountScreen;
