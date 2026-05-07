@@ -14,8 +14,7 @@ const RegisterAccountScreen = ({onToggle}) => {
     data_nascimento: "",
     email: "",
     senha: "",
-    confirmeSenha: "",
-    is_ativo: true,
+    confirmeSenha: ""
   });
 
   const handleChange = (e) => {
