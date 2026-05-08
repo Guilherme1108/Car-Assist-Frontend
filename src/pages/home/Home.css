@@ -7,6 +7,10 @@
     padding-bottom: 100px;
 }
 
+.alinhamentoBtn {
+    display: none;
+}
+
 .containerScore {
     height: 60px;
     width: 250px;
@@ -74,6 +78,10 @@
 .carPlate,
 .carPoints {
     font-size: 0.875rem;
+}
+
+.buttonVerDetalhes {
+    display: none;
 }
 
 .addCarButton {
@@ -166,7 +174,16 @@
         padding-right: 40px;
     }
 
+    .titleHome {
+        position: absolute;
+        top: 55px;
+        left: 22%;
+        display: flex;
+        font-size: 2rem;
+    }
+
     .cards {
+        height: 70%;
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -179,8 +196,8 @@
     }
 
     .card {
-        height: 470px;
-        width: 425px;
+        height: 100%;
+        width: 50%;
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
@@ -206,4 +223,24 @@
         text-align: center;
         border-radius: 6px;
     }
+
+    .alinhamentoBtn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .buttonVerDetalhes {
+        height: 60px;
+        width: 240px;
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        background-color: #242424;
+        border-radius: 12px;
+    }
+    
 }

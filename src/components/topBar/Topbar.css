@@ -28,11 +28,15 @@
 
 @media (min-width: 1024px) {
     .topBar {
-        margin-left: 20%;
         align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
 
     .logo {
         display: none;
+    }
+
+    .left {
+        margin-left: 80%;
     }
 }

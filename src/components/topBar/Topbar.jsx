@@ -14,6 +14,10 @@ const Topbar = () => {
   const pagesWithreturnIcon = [ "/home/veiculo", "/home/veiculo/manutencao", "/home/veiculo/gastos",
                                 "/perfil", "/servicos"
                               ]; // adicionar mais rotas aqui depois
+
+  const pagesWithNoShadowBox = [ "/"]
+
+
   const showReturnIcon = pagesWithreturnIcon.includes(location.pathname)
 
   return (
