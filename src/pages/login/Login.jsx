@@ -1,5 +1,5 @@
-import {useState} from "react"; // 1. Importar o useState
-import {useNavigate} from "react-router-dom";
+import { useState } from "react"; // 1. Importar o useState
+import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import api from "../../services/api";
@@ -12,20 +12,21 @@ const LoginScreen = () => {
   const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
+  email: "",
+  password: "",
+});
 
-  const handleChange = (e) => {
-    const {name, value} = e.target;
-    setCredentials({
-      ...credentials,
-      [name]: value,
-    });
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  setCredentials({
+    ...credentials,
+    [name]: value,
+  });
+};
 
   const handleLogin = async () => {
-    const {email, password} = credentials;
+    const { email, password } = credentials;
 
     if (!email || !password) {
       alert("Por favor, preencha todos os campos");
@@ -33,24 +34,37 @@ const LoginScreen = () => {
     }
 
     try {
-      const response = await api.get(`/users?email=${email}`);
 
-      if (response.data.length > 0) {
-        const user = response.data[0];
+      // Endpoint atual do backend
+      const response = await api.get(
+        `/usuario/email/${email}`
+      );
 
-        if (user.senha === password) {
-          localStorage.setItem("user", JSON.stringify(user));
-          navigate("/home");
-        } else {
-          alert("Senha incorreta");
-        }
-      } else {
+      console.log(response.data);
+
+      const user = response.data.data.usuario[0];
+
+      if (!user) {
         alert("Usuário não encontrado");
+        return;
       }
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(user)
+      );
+
+      navigate("/home");
+
     } catch (error) {
-      console.error("Erro no login", error);
-      alert("Erro ao conectar com o servidor");
+      console.log(error);
+
+      alert(
+        error.response?.data?.message ||
+        "Erro ao fazer login"
+      );
     }
+
   };
 
   const [isRegister, setIsRegister] = useState(false);
@@ -110,7 +124,7 @@ const LoginScreen = () => {
           <p className="esqueciSenha">Esqueci minha senha</p>
           <p
             onClick={() => handleCreateAccountClick()}
-            style={{cursor: "pointer"}}
+            style={{ cursor: "pointer" }}
           >
             Criar uma conta
           </p>

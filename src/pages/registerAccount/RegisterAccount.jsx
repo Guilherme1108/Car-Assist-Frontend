@@ -28,37 +28,47 @@ const RegisterAccountScreen = ({onToggle}) => {
   const isDesktop = window.innerWidth >= 1024;
 
   const handleRegister = async () => {
-    if (formData.senha.length < 8) {
-      alert("A senha deve ter no mínimo 8 caracteres");
-      return;
+  if (formData.senha.length < 8) {
+    alert("A senha deve ter no mínimo 8 caracteres");
+    return;
+  }
+
+  if (formData.senha !== formData.confirmeSenha) {
+    alert("As senhas não são iguais!");
+    return;
+  }
+
+  try {
+    const payload = {
+      nome: formData.nome,
+      cpf: formData.cpf.replace(/\D/g, ""),
+      data_nascimento: formData.data_nascimento,
+      email: formData.email,
+      senha: formData.senha,
+      is_ativo: true
+    };
+
+    const response = await api.post("/usuario", payload
+    );
+
+    console.log(response.data);
+
+    if (isDesktop) {
+      alert("Conta criada com sucesso!");
+      onToggle();
+    } else {
+      navigate("/");
     }
 
-    if (formData.senha !== formData.confirmeSenha) {
-      alert("As senhas não são iguais!");
-      return;
-    }
+  } catch (error) {
+    console.log(error.response?.data);
 
-    try {
-      const {confirmeSenha, ...dataToSave} = formData;
-
-      const payload = {
-        ...dataToSave,
-        cpf: dataToSave.cpf.replace(/\D/g, ""),
-      };
-
-      await api.post("/users", payload);
-
-      if (isDesktop) {
-        alert("Conta criada com sucesso!");
-        onToggle();
-      } else {
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Erro ao cadastrar", error);
-      alert("Erro ao conectar com o servidor.");
-    }
-  };
+    alert(
+      error.response?.data?.message ||
+      "Erro ao cadastrar usuário"
+    );
+  }
+};
 
   const handleCancel = () => {
     if (isDesktop) {
