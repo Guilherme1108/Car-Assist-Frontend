@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 100px;
+    background-color: white;
 }
 
 .alinhamentoBtn {
@@ -18,7 +19,7 @@
     align-items: center;
     justify-content: space-evenly;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: solid 2px var(--border-primary);
 }
 
 .textsScore {
@@ -28,10 +29,12 @@
     justify-content: center;
     justify-content: center;
     gap: 12px;
+    text-shadow: none;
 }
 
 .garagePoints {
     font-size: 1.25rem;
+    color: var(--primary-color); /* vai mudar dependendo da pontuacao*/
 }
 
 .cards {
@@ -53,7 +56,7 @@
     justify-content: space-between;
     border-radius: 12px;
     padding: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: solid 2px var(--border-primary);
     cursor: pointer;
 }
 
@@ -91,15 +94,16 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    background-color: #f5f5f5;
+    background-color: var(--primary-color);
     border-radius: 12px;
     border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: solid 2px var(--border-primary);
     cursor: pointer;
+    color: var(--secondary-color);
 }
 
 .addCarButton svg {
-    color: #8bc34a;
+    color: var(--secondary-color);
 }
 
 @media (min-width: 768px) {
@@ -129,7 +133,7 @@
 
     .bar {
         height: 12px;
-        width: 450px;
+        width: 100%;
         border-radius: 4px;
         background-color: #A6A6A6;
     }
@@ -138,7 +142,7 @@
         height: 100%;
         width: 80%;
         border-radius: 4px;
-        background-color: #00360C;
+        background-color: var(--primary-color);
     }
 
     .garagePoints {
@@ -215,7 +219,8 @@
     .carPoints {
         height: 40px;
         width: 80px;
-        background-color: #00360C;
+        background-color: var(--primary-color); /* vai mudar dependendo da pontuacao*/
+        color:  white;
         color: white;
         display: flex;
         align-items: center;
@@ -239,8 +244,9 @@
         align-items: center;
         justify-content: center;
         color: white;
-        background-color: #242424;
+        background-color: var(--primary-color);
         border-radius: 12px;
+        border: solid 2px var(--border-primary);
     }
     
 }

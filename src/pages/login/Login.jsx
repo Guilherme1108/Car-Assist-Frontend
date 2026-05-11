@@ -5,7 +5,7 @@ import Button from "../../components/button/Button";
 import api from "../../services/api";
 import "./Login.css";
 import RegisterAccountScreen from "../registerAccount/RegisterAccount";
-import imagemF40 from "../../assets/f40_desktop.svg";
+import imagemCarro from "../../assets/f40_desktop.svg";
 import logoWhite from "../../assets/logo_white.svg";
 
 const LoginScreen = () => {
@@ -83,7 +83,7 @@ const handleChange = (e) => {
 
   return (
     <div className={`loginScreen ${isRegister ? 'active-register' : ''}`}>
-      <img src={imagemF40} alt="Carro" className="imgCarroLogin" />
+      <img src={imagemCarro} alt="Carro" className="imgCarroLogin" />
 
       <div className="cadastroLeftSide">
         <RegisterAccountScreen className="registerAccountInLogin" onToggle={toggleMode}></RegisterAccountScreen>
@@ -100,7 +100,7 @@ const handleChange = (e) => {
       <div className="loginRightSide">
         <span className="textWelcome">Bem Vindo</span>
 
-        <div className="container">
+        <div className="containerInputsLogin">
           <Input
             type="text"
             placeholder="Email"

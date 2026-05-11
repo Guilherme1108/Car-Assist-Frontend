@@ -6,14 +6,18 @@
     color: white;
     border: none;
     cursor: pointer;
+    z-index: 3;
 }
 
 .primary {
     background-color: var(--primary-color);
+    border: solid 2px var(--primary-color);
 }
 
 .secondary {
     background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: solid 2px var(--border-primary);
 }
 
 @media (min-width: 1024px) {

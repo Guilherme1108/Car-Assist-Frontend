@@ -149,7 +149,7 @@ const RegisterAccountScreen = ({onToggle}) => {
         </div>
       </div>
 
-      <div className="buttons">
+      <div className="buttonsRegisterAccount">
         <Button text="Cancelar" variant="secondary" onClick={handleCancel} />
         <Button text="Cadastrar" variant="primary" onClick={handleRegister} />
       </div>

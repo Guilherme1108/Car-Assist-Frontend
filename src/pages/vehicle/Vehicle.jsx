@@ -43,8 +43,6 @@ const VehicleScreen = () => {
 
       <li className="historicoDonos">Histórico de donos</li>
 
-      <div className="dividingLine"></div>
-
       <div className="containerButtons">
         <button className="buttonGastos" onClick={() => {
           navigate("./gastos")

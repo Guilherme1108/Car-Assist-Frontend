@@ -1,12 +1,12 @@
 .inputDefault {
     height: 16px;
-    width: 300px;
+    width: 100%;
     padding: 16px;
     border: none;
     outline: none;
-    border-radius: 12px;
+    border-radius: 8px;
     background-color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: solid 2px var(--border-primary);
     font-size: 16px;
 }
 
@@ -29,6 +29,6 @@
 @media (min-width: 1024px) {
     .inputDefault {
         height: 70px;
-        width: 500px;
+        width: 100%px;
     }
 }

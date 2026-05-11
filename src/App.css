@@ -3,6 +3,8 @@
 }
 
 :root {
-  --primary-color: #3C3C3C;
-  --secondary-color: #C80B0B;
+  --primary-color: #E11414;
+  --secondary-color: #FFFFFF;
+  --tertiary-color: #2A2A2A;
+  --border-primary: #f5f5f5f5;
 }
