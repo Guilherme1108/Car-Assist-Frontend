@@ -5,7 +5,7 @@ import Button from "../../components/button/Button";
 import api from "../../services/api";
 import "./Login.css";
 import RegisterAccountScreen from "../registerAccount/RegisterAccount";
-import imagemCarro from "../../assets/f40_desktop.svg";
+import imagemCarro from "../../assets/imagemCarroDesktop.svg";
 import logoWhite from "../../assets/logo_white.svg";
 
 const LoginScreen = () => {
@@ -123,6 +123,7 @@ const handleChange = (e) => {
         <div className="containerOpcoes">
           <p className="esqueciSenha">Esqueci minha senha</p>
           <p
+          className="criarConta"
             onClick={() => handleCreateAccountClick()}
             style={{ cursor: "pointer" }}
           >

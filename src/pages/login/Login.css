@@ -49,10 +49,10 @@
     gap: 16px;
 }
 
-p {
+.esqueciSenha,
+.criarConta {
     font-size: 1rem;
     height: 1rem;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
@@ -81,13 +81,13 @@ p {
     .imgCarroLogin {
         display: flex;
         position: absolute;
-        top: 60%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 80%;
+        width: 55%;
         height: auto;
         object-fit: contain;
-        z-index: 3;
+        z-index: 2;
     }
 
     .loginRightSide {
@@ -107,6 +107,10 @@ p {
         width: 60%;
         background-color: black;
         padding-right: 10%;
+    }
+
+    .containerInputsLogin {
+        z-index: 4;
     }
 
     .registerAccountInLogin {
@@ -170,12 +174,23 @@ p {
         z-index: 4;
     }
 
-    .container,
     .containerOpcoes {
         z-index: 4;
+        gap: 6px;
+        padding: 6px;
     }
 
-    .esqueciSenha {
-        color: #000;
+    .esqueciSenha,
+    .criarConta {
+        color: var(--terciary-color);
+        font-size: 1.5rem;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+        font-weight: 600;
+    }
+}
+
+@media (min-width: 1290px) {
+    .cadastroLeftSide {
+        padding-right: 5%;
     }
 }

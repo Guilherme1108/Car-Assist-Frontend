@@ -15,7 +15,7 @@ const Topbar = () => {
                                 "/perfil", "/servicos"
                               ]; // adicionar mais rotas aqui depois
 
-  const pagesWithNoShadowBox = [ "/"]
+  const isDesktop = window.innerWidth >= 1024;
 
 
   const showReturnIcon = pagesWithreturnIcon.includes(location.pathname)
@@ -30,9 +30,11 @@ const Topbar = () => {
       </>
     )}
 
-{showReturnIcon && (
+{showReturnIcon && !isDesktop && (
       <>
-        <ChevronLeft size={32} 
+        <ChevronLeft 
+        className='returnIcon' 
+        size={32} 
         onClick={() => {
           navigate(-1)
         }} />

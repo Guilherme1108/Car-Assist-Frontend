@@ -7,6 +7,8 @@ import NavBar from "../../components/navBar/NavBar";
 const HomeScreen = () => {
   const navigate = useNavigate();
 
+  const isDesktop = window.innerWidth >= 1024;
+
   return (
     <div className="homeScreen">
       <span className="titleHome">Garagem</span>
@@ -25,9 +27,7 @@ const HomeScreen = () => {
       <div className="cards">
         <div
           className="card"
-          onClick={() => {
-            navigate("./veiculo");
-          }}
+          onClick={!isDesktop ? () => navigate("./veiculo") : undefined}
         >
           <img className="imgCar" src={imagemCarro} alt="" />
 
@@ -39,7 +39,10 @@ const HomeScreen = () => {
           </div>
 
           <div className="alinhamentoBtn">
-            <button className="buttonVerDetalhes">Ver Detalhes</button>
+            <button 
+              className="buttonVerDetalhes"
+              onClick={isDesktop ? () => navigate("./veiculo") : undefined}
+              >Ver Detalhes</button>
           </div>
 
         </div>
