@@ -36,13 +36,16 @@ const handleChange = (e) => {
     try {
 
       // Endpoint atual do backend
-      const response = await api.get(
-        `/usuario/email/${email}`
+      const response = await api.post(
+        `/usuario/login`, {
+          email,
+          password
+        }
       );
 
       console.log(response.data);
 
-      const user = response.data.data.usuario[0];
+      const user = response.data.data.usuario;
 
       if (!user) {
         alert("Usuário não encontrado");

@@ -8,6 +8,10 @@
     background-color: white;
 }
 
+.titleHome {
+    font-size: 2rem;
+}
+
 .alinhamentoBtn {
     display: none;
 }
@@ -20,6 +24,7 @@
     justify-content: space-evenly;
     border-radius: 12px;
     border: solid 2px var(--border-primary);
+    margin-top: 24px;
 }
 
 .textsScore {
@@ -34,7 +39,8 @@
 
 .garagePoints {
     font-size: 1.25rem;
-    color: var(--primary-color); /* vai mudar dependendo da pontuacao*/
+    color: #34C759;
+    /* vai mudar dependendo da pontuacao*/
 }
 
 .cards {
@@ -81,6 +87,13 @@
 .carPlate,
 .carPoints {
     font-size: 0.875rem;
+}
+
+.carPoints {
+    color: var(--secondary-color);
+    background-color: #34C759;
+    padding: 4px;
+    border-radius: 6px;
 }
 
 .buttonVerDetalhes {
@@ -143,7 +156,7 @@
         height: 100%;
         width: 80%;
         border-radius: 4px;
-        background-color: var(--primary-color);
+        background-color: #34C759;
     }
 
     .garagePoints {
@@ -173,6 +186,14 @@
 
 @media (min-width: 1024px) {
     .homeScreen {
+        position: relative;
+        display: flex;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 80%;
+        height: 100vh;
+        z-index: 9999;
         justify-content: space-around;
         padding-bottom: 0px;
         padding-left: 40px;
@@ -180,10 +201,10 @@
     }
 
     .titleHome {
-        position: absolute;
-        top: 55px;
-        left: 22%;
         display: flex;
+        margin-top: 24px;
+        width: 100%;
+        text-align: start;
         font-size: 2rem;
     }
 
@@ -206,6 +227,7 @@
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
+        cursor: auto;
     }
 
     .cards::-webkit-scrollbar {
@@ -220,8 +242,9 @@
     .carPoints {
         height: 40px;
         width: 80px;
-        background-color: var(--primary-color); /* vai mudar dependendo da pontuacao*/
-        color:  white;
+        background-color: var(--primary-color);
+        /* vai mudar dependendo da pontuacao*/
+        color: white;
         color: white;
         display: flex;
         align-items: center;
@@ -248,6 +271,7 @@
         background-color: var(--secondary-color);
         border-radius: 12px;
         border: solid 2px var(--primary-color);
+        cursor: pointer;
     }
-    
+
 }

@@ -100,7 +100,7 @@ const RegisterAccountScreen = ({onToggle}) => {
             name="cpf"
             value={formData.cpf}
             onChange={handleChange}
-            type="text"
+            type="password"
             placeholder="000.000.000-00"
           />
         </div>

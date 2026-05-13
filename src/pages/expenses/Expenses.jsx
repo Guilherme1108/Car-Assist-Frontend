@@ -1,15 +1,16 @@
 import "./Expenses.css";
 import {useNavigate} from "react-router-dom";
 import NavBar from "../../components/navBar/NavBar";
+import {ChevronRight} from "lucide-react";
 
 const ExpensesScreen = () => {
   const expenses = [
-    { label: 'Combustível', value: 'R$ 230,00' },
-    { label: 'Limpeza', value: 'R$ 230,00' },
-    { label: 'Pedagio', value: 'R$ 230,00' },
-    { label: 'Estacionamento', value: 'R$ 230,00' },
-    { label: 'Manutenção', value: 'R$ 230,00' },
-    { label: 'Multas', value: 'R$ 230,00' },
+    {label: "Combustível", value: "R$ 230,00"},
+    {label: "Limpeza", value: "R$ 230,00"},
+    {label: "Pedagio", value: "R$ 230,00"},
+    {label: "Estacionamento", value: "R$ 230,00"},
+    {label: "Manutenção", value: "R$ 230,00"},
+    {label: "Multas", value: "R$ 230,00"},
   ];
 
   return (
@@ -17,8 +18,10 @@ const ExpensesScreen = () => {
       <h1 className="expensesTitle">Gastos</h1>
 
       <div className="filterContainer">
-        <button className="btnFilter active">Semanal</button>
-        <button className="btnFilter inactive">Mensal</button>
+        <div className="buttonExpenses">
+          <button className="btnFilter active">Semanal</button>
+          <button className="btnFilter inactive">Mensal</button>
+        </div>
       </div>
 
       <div className="divider" />
@@ -28,6 +31,7 @@ const ExpensesScreen = () => {
           <div key={index} className="expenseItem">
             <div className="expenseLabel">{item.label}</div>
             <span className="expenseValue">{item.value}</span>
+            <ChevronRight></ChevronRight>
           </div>
         ))}
       </div>
@@ -41,4 +45,4 @@ const ExpensesScreen = () => {
   );
 };
 
-export default ExpensesScreen
+export default ExpensesScreen;

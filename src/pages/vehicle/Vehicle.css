@@ -4,8 +4,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-around;
     gap: 20px;
     padding: 0 32px;
+    padding-bottom: 80px;
 }
 
 .cardCarro {
@@ -123,9 +125,15 @@
     font-weight: bold;
 }
 
+@media (min-width: 500px) {
+    .carImage {
+        height: 300px;
+    }
+}
+
 @media (min-width: 768px) {
     .carImage {
-        height: 500px;
+        height: 400px;
         width: 100%;
         border-radius: 22px;
         margin-top: 22px;
@@ -136,6 +144,7 @@
     .buttonTransferencia,
     .buttonHistManutencao {
         width: 40%;
+        font-size: 1.2rem;
     }
 }
 
@@ -151,5 +160,20 @@
 
     .historicoDonos {
         width: 75%;
+    }
+
+    .containerButtons {
+    width: 80%;
+}
+
+    .buttonGastos,
+    .buttonTransferencia {
+        width: 45%;
+        font-size: 1.2rem;
+    }
+
+    .buttonHistManutencao {
+        width: 80%;
+        font-size: 1.2rem;
     }
 }
