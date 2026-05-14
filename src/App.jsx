@@ -10,6 +10,7 @@ import ExpensesScreen from './pages/expenses/Expenses'
 import ProfileScreen from './pages/profile/Profile'
 import ServiceScreen from './pages/servicesScreen/Service'
 import IntermediateScreen from './pages/intermediateScreen/IntermediateScreen'
+import NewMaintenence from './pages/newMaintenence/NewMaintenence'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/home" element={<HomeScreen/>} />
         <Route path="/home/veiculo" element={<VehicleScreen/>} />
         <Route path="/home/veiculo/manutencao" element={<MaintenanceScreen/>} />
+        <Route path="/home/veiculo/manutencao/criar" element={<NewMaintenence/>} />
         <Route path="/home/veiculo/gastos" element={<ExpensesScreen/>} />
         <Route path="/perfil" element={<ProfileScreen/>} />
         <Route path="/servicos" element={<ServiceScreen/>} />

@@ -82,7 +82,16 @@
 }
 
 .historicoDonos {
-    width: 90%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.2s ease;
+}
+
+.historicoDonos:hover {
+    background-color: var(--border-primary);
+    border-radius: 4px;
 }
 
 .containerButtons {
@@ -140,6 +149,10 @@
         margin-bottom: 40px;
     }
 
+    .historicoDonos {
+        font-size: 1.25rem;
+    }
+
     .buttonGastos,
     .buttonTransferencia,
     .buttonHistManutencao {
@@ -163,8 +176,8 @@
     }
 
     .containerButtons {
-    width: 80%;
-}
+        width: 80%;
+    }
 
     .buttonGastos,
     .buttonTransferencia {

@@ -10,6 +10,10 @@
     font-family: sans-serif;
 }
 
+.headerExpenseScreen {
+    width: 100%;
+}
+
 .expensesTitle {
     font-size: 1.5rem;
     font-weight: 400;
@@ -108,6 +112,8 @@
 .totalValue {
     font-weight: bold;
     color: var(--primary-color);
+    text-align: start;
+    flex: 1;
 }
 
 @media (min-width: 768px) {
@@ -124,6 +130,10 @@
         font-family: sans-serif;
     }
 
+    .headerExpenseScreen {
+        display: flex;
+    }
+
     .filterContainer {
         width: 100%;
         display: flex;
@@ -131,16 +141,23 @@
         justify-content: end;
     }
 
+    .expenseItem {
+        height: 80px;
+    }
+
+
     .buttonExpenses {
         width: 40%;
     }
 
     .totalLabel {
         font-size: 2rem;
+        width: 76%;
     }
 
     .totalValue {
         font-size: 2rem;
+        width: auto;
     }
 }
 
@@ -168,5 +185,24 @@
         width: 100%;
         text-align: start;
         font-size: 2rem;
+    }
+
+    .buttonExpenses {
+        width: 80%;
+    }
+
+    .expenseLabel,
+    .expenseValue {
+        font-size: 1.25rem;
+    }
+
+    .totalLabel {
+        font-size: 2rem;
+        width: 76%;
+    }
+
+    .totalValue {
+        font-size: 2rem;
+        width: auto;
     }
 }

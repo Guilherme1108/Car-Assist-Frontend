@@ -97,7 +97,7 @@ const HomeScreen = () => {
       </div>
 
       <button className="addCarButton">
-        <CopyPlus size={18} />
+        <CopyPlus className="iconAddCarButton" size={18} />
         <p className="textScore">Adicionar Carro</p>
       </button>
 

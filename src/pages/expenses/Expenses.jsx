@@ -15,16 +15,16 @@ const ExpensesScreen = () => {
 
   return (
     <div className="expensesScreen">
-      <h1 className="expensesTitle">Gastos</h1>
+      <div className="headerExpenseScreen">
+        <h1 className="expensesTitle">Gastos</h1>
 
-      <div className="filterContainer">
-        <div className="buttonExpenses">
-          <button className="btnFilter active">Semanal</button>
-          <button className="btnFilter inactive">Mensal</button>
+        <div className="filterContainer">
+          <div className="buttonExpenses">
+            <button className="btnFilter active">Semanal</button>
+            <button className="btnFilter inactive">Mensal</button>
+          </div>
         </div>
       </div>
-
-      <div className="divider" />
 
       <div className="expensesList">
         {expenses.map((item, index) => (
