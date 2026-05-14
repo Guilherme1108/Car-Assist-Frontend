@@ -19,6 +19,7 @@
     font-weight: 400;
     margin-bottom: 30px;
     color: #333;
+    text-align: center;
 }
 
 .filterContainer {
@@ -63,11 +64,18 @@
 
 .expensesList {
     width: 100%;
+    max-width: 1100px;
+    /* Evita que fique largo demais em telas muito grandes */
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
+    /* Espaço entre o filtro e a lista */
     margin-bottom: 25px;
     border: solid 2px var(--border-primary);
     border-radius: 12px;
+    height: auto;
+    /* Deixa o conteúdo ditar a altura */
+    background-color: white;
 }
 
 .expenseItem {
@@ -75,36 +83,48 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: solid 2px var(--border-primary);
-    height: 60px;
-    padding-right: 12px;
+    min-height: 50px;
+    /* Diminuído para caber melhor em telas menores */
+    padding: 8px 16px;
+    gap: 10px;
+}
+
+.expenseItem:hover {
+    background-color: var(--border-primary);
 }
 
 .expenseLabel {
     color: var(--terciary-color);
-    width: 90%;
-    height: 45px;
+    flex: 1;
+    /* Faz o nome ocupar todo o espaço disponível à esquerda */
     display: flex;
     align-items: center;
     justify-content: start;
-    padding-left: 24px;
+    padding-left: 12px;
+    /* Ajustado para não ficar muito longe da borda */
     font-size: 0.95rem;
+    /* Removido width: 90% e height fixo */
 }
 
 .expenseValue {
-    width: 20%;
+    /* Removido width: 20% */
     font-size: 1.1rem;
     color: #333;
     font-weight: 500;
+    text-align: right;
+    white-space: nowrap;
+    /* CRUCIAL: impede o preço de quebrar em duas linhas */
 }
 
 .totalRow {
     width: 100%;
-    margin-top: 10px;
     border-bottom: none;
+    padding-top: 10px;
 }
 
 .totalLabel {
-    width: 80%;
+    flex: 1;
+    /* Mantém o alinhamento com os itens de cima */
     font-weight: bold;
     color: var(--primary-color);
 }
@@ -112,8 +132,8 @@
 .totalValue {
     font-weight: bold;
     color: var(--primary-color);
-    text-align: start;
-    flex: 1;
+    text-align: right;
+    white-space: nowrap;
 }
 
 @media (min-width: 768px) {
@@ -142,7 +162,19 @@
     }
 
     .expenseItem {
-        height: 80px;
+        min-height: 80px;
+        /* Aumentado de 50px para 80px */
+        padding: 12px 24px;
+        /* Mais preenchimento interno */
+    }
+
+    .expenseLabel {
+        font-size: 1.2rem;
+        /* Texto um pouco maior */
+    }
+
+    .expenseValue {
+        font-size: 1.3rem;
     }
 
 
@@ -152,31 +184,28 @@
 
     .totalLabel {
         font-size: 2rem;
-        width: 76%;
+        flex: 1;
     }
 
     .totalValue {
         font-size: 2rem;
-        width: auto;
+        text-align: right;
     }
 }
 
 @media (min-width: 1025px) {
     .expensesScreen {
-        position: relative;
         position: fixed;
         top: 0;
         right: 0;
         width: 80%;
         height: 100vh;
-        z-index: 9999;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-around;
-        padding: 0px 20px;
-        padding-bottom: 100px;
-        font-family: sans-serif;
+        justify-content: space-between;
+        padding: 40px;
+        overflow-y: auto;
     }
 
     .expensesTitle {
@@ -191,9 +220,20 @@
         width: 80%;
     }
 
+    .expensesList {
+        margin-top: 40px;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    .expenseItem {
+        min-height: 90px; /* Itens bem robustos para preencher o notebook */
+        padding: 15px 32px;
+    }
+
     .expenseLabel,
     .expenseValue {
-        font-size: 1.25rem;
+        font-size: 1.4rem; /* Fontes maiores para telas grandes */
     }
 
     .totalLabel {
@@ -204,5 +244,9 @@
     .totalValue {
         font-size: 2rem;
         width: auto;
+    }
+
+    .totalRow {
+        padding: 20px 32px; /* Alinha o total com o padding dos itens acima */
     }
 }

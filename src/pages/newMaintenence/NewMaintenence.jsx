@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./NewMaintenence.css";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import NavBar from "../../components/navBar/NavBar";
+import { Paperclip, X } from "lucide-react";
+
 
 const NewMaintenence = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +18,8 @@ const NewMaintenence = () => {
 
   const [images, setImages] = useState([]);
 
+  const fileInputRef = useRef(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -23,13 +27,44 @@ const NewMaintenence = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
+
     if (images.length + files.length > 3) {
       alert("Máximo de 3 fotos.");
+      e.target.value = "";
       return;
     }
-    const newImages = files.map(file => ({ url: URL.createObjectURL(file) }));
+
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+    const invalidFiles = files.filter(file => !allowedTypes.includes(file.type));
+
+    if (invalidFiles.length > 0) {
+      alert("Apenas arquivos PNG ou JPEG são permitidos.");
+      e.target.value = "";
+      return;
+    }
+
+    const newImages = files.map(file => ({
+      url: URL.createObjectURL(file)
+    }));
+
     setImages([...images, ...newImages]);
+    e.target.value = "";
   };
+
+  const handleRemoveImage = (indexToRemove) => {
+    setImages((prevImages) => {
+      URL.revokeObjectURL(prevImages[indexToRemove].url);
+      return prevImages.filter((_, index) => index !== indexToRemove);
+    });
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleDelete = () => {/* TODO */ };
+
+  const handleSave = () => {/* TODO */ };
 
   return (
     <div className="newMaintenenceScreen">
@@ -70,37 +105,43 @@ const NewMaintenence = () => {
             </div>
           </section>
 
-          {/* COLUNA DIREITA: Detalhes e Fotos */}
           <section className="cardSection rightColumn">
             <h3>Detalhes</h3>
             <div className="inputGroup">
               <label>Peças trocadas</label>
-              <textarea 
+              <textarea
                 className="detailsArea"
-                name="pecas" 
-                value={formData.pecas} 
-                onChange={handleChange} 
+                name="pecas"
+                value={formData.pecas}
+                onChange={handleChange}
                 placeholder="Descreva as peças trocadas"
               />
             </div>
 
             <label htmlFor="file-upload" className="evidenceUpload">
               <span>Anexar evidencias</span>
-              <i className="icon-paperclip">📎</i>
+              <Paperclip></Paperclip>
             </label>
-            <input id="file-upload" type="file" multiple onChange={handleImageChange} style={{display: 'none'}} />
+            <input
+              id="file-upload"
+              type="file"
+              multiple
+              accept="image/png, image/jpeg"
+              onChange={handleImageChange}
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+            />
 
             <div className="imagePreviewGrid">
               {images.map((img, index) => (
                 <div key={index} className="imageItem">
                   <img src={img.url} alt="Preview" />
-                  <button className="removeBtn" onClick={() => {/* função remover */}}>X</button>
+                  <X className="removeBtn" onClick={() => { handleRemoveImage(index) }} size={18}> </X>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* LINHA INFERIOR: Observações */}
           <section className="cardSection observationsContainer">
             <h3>Observações</h3>
             <textarea
@@ -110,15 +151,15 @@ const NewMaintenence = () => {
               value={formData.observacoes}
               onChange={handleChange}
             />
-            
+
             <div className="buttonActionGroup">
-              <Button className="btnExcluir"></Button>
-              <Button className="btnSalvar"></Button>
+              <Button className="saveMaintenence" text="Excluir" variant="secondary" onClick={handleDelete}></Button>
+              <Button className="deleteMaintenence" text="Salvar" variant="primary" onClick={handleSave}></Button>
             </div>
           </section>
         </div>
       </main>
-      
+
       <NavBar></NavBar>
     </div>
   );

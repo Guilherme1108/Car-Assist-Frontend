@@ -22,7 +22,7 @@
 
 @media (min-width: 1024px) {
     .buttonDefault {
-        height: 60px;
+        min-height: 54px;
         width: 260px;
         font-size: 1.25rem;
     }
