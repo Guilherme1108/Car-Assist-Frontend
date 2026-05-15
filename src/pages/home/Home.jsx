@@ -1,13 +1,25 @@
+import React, { useState, useEffect } from "react";
 import "./Home.css";
 import imagemCarro from "../../assets/carroTeste.webp";
-import {useNavigate} from "react-router-dom";
-import {CopyPlus} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { CopyPlus } from "lucide-react";
 import NavBar from "../../components/navBar/NavBar";
+import CarCard from "../../components/CarCard/CarCard";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
-
+  const [myCars, setMyCars] = useState([]);
   const isDesktop = window.innerWidth >= 1024;
+
+  useEffect(() => {
+    // Simulando dados do backend
+    setMyCars([
+      { id: 1, name: "Civic SI", plate: "EXE3006", points: 100, image: imagemCarro },
+      { id: 2, name: "Porshe 911", plate: "EXE3006", points: 100, image: imagemCarro },
+      { id: 3, name: "Maclaren Senna", plate: "EXE3006", points: 100, image: imagemCarro },
+      { id: 4, name: "Ferrari Puro Sangue", plate: "EXE3006", points: 100, image: imagemCarro },
+    ]);
+  }, []);
 
   return (
     <div className="homeScreen">
@@ -18,82 +30,18 @@ const HomeScreen = () => {
           <span className="garagePoints">80</span>
           <p className="textScore">Score da garagem</p>
         </div>
-
-        <div className="bar">
-          <div className="filledBar"></div>
-        </div>
+        <div className="bar"><div className="filledBar"></div></div>
       </div>
 
       <div className="cards">
-        <div
-          className="card"
-          onClick={!isDesktop ? () => navigate("./veiculo") : undefined}
-        >
-          <img className="imgCar" src={imagemCarro} alt="" />
-
-          <span className="carName">Civic SI</span>
-
-          <div className="lowerInformations">
-            <span className="carPlate">EXE3006</span>
-            <span className="carPoints">100</span>
-          </div>
-
-          <div className="alinhamentoBtn">
-            <button 
-              className="buttonVerDetalhes"
-              onClick={isDesktop ? () => navigate("./veiculo") : undefined}
-              >Ver Detalhes</button>
-          </div>
-
-        </div>
-
-        <div className="card">
-          <img className="imgCar" src={imagemCarro} alt="" />
-
-          <span className="carName">Civic SI</span>
-
-          <div className="lowerInformations">
-            <span className="carPlate">EXE3006</span>
-            <span className="carPoints">100</span>
-          </div>
-
-          <div className="alinhamentoBtn">
-            <button className="buttonVerDetalhes">Ver Detalhes</button>
-          </div>
-
-        </div>
-
-        <div className="card">
-          <img className="imgCar" src={imagemCarro} alt="" />
-
-          <span className="carName">Civic SI</span>
-
-          <div className="lowerInformations">
-            <span className="carPlate">EXE3006</span>
-            <span className="carPoints">100</span>
-          </div>
-
-          <div className="alinhamentoBtn">
-            <button className="buttonVerDetalhes">Ver Detalhes</button>
-          </div>
-
-        </div>
-
-        <div className="card">
-          <img className="imgCar" src={imagemCarro} alt="" />
-
-          <span className="carName">Civic SI</span>
-
-          <div className="lowerInformations">
-            <span className="carPlate">EXE3006</span>
-            <span className="carPoints">100</span>
-          </div>
-
-          <div className="alinhamentoBtn">
-            <button className="buttonVerDetalhes" onClick={() => {navigate("./intermediate")}}>Ver Detalhes</button>
-          </div>
-
-        </div>
+        {myCars.map((car) => (
+          <CarCard 
+            key={car.id} 
+            car={car} 
+            isDesktop={isDesktop} 
+            onNavigate={navigate} 
+          />
+        ))}
       </div>
 
       <button className="addCarButton">
@@ -101,7 +49,7 @@ const HomeScreen = () => {
         <p className="textScore">Adicionar Carro</p>
       </button>
 
-      <NavBar></NavBar>
+      <NavBar />
     </div>
   );
 };

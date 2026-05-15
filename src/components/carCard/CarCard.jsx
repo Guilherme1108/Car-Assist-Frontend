@@ -1,12 +1,12 @@
 import React from "react";
-import "./CarCard.css"; // Se você optar por separar o CSS do Card
+import "../../pages/home/Home.css";
 
 const CarCard = ({ car, isDesktop, onNavigate }) => {
   return (
     <div
       className="card"
       /* No mobile, o card inteiro é clicável */
-      onClick={!isDesktop ? () => onNavigate("/veiculo") : undefined}
+      onClick={!isDesktop ? () => onNavigate("./veiculo") : undefined}
     >
       <img className="imgCar" src={car.image} alt={car.name} />
 
@@ -24,7 +24,7 @@ const CarCard = ({ car, isDesktop, onNavigate }) => {
           onClick={(e) => {
             if (isDesktop) {
               e.stopPropagation(); // Evita conflitos de clique
-              onNavigate("/veiculo");
+              onNavigate("./veiculo");
             }
           }}
         >

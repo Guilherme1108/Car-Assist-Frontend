@@ -65,16 +65,13 @@
 .expensesList {
     width: 100%;
     max-width: 1100px;
-    /* Evita que fique largo demais em telas muito grandes */
     display: flex;
     flex-direction: column;
     margin-top: 20px;
-    /* Espaço entre o filtro e a lista */
     margin-bottom: 25px;
     border: solid 2px var(--border-primary);
     border-radius: 12px;
     height: auto;
-    /* Deixa o conteúdo ditar a altura */
     background-color: white;
 }
 
@@ -84,7 +81,6 @@
     align-items: center;
     border-bottom: solid 2px var(--border-primary);
     min-height: 50px;
-    /* Diminuído para caber melhor em telas menores */
     padding: 8px 16px;
     gap: 10px;
 }
@@ -96,24 +92,19 @@
 .expenseLabel {
     color: var(--terciary-color);
     flex: 1;
-    /* Faz o nome ocupar todo o espaço disponível à esquerda */
     display: flex;
     align-items: center;
     justify-content: start;
     padding-left: 12px;
-    /* Ajustado para não ficar muito longe da borda */
     font-size: 0.95rem;
-    /* Removido width: 90% e height fixo */
 }
 
 .expenseValue {
-    /* Removido width: 20% */
     font-size: 1.1rem;
     color: #333;
     font-weight: 500;
     text-align: right;
     white-space: nowrap;
-    /* CRUCIAL: impede o preço de quebrar em duas linhas */
 }
 
 .totalRow {
@@ -124,7 +115,7 @@
 
 .totalLabel {
     flex: 1;
-    /* Mantém o alinhamento com os itens de cima */
+    font-size: 1.5rem;
     font-weight: bold;
     color: var(--primary-color);
 }
@@ -132,6 +123,7 @@
 .totalValue {
     font-weight: bold;
     color: var(--primary-color);
+    font-size: 1.5rem;
     text-align: right;
     white-space: nowrap;
 }
@@ -247,6 +239,6 @@
     }
 
     .totalRow {
-        padding: 20px 32px; /* Alinha o total com o padding dos itens acima */
+        padding: 20px 32px;
     }
 }
