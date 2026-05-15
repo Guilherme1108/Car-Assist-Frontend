@@ -16,8 +16,8 @@
     align-items: center;
     flex-direction: column;
     padding: 22px 18px;
-    border: solid 2px var(--border-primary);
     border-radius: 12px;
+    background-color: #f3f3f3;
 
 }
 
@@ -46,6 +46,8 @@
     margin-top: 22px;
     margin-bottom: 40px;
     border: solid 2px var(--border-primary);
+    object-fit: cover;
+    object-position: center;
 }
 
 .carInformations {

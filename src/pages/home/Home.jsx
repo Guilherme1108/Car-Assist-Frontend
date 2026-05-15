@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Home.css";
 import imagemCarro from "../../assets/imagem_carro_card.jpg";
 import { useNavigate } from "react-router-dom";
-import { CopyPlus, ChevronLeft, ChevronRight } from "lucide-react";
+import { CopyPlus, ChevronLeft, ChevronRight, CarFront } from "lucide-react";
 import NavBar from "../../components/navBar/NavBar";
 import CarCard from "../../components/CarCard/CarCard";
 
@@ -50,6 +50,8 @@ const HomeScreen = () => {
         <div className="bar"><div className="filledBar"></div></div>
       </div>
 
+      <span className="backgorundCarName">Civic SI</span>
+
       <div className="carouselContainer">
         <button className="carouselBtn prev" onClick={scrollLeft} aria-label="Voltar">
           <ChevronLeft size={32} />
@@ -71,12 +73,26 @@ const HomeScreen = () => {
         </button>
       </div>
 
-      <button className="addCarButton">
+      <div className="addCarArea">
+        <CarFront className="iconCarFront" size={32}></CarFront>
+        
+        <span className="textAddCar primaryText">
+          Adicione um novo carro
+        </span>
+
+        <span className="textAddCar">
+          Mantenha seu perfil sempre atualizado
+        </span>
+
+        <button className="addCarButton">
         <CopyPlus className="iconAddCarButton" size={18} />
         <p className="textScore">Adicionar Carro</p>
       </button>
+      </div>
 
-      <NavBar />
+      
+
+      <NavBar/>
     </div>
   );
 };
