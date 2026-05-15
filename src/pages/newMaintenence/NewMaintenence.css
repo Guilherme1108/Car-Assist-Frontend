@@ -105,6 +105,11 @@
   position: relative;
   width: 80px;
   height: 80px;
+  transition: 0.2s ease;
+}
+
+.imageItem:hover {
+  transform: scale(1.1);
 }
 
 .imageItem img {

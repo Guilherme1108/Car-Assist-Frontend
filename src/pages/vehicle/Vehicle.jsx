@@ -1,6 +1,6 @@
 import "./Vehicle.css";
 import {useNavigate} from "react-router-dom";
-import imagemCarro from "../../assets/carroTeste.webp";
+import imagemCarro from "../../assets/imagem_carro_card.jpg";
 import {SquarePen, ChevronRight} from "lucide-react";
 import NavBar from "../../components/navBar/NavBar";
 

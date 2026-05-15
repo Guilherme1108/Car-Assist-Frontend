@@ -6,7 +6,7 @@ const CarCard = ({ car, isDesktop, onNavigate }) => {
     <div
       className="card"
       /* No mobile, o card inteiro é clicável */
-      onClick={!isDesktop ? () => onNavigate("./veiculo") : undefined}
+      onClick={ () => onNavigate("./veiculo")}
     >
       <img className="imgCar" src={car.image} alt={car.name} />
 
@@ -18,18 +18,6 @@ const CarCard = ({ car, isDesktop, onNavigate }) => {
       </div>
 
       <div className="alinhamentoBtn">
-        <button
-          className="buttonVerDetalhes"
-          /* No desktop, apenas o botão navega */
-          onClick={(e) => {
-            if (isDesktop) {
-              e.stopPropagation(); // Evita conflitos de clique
-              onNavigate("./veiculo");
-            }
-          }}
-        >
-          Ver Detalhes
-        </button>
       </div>
     </div>
   );

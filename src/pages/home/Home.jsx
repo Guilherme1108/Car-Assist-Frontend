@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Home.css";
-import imagemCarro from "../../assets/carroTeste.webp";
+import imagemCarro from "../../assets/imagem_carro_card.jpg";
 import { useNavigate } from "react-router-dom";
-import { CopyPlus } from "lucide-react";
+import { CopyPlus, ChevronLeft, ChevronRight } from "lucide-react";
 import NavBar from "../../components/navBar/NavBar";
 import CarCard from "../../components/CarCard/CarCard";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
   const [myCars, setMyCars] = useState([]);
-  const isDesktop = window.innerWidth >= 1024;
+  
+  // Referência para controlar o scroll do contêiner dos cards
+  const carouselRef = useRef(null);
 
   useEffect(() => {
     // Simulando dados do backend
@@ -20,6 +22,21 @@ const HomeScreen = () => {
       { id: 4, name: "Ferrari Puro Sangue", plate: "EXE3006", points: 100, image: imagemCarro },
     ]);
   }, []);
+
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      // Descobre a largura de um card dinamicamente para rolar a quantia exata
+      const cardWidth = carouselRef.current.firstChild?.offsetWidth || 300;
+      carouselRef.current.scrollBy({ left: -(cardWidth + 20), behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      const cardWidth = carouselRef.current.firstChild?.offsetWidth || 300;
+      carouselRef.current.scrollBy({ left: cardWidth + 20, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="homeScreen">
@@ -33,15 +50,25 @@ const HomeScreen = () => {
         <div className="bar"><div className="filledBar"></div></div>
       </div>
 
-      <div className="cards">
-        {myCars.map((car) => (
-          <CarCard 
-            key={car.id} 
-            car={car} 
-            isDesktop={isDesktop} 
-            onNavigate={navigate} 
-          />
-        ))}
+      <div className="carouselContainer">
+        <button className="carouselBtn prev" onClick={scrollLeft} aria-label="Voltar">
+          <ChevronLeft size={32} />
+        </button>
+
+        <div className="cards" ref={carouselRef}>
+          {myCars.map((car) => (
+            <div key={car.id} className="carouselItem">
+              <CarCard 
+                car={car} 
+                onNavigate={navigate} 
+              />
+            </div>
+          ))}
+        </div>
+
+        <button className="carouselBtn next" onClick={scrollRight} aria-label="Avançar">
+          <ChevronRight size={32} />     
+        </button>
       </div>
 
       <button className="addCarButton">
