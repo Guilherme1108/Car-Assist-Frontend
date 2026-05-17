@@ -9,12 +9,12 @@ import CarCard from "../../components/CarCard/CarCard";
 const HomeScreen = () => {
   const navigate = useNavigate();
   const [myCars, setMyCars] = useState([]);
+
+  const [currentCarIndex, setCurrentCarIndex] = useState(0); 
   
-  // Referência para controlar o scroll do contêiner dos cards
   const carouselRef = useRef(null);
 
   useEffect(() => {
-    // Simulando dados do backend
     setMyCars([
       { id: 1, name: "Civic SI", plate: "EXE3006", points: 100, image: imagemCarro },
       { id: 2, name: "Porshe 911", plate: "EXE3006", points: 100, image: imagemCarro },
@@ -23,23 +23,39 @@ const HomeScreen = () => {
     ]);
   }, []);
 
-  const scrollLeft = () => {
+
+  const scrollToCar = (index) => {
     if (carouselRef.current) {
-      // Descobre a largura de um card dinamicamente para rolar a quantia exata
       const cardWidth = carouselRef.current.firstChild?.offsetWidth || 300;
-      carouselRef.current.scrollBy({ left: -(cardWidth + 20), behavior: "smooth" });
+      const gap = 20;
+      
+      carouselRef.current.scrollTo({
+        left: index * (cardWidth + gap),
+        behavior: "smooth",
+      });
+      
+      setCurrentCarIndex(index);
+    }
+  };
+
+  const scrollLeft = () => {
+    if (currentCarIndex > 0) {
+      scrollToCar(currentCarIndex - 1);
     }
   };
 
   const scrollRight = () => {
-    if (carouselRef.current) {
-      const cardWidth = carouselRef.current.firstChild?.offsetWidth || 300;
-      carouselRef.current.scrollBy({ left: cardWidth + 20, behavior: "smooth" });
+    if (currentCarIndex < myCars.length - 1) {
+      scrollToCar(currentCarIndex + 1);
     }
   };
 
   return (
     <div className="homeScreen">
+      {myCars.length > 0 && (
+        <span className="backgorundCarName">{myCars[currentCarIndex].name}</span>
+      )}
+
       <span className="titleHome">Garagem</span>
 
       <div className="containerScore">
@@ -50,14 +66,17 @@ const HomeScreen = () => {
         <div className="bar"><div className="filledBar"></div></div>
       </div>
 
-      <span className="backgorundCarName">Civic SI</span>
-
       <div className="carouselContainer">
-        <button className="carouselBtn prev" onClick={scrollLeft} aria-label="Voltar">
+        <button 
+          className="carouselBtn prev" 
+          onClick={scrollLeft} 
+          disabled={currentCarIndex === 0}
+          aria-label="Voltar"
+        >
           <ChevronLeft size={32} />
         </button>
 
-        <div className="cards" ref={carouselRef}>
+        <div className="cards" ref={carouselRef} style={{ overflowX: 'hidden' }}>
           {myCars.map((car) => (
             <div key={car.id} className="carouselItem">
               <CarCard 
@@ -68,29 +87,29 @@ const HomeScreen = () => {
           ))}
         </div>
 
-        <button className="carouselBtn next" onClick={scrollRight} aria-label="Avançar">
+
+        <button 
+          className="carouselBtn next" 
+          onClick={scrollRight} 
+          disabled={currentCarIndex === myCars.length - 1}
+          aria-label="Avançar"
+        >
           <ChevronRight size={32} />     
         </button>
       </div>
 
       <div className="addCarArea">
-        <CarFront className="iconCarFront" size={32}></CarFront>
-        
-        <span className="textAddCar primaryText">
-          Adicione um novo carro
-        </span>
-
-        <span className="textAddCar">
-          Mantenha seu perfil sempre atualizado
-        </span>
-
-        <button className="addCarButton">
-        <CopyPlus className="iconAddCarButton" size={18} />
-        <p className="textScore">Adicionar Carro</p>
-      </button>
+        <CarFront className="iconCarFront"></CarFront>
+        <span className="textAddCar primaryText">Adicione um novo carro</span>
+        <span className="textAddCar">Mantenha seu perfil sempre atualizado</span>
+        <button className="addCarButton" 
+        onClick={() => {
+          navigate("./cadastrarveiculo")
+        }}>
+          <CopyPlus className="iconAddCarButton" size={18} />
+          <p className="textScore">Adicionar Carro</p>  
+        </button>
       </div>
-
-      
 
       <NavBar/>
     </div>

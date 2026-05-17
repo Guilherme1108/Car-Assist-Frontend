@@ -5,9 +5,9 @@ const CarCard = ({ car, isDesktop, onNavigate }) => {
   return (
     <div
       className="card"
-      /* No mobile, o card inteiro é clicável */
       onClick={ () => onNavigate("./veiculo")}
     >
+
       <img className="imgCar" src={car.image} alt={car.name} />
 
       <span className="carName">{car.name}</span>

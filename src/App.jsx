@@ -25,7 +25,7 @@ function App() {
         <Route path="/home/veiculo/gastos" element={<ExpensesScreen/>} />
         <Route path="/perfil" element={<ProfileScreen/>} />
         <Route path="/servicos" element={<ServiceScreen/>} />
-        <Route path="/intermediaria" element={<IntermediateScreen/>} />
+        <Route path="/home/cadastrarveiculo" element={<IntermediateScreen/>} />
       </Route>
     </Routes>
   )

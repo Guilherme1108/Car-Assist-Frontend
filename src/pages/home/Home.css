@@ -25,6 +25,8 @@
     border-radius: 12px;
     border: solid 2px var(--border-primary);
     margin-top: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 
 .textsScore {
@@ -116,11 +118,11 @@
     border-radius: 6px;
 }
 
-.addCarArea {
+.iconCarFront {
     display: none;
 }
 
-.buttonVerDetalhes {
+.textAddCar {
     display: none;
 }
 
@@ -150,9 +152,9 @@
     }
 
     .containerScore {
-        height: 80px;
+        min-height: 80px;
         width: 100%;
-        justify-content: start;
+        justify-content: center;
         align-items: start;
         flex-direction: column;
         gap: 0px;
@@ -169,10 +171,11 @@
     }
 
     .bar {
-        height: 12px;
+        min-height: 12px;
         width: 100%;
         border-radius: 4px;
         background-color: #A6A6A6;
+        box-sizing: border-box;
     }
 
     .filledBar {
@@ -234,6 +237,7 @@
         padding-bottom: 0px;
         padding-left: 40px;
         padding-right: 40px;
+        overflow-y: auto;
     }
 
     .titleHome {
@@ -258,8 +262,9 @@
         position: absolute;
         top: 150px;
         font-size: 200px;
-        z-index: -1;
+        z-index: -10;
         color: rgba(0, 0, 0, 0.043);
+        text-align: center;
     }
 
     .cards {
@@ -317,7 +322,6 @@
         background-color: #f9f9f9;
     }
 
-    /* Posiciona as setas externamente ao card ocupando as laterais */
     .carouselBtn.prev {
         left: 100px;
     }
@@ -347,15 +351,20 @@
     .addCarArea {
         display: flex;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: space-between;
         flex-direction: column;
-        height: 200px;
+        padding: 20px;
+        gap: 12px;
         width: 100%;
         border: 2px dashed #d9d9d9;
         border-radius: 28px;
+        margin-bottom: 24px;
     }
 
+
+
     .iconCarFront {
+        display: block;
         color: var(--primary-color);
         background-color: rgb(255, 216, 211, 0.5);
         border-radius: 50%;
@@ -365,6 +374,7 @@
     }
 
     .textAddCar {
+        display: block;
         font-size: 1.25rem;
     }
 

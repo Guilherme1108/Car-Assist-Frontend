@@ -1,0 +1,203 @@
+.intermediateScreen {
+    width: 100%;
+    min-height: 100%;
+    background-color: #ffffff;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+}
+
+.mainContainer {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.screenTitle {
+    font-size: 20px;
+    color: #333;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
+.contentCard {
+    background: transparent;
+    border-radius: 12px;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    width: 100%;
+    border: none;
+}
+
+.buttonsArea {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-right: none;
+}
+
+.buttonsArea button {
+    width: 100%;
+    max-width: 180px;
+}
+
+.formsArea {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.codeVehicle {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+}
+
+.instructionText {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.registerVehicle {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photoUploadContainer {
+    margin-bottom: 20px;
+}
+
+.photoPlaceholder {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b3b3b3;
+    transition: color 0.2s;
+}
+
+.photoPlaceholder:hover {
+    color: #666;
+}
+
+.carPhotoPreview {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.carPhotoPreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid #ddd;
+}
+
+.removePhotoBtn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #e11d48;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carRegistrationForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.formInputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    text-align: left;
+}
+
+.formInputGroup label {
+    font-size: 13px;
+    color: #555;
+    font-weight: 500;
+}
+
+.formActionButtons {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.formActionButtons .btnCancel,
+.formActionButtons .btnConfirm {
+    flex: 1;
+}
+
+.hideOnMobile {
+    display: none !important;
+}
+
+.showOnMobile {
+    display: flex !important;
+}
+
+@media (min-width: 1025px) {
+    .contentCard {
+        background: #ffffff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        flex-direction: row;
+        border: 1px solid #ededed;
+    }
+
+    .buttonsArea {
+        width: 30%;
+        padding: 40px;
+        border-right: 1px solid #f29999;
+        display: flex !important;
+    }
+
+    .formsArea {
+        width: 70%;
+        padding: 40px;
+        display: flex !important;
+    }
+
+    .hideOnMobile {
+        display: flex !important;
+    }
+
+    .showOnMobile {
+        display: flex !important;
+    }
+}
