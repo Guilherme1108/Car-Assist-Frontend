@@ -1,8 +1,8 @@
 import "./Vehicle.css";
 import {useNavigate} from "react-router-dom";
-import imagemCarro from "../../assets/carroTeste.webp";
-import {SquarePen} from "lucide-react";
-import BottomBar from "../../components/bottomBar/BottomBar";
+import imagemCarro from "../../assets/imagem_carro_card.jpg";
+import {SquarePen, ChevronRight} from "lucide-react";
+import NavBar from "../../components/navBar/NavBar";
 
 const VehicleScreen = () => {
 
@@ -41,9 +41,7 @@ const VehicleScreen = () => {
         </div>
       </div>
 
-      <li className="historicoDonos">Histórico de donos</li>
-
-      <div className="dividingLine"></div>
+      <li className="historicoDonos">Histórico de donos <ChevronRight></ChevronRight></li>
 
       <div className="containerButtons">
         <button className="buttonGastos" onClick={() => {
@@ -61,7 +59,7 @@ const VehicleScreen = () => {
         Histórico de Manutenções
       </button>
 
-      <BottomBar></BottomBar>
+      <NavBar></NavBar>
     </div>
   );
 };

@@ -7,4 +7,11 @@
 .content {
   display: flex;
   flex: 1;
+  background-color: white;
+}
+
+@media (min-width: 1024px) {
+  .content {
+    margin-left: 20%;
+  }
 }

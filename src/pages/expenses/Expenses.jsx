@@ -1,44 +1,55 @@
 import "./Expenses.css";
-import {useNavigate} from "react-router-dom";
-import BottomBar from "../../components/bottomBar/BottomBar";
+import { useNavigate } from "react-router-dom";
+import NavBar from "../../components/navBar/NavBar";
+import { ChevronRight } from "lucide-react";
+import Button from "../../components/button/Button";
 
 const ExpensesScreen = () => {
   const expenses = [
-    { label: 'Combustível', value: 'R$ 230,00' },
-    { label: 'Limpeza', value: 'R$ 230,00' },
-    { label: 'Pedagio', value: 'R$ 230,00' },
-    { label: 'Estacionamento', value: 'R$ 230,00' },
-    { label: 'Manutenção', value: 'R$ 230,00' },
-    { label: 'Multas', value: 'R$ 230,00' },
+    { label: "Combustível", value: "R$ 230,00" },
+    { label: "Limpeza", value: "R$ 230,00" },
+    { label: "Pedagio", value: "R$ 230,00" },
+    { label: "Estacionamento", value: "R$ 230,00" },
+    { label: "Manutenção", value: "R$ 230,00" },
+    { label: "Multas", value: "R$ 230,00" },
   ];
+
+  const handleInsertExpense = () => {
+
+  }
 
   return (
     <div className="expensesScreen">
-      <h1 className="expensesTitle">Gastos</h1>
+      <div className="headerExpenseScreen">
+        <h1 className="expensesTitle">Gastos</h1>
 
-      <div className="filterContainer">
-        <button className="btnFilter active">Semanal</button>
-        <button className="btnFilter inactive">Mensal</button>
+        <div className="filterContainer">
+          <div className="buttonExpenses">
+            <button className="btnFilter active">Semanal</button>
+            <button className="btnFilter inactive">Mensal</button>
+          </div>
+        </div>
       </div>
-
-      <div className="divider" />
 
       <div className="expensesList">
         {expenses.map((item, index) => (
           <div key={index} className="expenseItem">
             <div className="expenseLabel">{item.label}</div>
             <span className="expenseValue">{item.value}</span>
+            <ChevronRight></ChevronRight>
           </div>
         ))}
+        <div className="expenseItem totalRow">
+          <div className="expenseLabel totalLabel">Total</div>
+          <span className="expenseValue totalValue">R$ 1380,00</span>
+        </div>
       </div>
 
-      <div className="expenseItem totalRow">
-        <div className="expenseLabel totalLabel">Total</div>
-        <span className="expenseValue totalValue">R$ 1380,00</span>
-      </div>
-      <BottomBar></BottomBar>
+      <Button text="Inserir novo gasto" variant="primary" onClick={handleInsertExpense}></Button>
+
+      <NavBar></NavBar>
     </div>
   );
 };
 
-export default ExpensesScreen
+export default ExpensesScreen;

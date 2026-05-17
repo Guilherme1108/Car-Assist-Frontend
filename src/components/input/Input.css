@@ -1,11 +1,27 @@
 .inputDefault {
     height: 16px;
-    width: 300px;
+    width: 100%;
     padding: 16px;
     border: none;
     outline: none;
-    border-radius: 12px;
+    border-radius: 8px;
     background-color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: solid 2px var(--border-primary);
     font-size: 16px;
+}
+
+/* Muda a cor do texto dd/mm/aaaa quando está vazio */
+.inputDefault[type="date"]::-webkit-datetime-edit-text,
+.inputDefault[type="date"]::-webkit-datetime-edit-month-field,
+.inputDefault[type="date"]::-webkit-datetime-edit-day-field,
+.inputDefault[type="date"]::-webkit-datetime-edit-year-field {
+    color: #999;
+}
+
+/* Voltar para preto quando digitar */
+.inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-text,
+.inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-month-field,
+.inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-day-field,
+.inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-year-field {
+    color: #000;
 }

@@ -4,6 +4,7 @@
     align-items: flex-start;
     height: 120px;
     padding: 0 16px;
+    background-color: white;
 }
 
 .side {
@@ -24,4 +25,19 @@
 .logo {
     height: 150px;
     justify-self: center;
+}
+
+@media (min-width: 1024px) {
+    .topBar {
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .left {
+        margin-left: 185%;
+    }
 }

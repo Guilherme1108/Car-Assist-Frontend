@@ -5,6 +5,15 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 100px;
+    background-color: white;
+}
+
+.titleHome {
+    font-size: 2rem;
+}
+
+.alinhamentoBtn {
+    display: none;
 }
 
 .containerScore {
@@ -14,7 +23,10 @@
     align-items: center;
     justify-content: space-evenly;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: solid 2px var(--border-primary);
+    margin-top: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 
 .textsScore {
@@ -22,12 +34,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    justify-content: center;
     gap: 12px;
+    text-shadow: none;
 }
 
 .garagePoints {
     font-size: 1.25rem;
+    color: #34C759;
+}
+
+.backgorundCarName {
+    display: none;
+}
+
+.carouselContainer {
+    position: relative;
+    width: 100%;
+}
+
+.carouselBtn {
+    display: none;
+}
+
+.carouselItem {
+    width: 90%;
 }
 
 .cards {
@@ -43,19 +73,23 @@
 
 .card {
     height: 230px;
-    width: 250px;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-between;
     border-radius: 12px;
     padding: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    background-color: #f1f1f1;
 }
 
 .imgCar {
     height: 70%;
     width: 100%;
     border-radius: 12px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .lowerInformations {
@@ -68,11 +102,28 @@
 
 .carName {
     font-size: 1.25rem;
+    width: 100%;
+    text-align: start;
 }
 
 .carPlate,
 .carPoints {
     font-size: 0.875rem;
+}
+
+.carPoints {
+    color: var(--secondary-color);
+    background-color: #34C759;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.iconCarFront {
+    display: none;
+}
+
+.textAddCar {
+    display: none;
 }
 
 .addCarButton {
@@ -82,32 +133,33 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    background-color: #f5f5f5;
+    background-color: var(--primary-color);
     border-radius: 12px;
     border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: solid 2px var(--border-primary);
     cursor: pointer;
+    color: var(--secondary-color);
 }
 
 .addCarButton svg {
-    color: #8bc34a;
+    color: var(--secondary-color);
 }
 
 @media (min-width: 768px) {
-
     .homeScreen {
         padding-left: 80px;
         padding-right: 80px;
     }
 
     .containerScore {
-        height: 80px;
+        min-height: 80px;
         width: 100%;
-        justify-content: start;
+        justify-content: center;
         align-items: start;
         flex-direction: column;
         gap: 0px;
         padding-left: 36px;
+        padding-right: 36px;
     }
 
     .textsScore {
@@ -119,17 +171,18 @@
     }
 
     .bar {
-        height: 12px;
-        width: 450px;
+        min-height: 12px;
+        width: 100%;
         border-radius: 4px;
         background-color: #A6A6A6;
+        box-sizing: border-box;
     }
 
     .filledBar {
         height: 100%;
         width: 80%;
         border-radius: 4px;
-        background-color: #00360C;
+        background-color: #34C759;
     }
 
     .garagePoints {
@@ -140,19 +193,206 @@
         flex-direction: row;
         justify-content: space-between;
         flex-wrap: wrap;
+        width: 100%;
     }
 
-    .card {
-        height: 450px;
+    .carouselItem {
         width: 42%;
     }
 
+
+    .card {
+        height: 100%;
+        width: 100%;
+    }
+
     .carName {
-        font-size: 2rem;
+        font-size: 1.25rem;
     }
 
     .carPlate,
     .carPoints {
+        font-size: 1rem;
+    }
+
+    .addCarButton {
         font-size: 1.25rem;
+    }
+
+    .iconAddCarButton {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .homeScreen {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 80%;
+        height: 100vh;
+        z-index: 9999;
+        justify-content: space-around;
+        padding-bottom: 0px;
+        padding-left: 40px;
+        padding-right: 40px;
+        overflow-y: auto;
+    }
+
+    .titleHome {
+        display: flex;
+        margin-top: 24px;
+        width: 100%;
+        text-align: start;
+        font-size: 2rem;
+    }
+
+    .carouselContainer {
+        display: flex;
+        align-items: center;
+        height: 65%;
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+
+    .backgorundCarName {
+        display: block;
+        position: absolute;
+        top: 150px;
+        font-size: 200px;
+        z-index: -10;
+        color: rgba(0, 0, 0, 0.043);
+        text-align: center;
+    }
+
+    .cards {
+        height: 100%;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 0px;
+        padding: 20px 0px;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+
+    .cards::-webkit-scrollbar {
+        display: none;
+    }
+
+    .carouselItem {
+        flex-shrink: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        scroll-snap-align: center;
+    }
+
+    .card {
+        height: 90%;
+        width: 60%;
+        gap: 24px;
+    }
+
+    .carouselBtn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: white;
+        border: solid 2px var(--border-primary);
+        border-radius: 50%;
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+        color: var(--primary-color);
+        transition: background-color 0.2s;
+    }
+
+    .carouselBtn:hover {
+        background-color: #f9f9f9;
+    }
+
+    .carouselBtn.prev {
+        left: 100px;
+    }
+
+    .carouselBtn.next {
+        right: 100px;
+    }
+
+    .carPoints {
+        height: 40px;
+        width: 80px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 6px;
+    }
+
+    .alinhamentoBtn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .addCarArea {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 20px;
+        gap: 12px;
+        width: 100%;
+        border: 2px dashed #d9d9d9;
+        border-radius: 28px;
+        margin-bottom: 24px;
+    }
+
+
+
+    .iconCarFront {
+        display: block;
+        color: var(--primary-color);
+        background-color: rgb(255, 216, 211, 0.5);
+        border-radius: 50%;
+        height: 64px;
+        width: 64px;
+        padding: 12px;
+    }
+
+    .textAddCar {
+        display: block;
+        font-size: 1.25rem;
+    }
+
+    .primaryText {
+        font-weight: bold;
+    }
+
+    .buttonVerDetalhes {
+        height: 60px;
+        width: 240px;
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        background-color: var(--secondary-color);
+        border-radius: 12px;
+        border: solid 2px var(--primary-color);
+        cursor: pointer;
     }
 }

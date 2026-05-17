@@ -11,7 +11,13 @@ const Topbar = () => {
   const pagesWithIcons = ["/home"]; // adicionar mais rotas aqui depois
   const showIcons = pagesWithIcons.includes(location.pathname)
 
-  const pagesWithreturnIcon = ["/home/veiculo", "/home/veiculo/manutencao", "/home/veiculo/gastos"]; // adicionar mais rotas aqui depois
+  const pagesWithreturnIcon = [ "/home/veiculo", "/home/veiculo/manutencao", "/home/veiculo/gastos",
+                                "/perfil", "/servicos", "/home/veiculo/manutencao/criar"
+                              ]; // adicionar mais rotas aqui depois
+
+  const isDesktop = window.innerWidth >= 1024;
+
+
   const showReturnIcon = pagesWithreturnIcon.includes(location.pathname)
 
   return (
@@ -24,9 +30,11 @@ const Topbar = () => {
       </>
     )}
 
-{showReturnIcon && (
+{showReturnIcon && !isDesktop && (
       <>
-        <ChevronLeft size={32} 
+        <ChevronLeft 
+        className='returnIcon' 
+        size={32} 
         onClick={() => {
           navigate(-1)
         }} />
