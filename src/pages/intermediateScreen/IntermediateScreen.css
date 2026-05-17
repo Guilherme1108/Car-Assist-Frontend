@@ -164,6 +164,29 @@
     flex: 1;
 }
 
+.classSelectCor {
+    width: 100%;
+    height: 36px;
+    padding: 0px 16px;
+    outline: none;
+    border-radius: 8px;
+    background-color: white;
+    border: solid 2px var(--border-primary);
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+    color: #000000; 
+}
+
+.classSelectCor option[value=""] {
+    color: #999999;
+}
+
+.classSelectCor option {
+    color: #000000;
+    background-color: white;
+}
+
 .hideOnMobile {
     display: none !important;
 }

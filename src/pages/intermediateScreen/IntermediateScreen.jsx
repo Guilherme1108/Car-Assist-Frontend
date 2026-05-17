@@ -18,12 +18,41 @@ const IntermediateScreen = () => {
         cor: ""
     });
 
+    const CORES_VEICULO = [
+        { value: 'AMARELO', label: 'Amarelo' },
+        { value: 'AZUL', label: 'Azul' },
+        { value: 'BRANCO', label: 'Branco' },
+        { value: 'CINZA', label: 'Cinza' },
+        { value: 'DOURADO', label: 'Dourado' },
+        { value: 'LARANJA', label: 'Laranja' },
+        { value: 'MARROM', label: 'Marrom' },
+        { value: 'PRATA', label: 'Prata' },
+        { value: 'PRETO', label: 'Preto' },
+        { value: 'ROSA', label: 'Rosa' },
+        { value: 'ROXO', label: 'Roxo' },
+        { value: 'VERDE', label: 'Verde' },
+        { value: 'VERMELHO', label: 'Vermelho' },
+        { value: 'FANTASIA', label: 'Fantasia (Multicor)' }
+    ];
+
     const [carImage, setCarImage] = useState(null);
     const fileInputRef = useRef(null);
 
+    const JSON_SERVER_URL = "http://localhost:3000";
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setCarData({ ...carData, [name]: value });
+        let treatedValue = value;
+
+        if (name === "placa") {
+            treatedValue = value.toUpperCase();
+        }
+
+        if (name === "ano") {
+            treatedValue = value.replace(/\D/g, "");
+        }
+
+        setCarData({ ...carData, [name]: treatedValue });
     };
 
     const handleImageChange = (e) => {
@@ -31,14 +60,13 @@ const IntermediateScreen = () => {
             return;
         }
 
-        // Transforma em Array idêntico à tela de manutenção
         const files = Array.from(e.target.files);
         const file = files[0];
 
         const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
         if (!allowedTypes.includes(file.type)) {
             alert("Apenas arquivos PNG ou JPEG são permitidos.");
-            e.target.value = ""; 
+            e.target.value = "";
             return;
         }
 
@@ -47,13 +75,13 @@ const IntermediateScreen = () => {
         }
 
         setCarImage(URL.createObjectURL(file));
-        e.target.value = ""; 
+        e.target.value = "";
     };
 
     const handleRemoveImage = (e) => {
         if (e) e.preventDefault();
         if (carImage) {
-            URL.revokeObjectURL(carImage); 
+            URL.revokeObjectURL(carImage);
         }
         setCarImage(null);
         if (fileInputRef.current) {
@@ -73,11 +101,62 @@ const IntermediateScreen = () => {
         setIsFormVisibleMobile(false);
     };
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (activeTab === "acquire") {
             console.log("Enviando código de transferência:", transferCode);
         } else {
-            console.log("Cadastrando veículo:", carData, "Imagem única:", carImage);
+            // Validação estrita dos campos obrigatórios
+            if (!carData.modelo || !carData.marca || !carData.placa || !carData.cor || !carData.ano) {
+                alert("Por favor, preencha todos os campos do formulário.");
+                return;
+            }
+
+            if (carData.ano.length < 4) {
+                alert("O ano precisa ter exatamente 4 dígitos.");
+                return;
+            }
+
+            try {
+                const storageUser = localStorage.getItem("user");
+
+                if (!storageUser) {
+                    alert("Usuário não identificado. Faça login novamente.");
+                    return;
+                }
+
+                const userLogged = JSON.parse(storageUser);
+
+                const novoVeiculo = {
+                    modelo: carData.modelo,
+                    marca: carData.marca,
+                    placa: carData.placa,
+                    ano: parseInt(carData.ano, 10),
+                    cor: carData.cor,
+                    usuario_id: userLogged.id, 
+                    imagemUrl: carImage,
+                    dataCadastro: new Date().toISOString()
+                };
+
+                const response = await fetch(`${JSON_SERVER_URL}/vehicles`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(novoVeiculo)
+                });
+
+                if (response.ok) {
+                    const dadosSalvos = await response.json();
+                    alert(`Veículo ${dadosSalvos.modelo} cadastrado com sucesso no ambiente de testes!`);
+                    handleCancel();
+                } else {
+                    alert("Erro ao salvar no json-server.");
+                }
+
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                alert("Verifique se o seu json-server está rodando na porta correta.");
+            }
         }
     };
 
@@ -118,7 +197,7 @@ const IntermediateScreen = () => {
                                     <Input
                                         name="transferCode"
                                         value={transferCode}
-                                        onChange={(e) => setTransferCode(e.target.value)}
+                                        onChange={(e) => setTransferCode(e.target.value.toUpperCase())}
                                         placeholder="Ex: XYZ-1234"
                                     />
                                 </div>
@@ -166,15 +245,39 @@ const IntermediateScreen = () => {
                                     </div>
                                     <div className="formInputGroup">
                                         <label>Placa</label>
-                                        <Input name="placa" value={carData.placa} onChange={handleChange} />
+                                        <Input
+                                            name="placa"
+                                            value={carData.placa}
+                                            onChange={handleChange}
+                                            maxLength={7}
+                                        />
                                     </div>
+
                                     <div className="formInputGroup">
                                         <label>Ano</label>
-                                        <Input name="ano" value={carData.ano} onChange={handleChange} />
+                                        <Input
+                                            name="ano"
+                                            value={carData.ano}
+                                            onChange={handleChange}
+                                            inputMode="numeric"
+                                            maxLength={4}
+                                        />
                                     </div>
                                     <div className="formInputGroup">
                                         <label>Cor</label>
-                                        <Input name="cor" value={carData.cor} onChange={handleChange} />
+                                        <select
+                                            name="cor"
+                                            value={carData.cor}
+                                            onChange={handleChange}
+                                            className="classSelectCor"
+                                        >
+                                            <option value="" disabled></option>
+                                            {CORES_VEICULO.map((cor) => (
+                                                <option key={cor.value} value={cor.value}>
+                                                    {cor.label}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
 
                                     <div className="formActionButtons">

@@ -1,6 +1,7 @@
 import './Input.css'
 
-const Input = ({ type = 'text', placeholder, name, value, onChange }) => {
+// Usamos o ...props para pegar qualquer outra propriedade enviada
+const Input = ({ type = 'text', placeholder, name, value, onChange, ...props }) => {
   return (
     <input 
       className="inputDefault" 
@@ -9,8 +10,9 @@ const Input = ({ type = 'text', placeholder, name, value, onChange }) => {
       name={name}
       value={value}
       onChange={onChange}
+      {...props} // Aplica automaticamente propriedades como maxLength ou inputmode
     />
   )
 }
 
-export default Input
+export default Input;
