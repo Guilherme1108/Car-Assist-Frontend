@@ -8,3 +8,10 @@
   --tertiary-color: #2A2A2A;
   --border-primary: #cececef5;
 }
+
+.naoSelecionavel {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE10+/Edge antigo */
+  user-select: none;         /* Padrão para Chrome, Opera e Edge moderno */
+}

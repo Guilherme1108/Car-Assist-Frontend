@@ -7,7 +7,6 @@ import { ImagePlus, X } from "lucide-react";
 
 const IntermediateScreen = () => {
     const [activeTab, setActiveTab] = useState("acquire");
-
     const [isFormVisibleMobile, setIsFormVisibleMobile] = useState(false);
 
     const [transferCode, setTransferCode] = useState("");
@@ -28,22 +27,38 @@ const IntermediateScreen = () => {
     };
 
     const handleImageChange = (e) => {
-        const file = e.target.files;
-        if (!file) return;
+        if (!e || !e.target || !e.target.files || e.target.files.length === 0) {
+            return;
+        }
+
+        // Transforma em Array idêntico à tela de manutenção
+        const files = Array.from(e.target.files);
+        const file = files[0];
 
         const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
         if (!allowedTypes.includes(file.type)) {
             alert("Apenas arquivos PNG ou JPEG são permitidos.");
+            e.target.value = ""; 
             return;
         }
+
+        if (carImage) {
+            URL.revokeObjectURL(carImage);
+        }
+
         setCarImage(URL.createObjectURL(file));
+        e.target.value = ""; 
     };
 
     const handleRemoveImage = (e) => {
         if (e) e.preventDefault();
-        if (carImage) URL.revokeObjectURL(carImage);
+        if (carImage) {
+            URL.revokeObjectURL(carImage); 
+        }
         setCarImage(null);
-        if (fileInputRef.current) fileInputRef.current.value = "";
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
     };
 
     const handleSelectTabMobile = (tabName) => {
@@ -62,7 +77,7 @@ const IntermediateScreen = () => {
         if (activeTab === "acquire") {
             console.log("Enviando código de transferência:", transferCode);
         } else {
-            console.log("Cadastrando veículo:", carData, "Imagem:", carImage);
+            console.log("Cadastrando veículo:", carData, "Imagem única:", carImage);
         }
     };
 
@@ -72,7 +87,6 @@ const IntermediateScreen = () => {
                 <h1 className="screenTitle">ADQUIRIR CARRO</h1>
 
                 <div className="contentCard">
-
                     <div className={`buttonsArea ${isFormVisibleMobile ? 'hideOnMobile' : ''}`}>
                         <Button
                             className={`acquireVehicleButton ${activeTab === 'acquire' ? 'active' : ''}`}
@@ -95,7 +109,6 @@ const IntermediateScreen = () => {
                     </div>
 
                     <div className={`formsArea ${isFormVisibleMobile ? 'showOnMobile' : 'hideOnMobile'}`}>
-
                         {activeTab === "acquire" && (
                             <div className="codeVehicle">
                                 <p className="instructionText">
@@ -135,7 +148,7 @@ const IntermediateScreen = () => {
                                     ) : (
                                         <div className="carPhotoPreview">
                                             <img src={carImage} alt="Preview" />
-                                            <button className="removePhotoBtn" onClick={handleRemoveImage}>
+                                            <button className="removeBtn" onClick={handleRemoveImage}>
                                                 <X size={16} />
                                             </button>
                                         </div>
@@ -171,7 +184,6 @@ const IntermediateScreen = () => {
                                 </form>
                             </div>
                         )}
-
                     </div>
                 </div>
             </main>

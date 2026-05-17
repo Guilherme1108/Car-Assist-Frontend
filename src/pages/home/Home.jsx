@@ -53,7 +53,7 @@ const HomeScreen = () => {
   return (
     <div className="homeScreen">
       {myCars.length > 0 && (
-        <span className="backgorundCarName">{myCars[currentCarIndex].name}</span>
+        <span className="backgorundCarName naoSelecionavel">{myCars[currentCarIndex].name}</span>
       )}
 
       <span className="titleHome">Garagem</span>

@@ -178,6 +178,7 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         flex-direction: row;
         border: 1px solid #ededed;
+        height: 600px;
     }
 
     .buttonsArea {
