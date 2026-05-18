@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Home.css";
-import defaultCarImage from "../../assets/imagem_carro_card.jpg";
+import defaultCarImage from "../../assets/carNotFOund.png";
 import { useNavigate } from "react-router-dom";
 import { CopyPlus, ChevronLeft, ChevronRight, CarFront } from "lucide-react";
 import NavBar from "../../components/navBar/NavBar";

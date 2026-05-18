@@ -7,7 +7,7 @@ const CarCard = ({ car, onNavigate, scoreClass }) => {
     
     <div
       className="card"
-      onClick={() => onNavigate("./veiculo")}
+      onClick={() => onNavigate(`/home/veiculo/${car.id}`)}
     >
 
       <img className="imgCar" src={car.image} alt={car.name} />

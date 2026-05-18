@@ -17,7 +17,7 @@ const NavBar = () => {
 
       <div className="containerIcons">
         <div
-          className={`item ${isActive("/services") ? "active" : ""}`}
+          className={`item ${isActive("/servicos") ? "active" : ""}`}
           onClick={() => navigate("/servicos")}
         >
           <Wrench size={32} />
@@ -33,7 +33,7 @@ const NavBar = () => {
         </div>
 
         <div
-          className={`item ${isActive("/profile") ? "active" : ""}`}
+          className={`item ${isActive("/perfil") ? "active" : ""}`}
           onClick={() => navigate("/perfil")}
         >
           <User size={32} />

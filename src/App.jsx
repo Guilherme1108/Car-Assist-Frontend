@@ -9,26 +9,30 @@ import MaintenanceScreen from './pages/maintenance/Maintenance'
 import ExpensesScreen from './pages/expenses/Expenses'
 import ProfileScreen from './pages/profile/Profile'
 import ServiceScreen from './pages/servicesScreen/Service'
-import IntermediateScreen from './pages/intermediateScreen/IntermediateScreen'
+import NewCarScreen from './pages/newCar/NewCar'
 import NewMaintenence from './pages/newMaintenence/NewMaintenence'
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
+
         <Route path="/" element={<LoginScreen />} />
         <Route path="/cadastro" element={<RegisterAccountScreen />} />
-        <Route path="/home" element={<HomeScreen/>} />
-        <Route path="/home/veiculo" element={<VehicleScreen/>} />
-        <Route path="/home/veiculo/manutencao" element={<MaintenanceScreen/>} />
-        <Route path="/home/veiculo/manutencao/criar" element={<NewMaintenence/>} />
-        <Route path="/home/veiculo/gastos" element={<ExpensesScreen/>} />
-        <Route path="/perfil" element={<ProfileScreen/>} />
-        <Route path="/servicos" element={<ServiceScreen/>} />
-        <Route path="/home/cadastrarveiculo" element={<IntermediateScreen/>} />
+        
+
+        <Route path="/home" element={<HomeScreen />} />
+        <Route path="/perfil" element={<ProfileScreen />} />
+        <Route path="/servicos" element={<ServiceScreen />} />
+        <Route path="/home/cadastrarveiculo" element={<NewCarScreen />} />
+        
+        <Route path="/home/veiculo/:id" element={<VehicleScreen />} />
+        <Route path="/home/veiculo/:id/manutencao" element={<MaintenanceScreen />} />
+        <Route path="/home/veiculo/:id/manutencao/criar" element={<NewMaintenence />} />
+        <Route path="/home/veiculo/:id/gastos" element={<ExpensesScreen />} />
       </Route>
     </Routes>
-  )
+  );
 }
 
 export default App
