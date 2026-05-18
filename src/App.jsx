@@ -26,10 +26,10 @@ function App() {
         <Route path="/servicos" element={<ServiceScreen />} />
         <Route path="/home/cadastrarveiculo" element={<NewCarScreen />} />
         
-        <Route path="/home/veiculo/:id" element={<VehicleScreen />} />
-        <Route path="/home/veiculo/:id/manutencao" element={<MaintenanceScreen />} />
-        <Route path="/home/veiculo/:id/manutencao/criar" element={<NewMaintenence />} />
-        <Route path="/home/veiculo/:id/gastos" element={<ExpensesScreen />} />
+        <Route path="/home/veiculo" element={<VehicleScreen />} />
+        <Route path="/home/veiculo/manutencao" element={<MaintenanceScreen />} />
+        <Route path="/home/veiculo/manutencao/criar" element={<NewMaintenence />} />
+        <Route path="/home/veiculo/gastos" element={<ExpensesScreen />} />
       </Route>
     </Routes>
   );
