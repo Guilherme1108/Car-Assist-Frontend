@@ -116,5 +116,29 @@
       "id": "E4QEiPZUfTs"
     }
   ],
+  "vehicles": [
+    {
+      "modelo": "Clio",
+      "marca": "Renault",
+      "placa": "fnh8576",
+      "ano": "2014",
+      "cor": "prata",
+      "usuario_id": 3,
+      "imagemUrl": "blob:http://localhost:5173/634ce8e7-05f5-474c-a2cb-6edaeb31785b",
+      "dataCadastro": "2026-05-17T19:38:30.669Z",
+      "id": "X9P6FIlNsd0"
+    },
+    {
+      "modelo": "dsfsacx",
+      "marca": "vdsaaz\\",
+      "placa": "ds42ac3",
+      "ano": "dsdf",
+      "cor": "PRETO",
+      "usuario_id": 3,
+      "imagemUrl": "blob:http://localhost:5173/4b2306be-b8a2-4ef1-a8df-47c38437cbd8",
+      "dataCadastro": "2026-05-17T19:56:54.743Z",
+      "id": "LSz-YebMcVs"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

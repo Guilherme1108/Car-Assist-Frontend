@@ -1,0 +1,245 @@
+.profileScreen {
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    padding-bottom: 100px;
+    box-sizing: border-box;
+}
+
+.topHeaderActions {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 24px 0 24px;
+    box-sizing: border-box;
+}
+
+.btnLogout {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btnLogout:hover {
+    opacity: 0.8;
+}
+
+.profileContainer {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px 24px 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.profileTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.avatarWrapper {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    overflow: visible;
+}
+
+.avatarWrapper.activeEditable {
+    cursor: pointer;
+}
+
+.userProfileImage {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: solid 2px #e2e8f0;
+}
+
+.avatarIcon {
+    width: 100%;
+    height: 100%;
+    color: #000000;
+}
+
+.avatarOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.avatarWrapper.activeEditable:hover .avatarOverlay {
+    opacity: 1;
+}
+
+.removeAvatarBtn {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background-color: #ef4444;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+    z-index: 5;
+    transition: transform 0.1s;
+}
+
+.removeAvatarBtn:hover {
+    transform: scale(1.1);
+}
+
+.btnEnableEdit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #222222;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 32px;
+    transition: background-color 0.2s;
+}
+
+.btnEnableEdit:hover {
+    background-color: #444444;
+}
+
+.profileForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profileInputGroup {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profileInputGroup label {
+    font-size: 0.9rem;
+    color: #444444;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+}
+
+.profileInputGroup input:disabled,
+.profileInputGroup input[type="date"]:disabled {
+    background-color: #f1f5f9 !important;
+    color: #64748b !important;
+    cursor: not-allowed;
+    border-color: #e2e8f0 !important;
+    -webkit-text-fill-color: #64748b !important; 
+    opacity: 1 !important; 
+}
+
+.profileActionButtons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.btnCancelProfile {
+    flex: 1;
+    height: 52px;
+    background-color: #ffffff !important;
+    color: #222222 !important;
+    border: solid 1.5px #e2e8f0 !important;
+    border-radius: 12px !important;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btnCancelProfile:hover {
+    background-color: #f8fafc !important;
+}
+
+.btnSaveProfile {
+    flex: 1;
+    height: 52px;
+    background-color: #dc2626 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 12px !important;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btnSaveProfile:hover {
+    background-color: #b91c1c !important;
+}
+
+.loadingContainer {
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+@media (min-width: 1024px) {
+    .profileScreen {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 80%;
+        height: 100%;
+        justify-content: center;
+        padding-bottom: 0px;
+    }
+
+    .profileContainer {
+        border-radius: 24px;
+        padding: 48px;
+        max-width: none;
+    }
+}
