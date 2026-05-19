@@ -69,3 +69,10 @@
         font-size: 1.25rem;
     }
 }
+
+@media (max-height: 740px) {
+    .inputDefault {
+        padding: 16px;
+        font-size: 16px;
+    }
+}
