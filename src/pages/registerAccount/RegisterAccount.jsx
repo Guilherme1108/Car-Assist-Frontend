@@ -134,6 +134,7 @@ const RegisterAccountScreen = ({onToggle}) => {
             onChange={handleChange}
             type="password"
             placeholder="Crie uma senha"
+            canToggleVisibility
           />
         </div>
 
@@ -145,6 +146,7 @@ const RegisterAccountScreen = ({onToggle}) => {
             onChange={handleChange}
             type="password"
             placeholder="Escreva a mesma senha"
+            canToggleVisibility
           />
         </div>
       </div>

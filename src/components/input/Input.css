@@ -1,7 +1,13 @@
+.inputContainer {
+    position: relative;
+    width: 100%;
+}
+
 .inputDefault {
     height: 16px;
     width: 100%;
     padding: 16px;
+    padding-right: 50px;
     border: none;
     outline: none;
     border-radius: 8px;
@@ -10,7 +16,25 @@
     font-size: 16px;
 }
 
-/* Muda a cor do texto dd/mm/aaaa quando está vazio */
+.togglePasswordButton {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #777;
+    transition: 0.2s;
+}
+
+.togglePasswordButton:hover {
+    color: var(--red-primary);
+}
+
 .inputDefault[type="date"]::-webkit-datetime-edit-text,
 .inputDefault[type="date"]::-webkit-datetime-edit-month-field,
 .inputDefault[type="date"]::-webkit-datetime-edit-day-field,
@@ -18,7 +42,6 @@
     color: #999;
 }
 
-/* Voltar para preto quando digitar */
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-text,
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-month-field,
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-day-field,

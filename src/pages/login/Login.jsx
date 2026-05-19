@@ -118,6 +118,7 @@ const handleChange = (e) => {
             name="password"
             value={credentials.password}
             onChange={handleChange}
+            canToggleVisibility
           />
 
           <Button text="Login" variant="primary" onClick={handleLogin} />

@@ -309,6 +309,7 @@ const ProfileScreen = () => {
                                 value={profileData.senha}
                                 onChange={handleChange}
                                 placeholder="Confirme a senha se desejar alterar"
+                                canToggleVisibility
                             />
                         </div>
                     )}
