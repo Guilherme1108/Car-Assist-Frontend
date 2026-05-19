@@ -54,14 +54,6 @@
 @media (min-width: 1024px) {
 
     .registerAccountScreen {
-        position: relative;
-        display: flex;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 9999;
         padding-top: 25px;
         padding-bottom: 25px;
         background-color: white;
