@@ -342,6 +342,9 @@ div.filledBar.high-score {
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
+        transition:
+            transform 0.4s ease,
+            box-shadow 0.4s ease;
     }
 
     .cards::-webkit-scrollbar {
@@ -354,6 +357,14 @@ div.filledBar.high-score {
         display: flex;
         justify-content: center;
         scroll-snap-align: center;
+        transition:
+            transform 0.4s ease,
+            opacity 0.4s ease,
+            filter 0.4s ease;
+
+        opacity: 0.5;
+
+        transform: scale(0.85);
     }
 
     .carouselBtn {
@@ -442,5 +453,34 @@ div.filledBar.high-score {
         border-radius: 12px;
         border: solid 2px var(--primary-color);
         cursor: pointer;
+    }
+
+    .carouselItem.active .card {
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .carouselItem.active {
+        opacity: 1;
+    
+        transform: scale(1);
+    
+        z-index: 5;
+    }
+
+    .carouselItem.left {
+        transform:
+            translateX(-40px)
+            scale(0.85);
+    
+        opacity: 0.5;
+    }
+
+    .carouselItem.right {
+        transform:
+            translateX(40px)
+            scale(0.85);
+    
+        opacity: 0.5;
     }
 }

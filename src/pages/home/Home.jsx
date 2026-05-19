@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Home.css";
 import defaultCarImage from "../../assets/carNotFOund.png";
-import {useNavigate} from "react-router-dom";
-import {CopyPlus, ChevronLeft, ChevronRight, CarFront} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { CopyPlus, ChevronLeft, ChevronRight, CarFront } from "lucide-react";
 import NavBar from "../../components/navBar/NavBar";
 import CarCard from "../../components/carCard/CarCard.jsx";
 import api from "../../services/api";
@@ -140,7 +140,7 @@ const HomeScreen = () => {
         <div className="bar">
           <div
             className={`filledBar ${scoreColorClass}`}
-            style={{width: `${garageAverageScore}%`}}
+            style={{ width: `${garageAverageScore}%` }}
           ></div>
         </div>
       </div>
@@ -159,10 +159,18 @@ const HomeScreen = () => {
           <div
             className="cards"
             ref={carouselRef}
-            style={{overflowX: "hidden"}}
+            style={{ overflowX: "hidden" }}
           >
-            {vehicles.map((vehicle) => (
-              <div key={vehicle.id} className="carouselItem">
+            {vehicles.map((vehicle, index) => (
+              <div
+                key={vehicle.id}
+                className={`carouselItem ${index === currentVehicleIndex
+                    ? "active"
+                    : index < currentVehicleIndex
+                      ? "left"
+                      : "right"
+                  }`}
+              >
                 <CarCard
                   car={vehicle}
                   onNavigate={navigate}
