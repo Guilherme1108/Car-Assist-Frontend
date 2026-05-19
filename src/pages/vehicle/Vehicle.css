@@ -16,13 +16,11 @@
     flex-direction: column;
     padding: 22px 18px;
     border-radius: 12px;
-    background: linear-gradient(
-    to bottom, 
-    #ffffff 0%, 
-    #a8a8a8 48%, 
-    #a8a8a8 52%, 
-    #ffffff 100%
-  );
+    background: linear-gradient(to bottom,
+            #ffffff 0%,
+            #a8a8a8 48%,
+            #a8a8a8 52%,
+            #ffffff 100%);
 
 }
 
@@ -142,6 +140,51 @@
     cursor: pointer;
 }
 
+.vehicleScreen.loadingContainer.errorScreen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+/* Título do erro */
+.titleVeiculo {
+    font-size: 1.5rem;
+    color: #333333;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Botão estilizado seguindo o padrão do seu projeto */
+.btnVoltar {
+    height: 50px;
+    padding: 0 24px;
+    background-color: var(--primary-color, #ef4444);
+    /* Usa sua cor primária ou um fallback */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.btnVoltar:hover {
+    filter: brightness(0.9);
+    /* Escurece levemente no hover */
+}
+
+.btnVoltar:active {
+    transform: scale(0.98);
+    /* Efeito de clique */
+}
+
 @media (min-width: 500px) {
     .carImage {
         height: 300px;
@@ -149,6 +192,16 @@
 }
 
 @media (min-width: 768px) {
+
+    .titleVeiculo {
+        font-size: 2rem;
+    }
+
+    .btnVoltar {
+        font-size: 1.1rem;
+        padding: 0 32px;
+    }
+
     .carImage {
         height: 400px;
         width: 60%;

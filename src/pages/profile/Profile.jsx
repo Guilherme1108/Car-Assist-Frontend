@@ -25,23 +25,23 @@ const ProfileScreen = () => {
     const [userImage, setUserImage] = useState(null);
     const [imageError, setImageError] = useState(false);
 
-const formatDateForInput = (isoString) => {
-    if (!isoString) return "";
-    try {
-        const str = String(isoString);
-        return str.includes("T") ? str.substr(0, 10) : str;
-    } catch (e) {
-        return "";
-    }
-};
+    const formatDateForInput = (isoString) => {
+        if (!isoString) return "";
+        try {
+            const str = String(isoString);
+            return str.includes("T") ? str.substr(0, 10) : str;
+        } catch (e) {
+            return "";
+        }
+    };
 
-const formatDateForBackend = (dateString) => {
-    if (!dateString) return "";
-    
-    const actualString = Array.isArray(dateString) ? dateString : dateString;
-    
-    return String(actualString).substr(0, 10);
-};
+    const formatDateForBackend = (dateString) => {
+        if (!dateString) return "";
+
+        const actualString = Array.isArray(dateString) ? dateString : dateString;
+
+        return String(actualString).substr(0, 10);
+    };
     useEffect(() => {
         const loadUserData = () => {
             try {
@@ -198,6 +198,7 @@ const formatDateForBackend = (dateString) => {
     return (
         <div className="profileScreen">
             <div className="topHeaderActions">
+                <h1 className="profileTitle">MEU PERFIL</h1>
                 <button className="btnLogout" onClick={handleLogout}>
                     <LogOut size={20} />
                     Sair do App
@@ -205,7 +206,6 @@ const formatDateForBackend = (dateString) => {
             </div>
 
             <main className="profileContainer">
-                <h1 className="profileTitle">MEU PERFIL</h1>
 
                 <input
                     type="file"

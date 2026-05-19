@@ -122,7 +122,6 @@ const HomeScreen = () => {
 
   return (
     <div className="homeScreen">
-      {/* CORREÇÃO VISUAL: Ajustado de .name para .modelo e adicionado trava de segurança */}
       {vehicles.length > 0 && vehicles[currentVehicleIndex] && (
         <span className="backgorundCarName naoSelecionavel">
           {vehicles[currentVehicleIndex].modelo}
@@ -185,9 +184,8 @@ const HomeScreen = () => {
       ) : (
         <div
           className="emptyGarageText"
-          style={{textAlign: "center", margin: "40px 0", color: "#666"}}
         >
-          <p>Você ainda não possui veículos cadastrados nesta garagem.</p>
+          <p>Você ainda não possui veículos cadastrados na sua garagem.</p>
         </div>
       )}
 

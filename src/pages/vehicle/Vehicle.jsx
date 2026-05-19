@@ -13,14 +13,13 @@ const VehicleScreen = () => {
 
   if (!vehicle) {
     return (
-      <div className="vehicleScreen loadingContainer">
+      <div className="vehicleScreen loadingContainer errorScreen">
         <h1 className="titleVeiculo">Acesso negado ou veículo não informado.</h1>
-        <button onClick={() => navigate("/home")} style={{ marginTop: "20px", padding: "10px 20px" }}>
+        <button className="btnVoltar" onClick={() => navigate("/home")}>
           Voltar para a Garagem
         </button>
 
-        <NavBar />
-        
+        <NavBar></NavBar>
       </div>
     );
   }
@@ -33,10 +32,10 @@ const VehicleScreen = () => {
           <SquarePen size={32} className="btnEditar" />
         </div>
 
-        <img 
-          src={vehicle.foto_veiculo ? vehicle.foto_veiculo : defaultCarImage} 
-          alt={vehicle.modelo || vehicle.name} 
-          className="carImage" 
+        <img
+          src={vehicle.foto_veiculo ? vehicle.foto_veiculo : defaultCarImage}
+          alt={vehicle.modelo || vehicle.name}
+          className="carImage"
         />
 
         <div className="carInformations">
@@ -69,8 +68,8 @@ const VehicleScreen = () => {
       </li>
 
       <div className="containerButtons">
-        <button 
-          className="buttonGastos" 
+        <button
+          className="buttonGastos"
           onClick={() => navigate("./gastos")}
         >
           Gastos

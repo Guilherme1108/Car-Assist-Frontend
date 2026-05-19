@@ -4,9 +4,11 @@ import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import NavBar from '../../components/navBar/NavBar';
 import { ImagePlus, X } from "lucide-react";
-import api from "../../services/api"; // Importa a instância configurada do Axios
+import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const NewCarScreen = () => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("acquire");
     const [isFormVisibleMobile, setIsFormVisibleMobile] = useState(false);
 
@@ -141,6 +143,7 @@ const NewCarScreen = () => {
                 if (response.data && response.data.status) {
                     alert("Veículo cadastrado com sucesso!");
                     handleCancel();
+                    navigate("/home");
                 } else {
                     alert(response.data?.message || "Erro ao cadastrar o veículo.");
                 }
