@@ -30,7 +30,7 @@
 @media (min-width: 1024px) {
     .topBar {
         align-items: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);  DESATIVADO PARA CORRIGIR A TELA DE LOGIN, ANALISAR SE NÃO QUEBRA O RESTO*/
     }
 
     .logo {

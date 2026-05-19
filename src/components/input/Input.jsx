@@ -44,7 +44,7 @@ const Input = ({
           className="togglePasswordButton"
           onClick={() => setShowText(!showText)}
         >
-          {showText ? <EyeOff size={18} /> : <Eye size={18} />}
+          {showText ? <Eye size={18} /> : <EyeOff size={18} />}
         </button>
       )}
 

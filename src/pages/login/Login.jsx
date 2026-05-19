@@ -86,7 +86,6 @@ const handleChange = (e) => {
 
   return (
     <div className={`loginScreen ${isRegister ? 'active-register' : ''}`}>
-      <img src={imagemCarro} alt="Carro" className="imgCarroLogin" />
 
       <div className="cadastroLeftSide">
         <RegisterAccountScreen className="registerAccountInLogin" onToggle={toggleMode}></RegisterAccountScreen>
