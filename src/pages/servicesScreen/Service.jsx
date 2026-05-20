@@ -1,8 +1,13 @@
 import "./Service.css"
+import NavBar from "../../components/navBar/NavBar";
 
 const ServiceScreen = () => {
-    return(
-        <h1>Serviço</h1>
+    return (
+        <div className="serviceScreen">
+
+            <NavBar></NavBar>
+
+        </div>
     )
 }
 

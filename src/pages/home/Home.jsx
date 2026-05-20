@@ -9,15 +9,18 @@ import api from "../../services/api";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
+
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentVehicleIndex, setCurrentVehicleIndex] = useState(0);
+
   const carouselRef = useRef(null);
 
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
         const storageUser = localStorage.getItem("user");
+
         if (!storageUser) {
           alert("Sessão expirada. Faça login novamente.");
           navigate("/");
@@ -35,6 +38,7 @@ const HomeScreen = () => {
 
           const parsedVehicles = userVehicleRelations.map((relation) => {
             const vehicle = relation.veiculo;
+
             return {
               id: vehicle.id,
               modelo: vehicle.modelo,
@@ -53,7 +57,7 @@ const HomeScreen = () => {
           setVehicles(parsedVehicles);
         }
       } catch (error) {
-        console.error("Erro ao buscar veículos do backend:", error);
+        console.error("Erro ao buscar veículos:", error);
 
         if (error.response?.status === 404) {
           setVehicles([]);
@@ -70,16 +74,19 @@ const HomeScreen = () => {
 
   const calculateGarageAverageScore = () => {
     if (vehicles.length === 0) return 0;
+
     const totalScore = vehicles.reduce(
       (accumulator, vehicle) => accumulator + vehicle.points,
-      0,
+      0
     );
+
     return Math.round(totalScore / vehicles.length);
   };
 
   const getScoreColorClass = (score) => {
     if (score < 50) return "low-score";
     if (score <= 70) return "medium-score";
+
     return "high-score";
   };
 
@@ -88,11 +95,11 @@ const HomeScreen = () => {
 
   const scrollToVehicle = (index) => {
     if (carouselRef.current) {
-      const cardWidth = carouselRef.current.firstChild?.offsetWidth || 300;
-      const gap = 20;
+      const cardWidth =
+        carouselRef.current.firstChild?.offsetWidth || 300;
 
       carouselRef.current.scrollTo({
-        left: index * (cardWidth + gap),
+        left: index * cardWidth,
         behavior: "smooth",
       });
 
@@ -115,18 +122,21 @@ const HomeScreen = () => {
   if (loading) {
     return (
       <div className="homeScreen loadingContainer">
-        <span className="titleHome">Carregando Garagem...</span>
+        <span className="titleHome">
+          Carregando Garagem...
+        </span>
       </div>
     );
   }
 
   return (
     <div className="homeScreen">
-      {vehicles.length > 0 && vehicles[currentVehicleIndex] && (
-        <span className="backgorundCarName naoSelecionavel">
-          {vehicles[currentVehicleIndex].modelo}
-        </span>
-      )}
+      {vehicles.length > 0 &&
+        vehicles[currentVehicleIndex] && (
+          <span className="backgorundCarName naoSelecionavel">
+            {vehicles[currentVehicleIndex].modelo}
+          </span>
+        )}
 
       <span className="titleHome">Garagem</span>
 
@@ -135,12 +145,18 @@ const HomeScreen = () => {
           <span className={`garagePoints ${scoreColorClass}`}>
             {garageAverageScore}
           </span>
-          <p className="textScore">Score da garagem</p>
+
+          <p className="textScore">
+            Score da garagem
+          </p>
         </div>
+
         <div className="bar">
           <div
             className={`filledBar ${scoreColorClass}`}
-            style={{ width: `${garageAverageScore}%` }}
+            style={{
+              width: `${garageAverageScore}%`,
+            }}
           ></div>
         </div>
       </div>
@@ -156,20 +172,11 @@ const HomeScreen = () => {
             <ChevronLeft size={32} />
           </button>
 
-          <div
-            className="cards"
-            ref={carouselRef}
-            style={{ overflowX: "hidden" }}
-          >
-            {vehicles.map((vehicle, index) => (
+          <div className="cards" ref={carouselRef}>
+            {vehicles.map((vehicle) => (
               <div
                 key={vehicle.id}
-                className={`carouselItem ${index === currentVehicleIndex
-                    ? "active"
-                    : index < currentVehicleIndex
-                      ? "left"
-                      : "right"
-                  }`}
+                className="carouselItem"
               >
                 <CarCard
                   car={vehicle}
@@ -183,34 +190,48 @@ const HomeScreen = () => {
           <button
             className="carouselBtn next"
             onClick={scrollRight}
-            disabled={currentVehicleIndex === vehicles.length - 1}
+            disabled={
+              currentVehicleIndex === vehicles.length - 1
+            }
             aria-label="Avançar"
           >
             <ChevronRight size={32} />
           </button>
         </div>
       ) : (
-        <div
-          className="emptyGarageText"
-        >
-          <p>Você ainda não possui veículos cadastrados na sua garagem.</p>
+        <div className="emptyGarageText">
+          <p>
+            Você ainda não possui veículos cadastrados
+            na sua garagem.
+          </p>
         </div>
       )}
 
       <div className="addCarArea">
-        <CarFront className="iconCarFront"></CarFront>
-        <span className="textAddCar primaryText">Adicione um novo carro</span>
+        <CarFront className="iconCarFront" />
+
+        <span className="textAddCar primaryText">
+          Adicione um novo carro
+        </span>
+
         <span className="textAddCar">
           Mantenha seu perfil sempre atualizado
         </span>
+
         <button
           className="addCarButton"
           onClick={() => {
             navigate("./cadastrarveiculo");
           }}
         >
-          <CopyPlus className="iconAddCarButton" size={18} />
-          <p className="textScore">Adicionar Carro</p>
+          <CopyPlus
+            className="iconAddCarButton"
+            size={18}
+          />
+
+          <p className="textScore">
+            Adicionar Carro
+          </p>
         </button>
       </div>
 
