@@ -295,16 +295,34 @@ div.filledBar.high-score {
         height: auto;
         width: 450px;
         gap: 24px;
+        transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card:active {
+        transform: scale(0.97);
     }
 
     .carouselBtn.prev {
         left: -30px;
+        transition: transform 0.2s ease;
     }
 
     .carouselBtn.next {
         right: -30px;
+        transition: transform 0.2s ease;
     }
 
+    .carouselBtn.prev:hover {
+        background-color: #e7e7e7;
+    }
+
+        .carouselBtn.next:hover {
+        background-color: #e7e7e7;
+    }
 
     .titleHome {
         display: flex;
@@ -397,6 +415,11 @@ div.filledBar.high-score {
         border-radius: 6px;
     }
 
+    .carName {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
     .alinhamentoBtn {
         width: 100%;
         display: flex;
@@ -459,25 +482,23 @@ div.filledBar.high-score {
 
     .carouselItem.active {
         opacity: 1;
-    
+
         transform: scale(1);
-    
+
         z-index: 5;
     }
 
     .carouselItem.left {
         transform:
-            translateX(-40px)
-            scale(0.85);
-    
+            translateX(-40px) scale(0.85);
+
         opacity: 0.5;
     }
 
     .carouselItem.right {
         transform:
-            translateX(40px)
-            scale(0.85);
-    
+            translateX(40px) scale(0.85);
+
         opacity: 0.5;
     }
 }
