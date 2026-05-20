@@ -5,7 +5,7 @@ import Input from "../../components/input/Input";
 import NavBar from "../../components/navBar/NavBar";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
-import { LogOut, LockKeyholeOpen, Camera, Trash2 } from "lucide-react";
+import { LogOut, LockKeyhole, Camera, Trash2 } from "lucide-react";
 
 const ProfileScreen = () => {
     const navigate = useNavigate();
@@ -247,7 +247,7 @@ const ProfileScreen = () => {
 
                 {!isEditable && (
                     <button className="btnEnableEdit" onClick={() => setIsEditable(true)}>
-                        <LockKeyholeOpen size={18} />
+                        <LockKeyhole size={18} />
                         Habilitar Edição
                     </button>
                 )}

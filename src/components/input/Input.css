@@ -46,6 +46,10 @@
     color: var(--red-primary);
 }
 
+.inputDefault:focus {
+    border-color: var(--terciary-color);
+}
+
 .inputDefault[type="date"]::-webkit-datetime-edit-text,
 .inputDefault[type="date"]::-webkit-datetime-edit-month-field,
 .inputDefault[type="date"]::-webkit-datetime-edit-day-field,
