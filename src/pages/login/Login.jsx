@@ -7,6 +7,7 @@ import "./Login.css";
 import RegisterAccountScreen from "../registerAccount/RegisterAccount";
 import imagemCarro from "../../assets/imagemCarroDesktop.svg";
 import logoWhite from "../../assets/logo_white.svg";
+import carLoginImage from "../../assets/carLoginImage.svg";
 
 const LoginScreen = () => {
   const navigate = useNavigate();
@@ -97,6 +98,8 @@ const handleChange = (e) => {
         <span className="phraseLogin">
           Cuide do seu carro, valorize <br></br> seu investimento.
         </span>
+
+        <img src={carLoginImage} alt="carro" className="carLoginimage" />
       </div>
 
       <div className="loginRightSide">

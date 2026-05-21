@@ -175,7 +175,7 @@
     font-size: 16px;
     cursor: pointer;
     box-sizing: border-box;
-    color: #000000; 
+    color: #000000;
 }
 
 .classSelectCor option[value=""] {
@@ -217,11 +217,25 @@
         display: flex !important;
     }
 
+    .classSelectCor {
+        height: 52px;
+        padding: 0px 16px;
+        font-size: 1.25rem;
+    }
+
     .hideOnMobile {
         display: flex !important;
     }
 
     .showOnMobile {
         display: flex !important;
+    }
+}
+
+@media (max-height: 740px) {
+    .classSelectCor {
+        height: 32px;
+        padding: 0px 16px;
+        font-size: 1rem;
     }
 }

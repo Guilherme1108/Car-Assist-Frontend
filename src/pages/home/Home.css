@@ -46,16 +46,12 @@ div.filledBar.low-score {
     background-color: #ef4444 !important;
 }
 
-/* Aplica o fundo vermelho com texto branco no indicador do carro */
 .carPoints.low-score {
     background-color: #ef4444 !important;
     color: #ffffff !important;
 }
 
 
-/* ==========================================
-   Controle Dinâmico de Cores (De 50 até 70)
-   ========================================== */
 .medium-score {
     color: #f59e0b !important;
 }
@@ -64,26 +60,20 @@ div.filledBar.medium-score {
     background-color: #f59e0b !important;
 }
 
-/* Aplica o fundo laranja com texto branco no indicador do carro */
 .carPoints.medium-score {
     background-color: #f59e0b !important;
     color: #ffffff !important;
 }
 
 
-/* ==========================================
-   Controle Dinâmico de Cores (Acima de 70)
-   ========================================== */
 .high-score {
     color: #34C759 !important;
-    /* Mantém o seu verde padrão atual */
 }
 
 div.filledBar.high-score {
     background-color: #34C759 !important;
 }
 
-/* Aplica o fundo verde com texto branco no indicador do carro */
 .carPoints.high-score {
     background-color: #34C759 !important;
     color: #ffffff !important;
