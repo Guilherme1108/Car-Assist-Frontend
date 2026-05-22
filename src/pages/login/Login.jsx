@@ -1,5 +1,5 @@
-import { useState } from "react"; // 1. Importar o useState
-import { useNavigate } from "react-router-dom";
+import {useState} from "react"; // 1. Importar o useState
+import {useNavigate} from "react-router-dom";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import api from "../../services/api";
@@ -8,26 +8,28 @@ import RegisterAccountScreen from "../registerAccount/RegisterAccount";
 import imagemCarro from "../../assets/imagemCarroDesktop.svg";
 import logoWhite from "../../assets/logo_white.svg";
 import carLoginImage from "../../assets/carLoginImage.svg";
+import Lottie from "lottie-react";
+import animacaoCar from "../../assets/animations/animacao-car.json";
 
 const LoginScreen = () => {
   const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
-  email: "",
-  password: "",
-});
-
-const handleChange = (e) => {
-  const { name, value } = e.target;
-
-  setCredentials({
-    ...credentials,
-    [name]: value,
+    email: "",
+    password: "",
   });
-};
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+
+    setCredentials({
+      ...credentials,
+      [name]: value,
+    });
+  };
 
   const handleLogin = async () => {
-    const { email, password } = credentials;
+    const {email, password} = credentials;
 
     if (!email || !password) {
       alert("Por favor, preencha todos os campos");
@@ -35,14 +37,11 @@ const handleChange = (e) => {
     }
 
     try {
-
       // Endpoint atual do backend
-      const response = await api.post(
-        `/usuario/login`, {
-          email,
-          password
-        }
-      );
+      const response = await api.post(`/usuario/login`, {
+        email,
+        password,
+      });
 
       console.log(response.data);
 
@@ -53,22 +52,14 @@ const handleChange = (e) => {
         return;
       }
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(user)
-      );
+      localStorage.setItem("user", JSON.stringify(user));
 
       navigate("/home");
-
     } catch (error) {
       console.log(error);
 
-      alert(
-        error.response?.data?.message ||
-        "Erro ao fazer login"
-      );
+      alert(error.response?.data?.message || "Erro ao fazer login");
     }
-
   };
 
   const [isRegister, setIsRegister] = useState(false);
@@ -79,17 +70,22 @@ const handleChange = (e) => {
     const isDesktop = window.innerWidth >= 1024;
 
     if (isDesktop) {
-      toggleMode()
+      toggleMode();
     } else {
       navigate("/cadastro");
     }
   };
 
-  return (
-    <div className={`loginScreen ${isRegister ? 'active-register' : ''}`}>
+  console.log("Lottie:", Lottie);
+  console.log("Register:", RegisterAccountScreen);
 
+  return (
+    <div className={`loginScreen ${isRegister ? "active-register" : ""}`}>
       <div className="cadastroLeftSide">
-        <RegisterAccountScreen className="registerAccountInLogin" onToggle={toggleMode}></RegisterAccountScreen>
+        <RegisterAccountScreen
+          className="registerAccountInLogin"
+          onToggle={toggleMode}
+        ></RegisterAccountScreen>
       </div>
 
       <div className="redSide">
@@ -100,6 +96,13 @@ const handleChange = (e) => {
         </span>
 
         <img src={carLoginImage} alt="carro" className="carLoginimage" />
+
+        {/* <div className="carLoginimage">
+          <Lottie.default
+            animationData={animacaoCar}
+            loop={true}
+          />
+        </div> */}
       </div>
 
       <div className="loginRightSide">
@@ -129,9 +132,9 @@ const handleChange = (e) => {
         <div className="containerOpcoes">
           <p className="esqueciSenha">Esqueci minha senha</p>
           <p
-          className="criarConta"
+            className="criarConta"
             onClick={() => handleCreateAccountClick()}
-            style={{ cursor: "pointer" }}
+            style={{cursor: "pointer"}}
           >
             Criar uma conta
           </p>
