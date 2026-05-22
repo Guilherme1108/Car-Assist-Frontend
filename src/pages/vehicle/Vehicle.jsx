@@ -74,7 +74,10 @@ const VehicleScreen = () => {
         >
           Gastos
         </button>
-        <button className="buttonTransferencia">Transferência</button>
+        <button 
+        className="buttonTransferencia"
+        onClick={() => navigate("./transferencia")}
+        >Transferência</button>
       </div>
 
       <button

@@ -1,5 +1,4 @@
 import "./ModalGastos.css";
-// 1. CORRIGIDO: Adicionado o useEffect no import do React
 import { useState, useEffect } from "react"; 
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
@@ -12,7 +11,6 @@ const ModalGastos = ({ onClose }) => {
     value: "",
   });
 
-  // 2. CORRIGIDO: Declarando o estado para guardar as categorias da API
   const [categories, setCategories] = useState([]);
 
   const handleChange = (e) => {
