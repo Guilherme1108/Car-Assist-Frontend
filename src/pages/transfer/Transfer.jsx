@@ -58,10 +58,10 @@ const TransferScreen = () => {
           <div className="stepCircle">3</div>
           <span>Concluído</span>
         </div>
-
-        <Step1></Step1>
         
       </div>
+
+      <Step1></Step1>
 
       <NavBar></NavBar>
     </div>

@@ -1,8 +1,8 @@
-import "./Transfer.css";
+import "../Transfer.css";
 import { useState } from "react";
-import Input from "../../components/input/Input";
-import Button from "../../components/button/Button";
-import NavBar from "../../components/navBar/NavBar";
+import Input from "../../../components/input/Input";
+import Button from "../../../components/button/Button";
+import NavBar from "../../../components/navBar/NavBar";
 
 const Step1 = () => {
 
@@ -34,7 +34,6 @@ const Step1 = () => {
 
   return (
     <div className="transferContainer">
-      <h1 className="transferMainTitle">Transferência</h1>
 
       <p className="transferSubtitle">
         Informe os dados para transferência do veículo.

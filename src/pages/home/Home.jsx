@@ -48,7 +48,7 @@ const HomeScreen = () => {
               placa: vehicle.placa,
               points: parseFloat(vehicle.score) || 0,
               foto_veiculo:
-                vehicle.foto && vehicle.foto !== "civic.jpg"
+                vehicle.foto && vehicle.foto !== ""
                   ? vehicle.foto
                   : defaultCarImage,
             };

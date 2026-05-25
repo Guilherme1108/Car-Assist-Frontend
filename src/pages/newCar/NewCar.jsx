@@ -38,7 +38,9 @@ const NewCarScreen = () => {
         { value: 'FANTASIA', label: 'Fantasia (Multicor)' }
     ];
 
+    // Estados para controle da imagem
     const [carImage, setCarImage] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
     const fileInputRef = useRef(null);
 
     const handleChange = (e) => {
@@ -76,6 +78,7 @@ const NewCarScreen = () => {
         }
 
         setCarImage(URL.createObjectURL(file));
+        setImageFile(file);
         e.target.value = "";
     };
 
@@ -85,6 +88,7 @@ const NewCarScreen = () => {
             URL.revokeObjectURL(carImage);
         }
         setCarImage(null);
+        setImageFile(null);
         if (fileInputRef.current) {
             fileInputRef.current.value = "";
         }
@@ -126,19 +130,25 @@ const NewCarScreen = () => {
 
                 const userLogged = JSON.parse(storageUser);
 
-                const payloadVeiculo = {
-                    id_usuario: userLogged.id,
-                    placa: carData.placa,
-                    modelo: carData.modelo,
-                    marca: carData.marca,
-                    cor: carData.cor,
-                    ano: parseInt(carData.ano, 10),
-                    vinculo: {}, 
-                    foto_veiculo: carImage || "https://exemplo.com/imagens/carro-padrao.jpg", 
-                    is_ativo: true
-                };
+                const formData = new FormData();
+                
+                formData.append("id_usuario", userLogged.id);
+                formData.append("placa", carData.placa);
+                formData.append("modelo", carData.modelo);
+                formData.append("marca", carData.marca);
+                formData.append("cor", carData.cor);
+                formData.append("ano", parseInt(carData.ano, 10));
+                formData.append("is_ativo", true);
+                formData.append("vinculo", JSON.stringify({})); 
 
-                const response = await api.post("/veiculo-usuario", payloadVeiculo);
+                if (imageFile) {
+                    formData.append("foto_veiculo", imageFile);
+                } else {
+                    alert("Não foi possivel encontrar a foto do seu veículo");
+                }
+
+                const response = await api.post("/veiculo-usuario", formData, {
+                });
 
                 if (response.data && response.data.status) {
                     alert("Veículo cadastrado com sucesso!");
