@@ -33,7 +33,7 @@ const Step1 = () => {
   };
 
   return (
-    <div className="transferContainer">
+    <div className="step1Data">
 
       <p className="transferSubtitle">
         Informe os dados para transferência do veículo.

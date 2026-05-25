@@ -56,13 +56,10 @@
     cursor: pointer;
 }
 
-.esqueciSenha {
-    color: #FF0000;
-}
-
 @media (min-width: 768px) {
     .textWelcome {
         font-size: 2.25rem;
+        font-weight: 600;
     }
 }
 

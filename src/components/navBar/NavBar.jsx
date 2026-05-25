@@ -25,7 +25,7 @@ const NavBar = () => {
         </div>
 
         <div
-          className={`item ${isActive("/home") ? "active" : ""}`}
+          className={`item ${isActive("/home") || isActive("/home/veiculo") || isActive("/home/veiculo/gastos") || isActive("/home/veiculo/manutencao") || isActive("/home/veiculo/transferencia") ? "active" : ""}`}
           onClick={() => navigate("/home")}
         >
           <Home size={32} />

@@ -6,7 +6,7 @@
     padding: 0px 24px;
 }
 
-.transferContainer {
+.step1Data {
     min-width: 100%;
     display: flex;
     justify-content: center;
@@ -160,4 +160,16 @@
 .transferButtonContainer button {
     width: 100%;
     max-width: 280px;
+}
+
+@media (min-width: 768px) {
+    .transferScreen {
+        padding: 0px 100px;
+    }
+
+    .step1Data {
+        height: 100%;
+        display: flex;
+        justify-content: start;
+    }
 }
