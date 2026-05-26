@@ -76,9 +76,6 @@ const LoginScreen = () => {
     }
   };
 
-  console.log("Lottie:", Lottie);
-  console.log("Register:", RegisterAccountScreen);
-
   return (
     <div className={`loginScreen ${isRegister ? "active-register" : ""}`}>
       <div className="cadastroLeftSide">

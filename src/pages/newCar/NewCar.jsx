@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const NewCarScreen = () => {
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("acquire");
+    const [activeTab, setActiveTab] = useState("");
     const [isFormVisibleMobile, setIsFormVisibleMobile] = useState(false);
 
     const [transferCode, setTransferCode] = useState("");
@@ -230,7 +230,7 @@ const NewCarScreen = () => {
 
                                     {!carImage ? (
                                         <label htmlFor="car-photo" className="photoPlaceholder">
-                                            <ImagePlus size={54} strokeWidth={1.2} className="iconImagePlus" />
+                                            <ImagePlus size={100} strokeWidth={1.2} className="iconImagePlus" />
                                         </label>
                                     ) : (
                                         <div className="carPhotoPreview">
