@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"; // Importamos o useEffect
-import { useNavigate } from "react-router-dom";
+import {useState, useEffect} from "react"; // Importamos o useEffect
+import {useNavigate} from "react-router-dom";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import api from "../../services/api";
@@ -16,7 +16,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
-    
+
     if (savedUser) {
       navigate("/home");
     }
@@ -28,7 +28,7 @@ const LoginScreen = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
 
     setCredentials({
       ...credentials,
@@ -37,7 +37,7 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    const { email, password } = credentials;
+    const {email, password} = credentials;
 
     if (!email || !password) {
       alert("Por favor, preencha todos os campos");
@@ -100,36 +100,41 @@ const LoginScreen = () => {
           Cuide do seu carro, valorize <br></br> seu investimento.
         </span>
 
-        <img src={carLoginImage} alt="carro" className="carLoginimage" />
+        {/* <img src={carLoginImage} alt="carro" className="carLoginimage" /> */}
 
-        {/* <div className="carLoginimage">
-          <Lottie.default
-            animationData={animacaoCar}
-            loop={true}
-          />
-        </div> */}
+        {
+          <div className="carLoginimage">
+            <Lottie.default animationData={animacaoCar} loop={true} />
+          </div>
+        }
       </div>
 
       <div className="loginRightSide">
         <span className="textWelcome">Bem Vindo</span>
 
         <div className="containerInputsLogin">
-          <Input
-            type="text"
-            placeholder="Email"
-            name="email"
-            value={credentials.email}
-            onChange={handleChange}
-          />
+          <div className="labelInput">
+            <label>Email</label>
+            <Input
+              type="text"
+              placeholder="Email"
+              name="email"
+              value={credentials.email}
+              onChange={handleChange}
+            />
+          </div>
 
-          <Input
-            type="password"
-            placeholder="Senha"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-            canToggleVisibility
-          />
+          <div className="labelInput">
+            <label>Senha</label>
+            <Input
+              type="password"
+              placeholder="Senha"
+              name="password"
+              value={credentials.password}
+              onChange={handleChange}
+              canToggleVisibility
+            />
+          </div>
 
           <Button text="Login" variant="primary" onClick={handleLogin} />
         </div>
@@ -139,7 +144,7 @@ const LoginScreen = () => {
           <p
             className="criarConta"
             onClick={() => handleCreateAccountClick()}
-            style={{ cursor: "pointer" }}
+            style={{cursor: "pointer"}}
           >
             Criar uma conta
           </p>

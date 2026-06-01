@@ -37,6 +37,11 @@
     gap: 24px;
 }
 
+.labelInput {
+    width: 100%;
+    font-size: 1rem;
+}
+
 .senha {
     margin-bottom: 24px;
 }
@@ -60,6 +65,10 @@
     .textWelcome {
         font-size: 2.25rem;
         font-weight: 600;
+    }
+
+    .labelInput {
+        font-size: 1.25rem;
     }
 }
 
@@ -107,6 +116,10 @@
 
     .containerInputsLogin {
         z-index: 4;
+    }
+
+    .labelInput {
+        font-weight: 600;
     }
 
     .registerAccountInLogin {

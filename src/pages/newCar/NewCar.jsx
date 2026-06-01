@@ -199,7 +199,7 @@ const NewCarScreen = () => {
                         {activeTab === "acquire" && (
                             <div className="codeVehicle">
                                 <p className="instructionText">
-                                    Digite o código gerado pelo dono para confirmar a transferência
+                                    Digite o código gerado pelo proprietário para confirmar a transferência
                                 </p>
                                 <div className="formInputGroup">
                                     <Input

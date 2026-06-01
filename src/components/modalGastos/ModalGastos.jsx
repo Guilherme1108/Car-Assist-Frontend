@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import api from "../../services/api";
+import { OctagonX } from "lucide-react"
 
 const ModalGastos = ({ onClose }) => {
   const [expenseData, setExpenseData] = useState({
@@ -46,7 +47,7 @@ const ModalGastos = ({ onClose }) => {
         <div className="topModal">
           <h3 className="titleModalGastos">Inserir Gasto</h3>
           <button className="btnCloseModal" onClick={onClose}>
-            X
+            {<OctagonX size={32}></OctagonX>}
           </button>
         </div>
 
