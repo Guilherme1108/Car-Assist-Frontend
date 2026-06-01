@@ -1,5 +1,5 @@
-import {useState} from "react"; // 1. Importar o useState
-import {useNavigate} from "react-router-dom";
+import { useState, useEffect } from "react"; // Importamos o useEffect
+import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import api from "../../services/api";
@@ -14,13 +14,21 @@ import animacaoCar from "../../assets/animations/animacao-car.json";
 const LoginScreen = () => {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    
+    if (savedUser) {
+      navigate("/home");
+    }
+  }, [navigate]);
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
 
     setCredentials({
       ...credentials,
@@ -29,7 +37,7 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    const {email, password} = credentials;
+    const { email, password } = credentials;
 
     if (!email || !password) {
       alert("Por favor, preencha todos os campos");
@@ -131,7 +139,7 @@ const LoginScreen = () => {
           <p
             className="criarConta"
             onClick={() => handleCreateAccountClick()}
-            style={{cursor: "pointer"}}
+            style={{ cursor: "pointer" }}
           >
             Criar uma conta
           </p>
