@@ -198,13 +198,13 @@
 
 @media (max-height: 900px) {
     .redSide {
-        padding-bottom: 275px;
+
         height: 80%;
     }
 
     .carLoginimage {
         height: 400px;
-        bottom: -150px;
+        bottom: -50px;
     }
 
 }
@@ -217,7 +217,7 @@
 
     .carLoginimage {
         height: 300px;
-        bottom: -100px;
+        bottom: 0px;
     }
 
 }

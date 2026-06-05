@@ -2,11 +2,9 @@ import "../Transfer.css";
 import { useState } from "react";
 import Input from "../../../components/input/Input";
 import Button from "../../../components/button/Button";
-import NavBar from "../../../components/navBar/NavBar";
 import api from "../../../services/api";
 
 const Step1 = ({ onSuccess }) => {
-
   const [transferData, setTransferData] = useState({
     email: "",
     password: "",
@@ -40,13 +38,10 @@ const Step1 = ({ onSuccess }) => {
     }
 
     try {
-
       const response = await api.post("/usuario/login", {
         email,
         password,
       });
-
-      console.log(response.data);
 
       const user = response.data.data.usuario;
 
@@ -57,7 +52,7 @@ const Step1 = ({ onSuccess }) => {
       
       alert("Usuário confirmado com sucesso!");
       
-      onSuccess();
+      onSuccess(transferData.permission);
 
     } catch (error) {
       console.log(error);
@@ -71,16 +66,13 @@ const Step1 = ({ onSuccess }) => {
 
   return (
     <div className="step1Data">
-
       <p className="transferSubtitle">
         Informe os dados para transferência do veículo.
       </p>
 
       <form onSubmit={handleSubmit} className="formTransfer">
-
         <div className="inputGroup">
           <label>Email</label>
-
           <Input
             type="email"
             name="email"
@@ -91,7 +83,6 @@ const Step1 = ({ onSuccess }) => {
 
         <div className="inputGroup">
           <label>Senha</label>
-
           <Input
             type="password"
             name="password"
@@ -102,16 +93,13 @@ const Step1 = ({ onSuccess }) => {
         </div>
 
         <div className="checkboxGroup">
-
           <label className="checkboxLabel">
             <input
               type="checkbox"
               checked={transferData.permission === "readonly"}
               onChange={() => handleCheckboxChange("readonly")}
             />
-
             <span className="customCheckbox"></span>
-
             Somente leitura
           </label>
 
@@ -121,9 +109,7 @@ const Step1 = ({ onSuccess }) => {
               checked={transferData.permission === "editable"}
               onChange={() => handleCheckboxChange("editable")}
             />
-
             <span className="customCheckbox"></span>
-
             Acesso editável
           </label>
 
@@ -133,12 +119,9 @@ const Step1 = ({ onSuccess }) => {
               checked={transferData.permission === "transfer"}
               onChange={() => handleCheckboxChange("transfer")}
             />
-
             <span className="customCheckbox"></span>
-
             Transferir propriedade
           </label>
-
         </div>
 
         <div className="transferButtonContainer">
@@ -148,9 +131,7 @@ const Step1 = ({ onSuccess }) => {
             type="submit"
           />
         </div>
-
       </form>
-
     </div>
   );
 };

@@ -70,19 +70,22 @@ const VehicleScreen = () => {
       <div className="containerButtons">
         <button
           className="buttonGastos"
-          onClick={() => navigate("./gastos")}
+          onClick={() => navigate("./gastos", { state: { vehicleData: vehicle } })}
         >
           Gastos
         </button>
+        
         <button 
-        className="buttonTransferencia"
-        onClick={() => navigate("./transferencia")}
-        >Transferência</button>
+          className="buttonTransferencia"
+          onClick={() => navigate("./transferencia", { state: { vehicleData: vehicle } })}
+        >
+          Transferência
+        </button>
       </div>
 
       <button
         className="buttonHistManutencao"
-        onClick={() => navigate("./manutencao")}
+        onClick={() => navigate("./manutencao", { state: { vehicleData: vehicle } })}
       >
         Histórico de Manutenções
       </button>

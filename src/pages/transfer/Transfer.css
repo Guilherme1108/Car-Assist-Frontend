@@ -207,6 +207,18 @@
     justify-content: space-around;
 }
 
+.permissionWarningText {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+}
+
+.permissionWarningText.danger {
+  color: var(--primary-color);
+}
+
 /*==================== STEP 3 ======================*/
 .step3Code {
     height: 100%;

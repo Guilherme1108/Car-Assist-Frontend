@@ -128,6 +128,13 @@ div.filledBar.high-score {
     object-position: center;
 }
 
+.sem-imagem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e0e0e0;
+}
+
 .lowerInformations {
     height: 10%;
     width: 100%;

@@ -107,9 +107,46 @@ const NewCarScreen = () => {
     };
 
     const handleConfirm = async () => {
+        // Lógica adquirir (código)
         if (activeTab === "acquire") {
-            console.log("Enviando código de transferência:", transferCode);
-        } else {
+            if (!transferCode) {
+                alert("Por favor, digite o código de transferência.");
+                return;
+            }
+
+            try {
+                const storageUser = localStorage.getItem("user");
+                if (!storageUser) {
+                    alert("Usuário não identificado. Faça login novamente.");
+                    return;
+                }
+                const userLogged = JSON.parse(storageUser);
+
+                const payload = {
+                    codigo_verificacao: transferCode,
+                    id_usuario_destino: userLogged.id
+                };
+
+                const response = await api.post("/transferencia/aceitar", payload);
+
+                if (response.data && (response.data.status === true || response.data.status_code === 200)) {
+                    alert(`Veículo adquirido com sucesso! Você agora é: ${response.data.data.papel_atribuido}`);
+                    handleCancel();
+                    navigate("/home");
+                } else {
+                    alert(response.data?.message || "Erro ao adquirir o veículo.");
+                }
+
+            } catch (error) {
+                console.error("Erro ao adquirir carro por código:", error);
+                alert(
+                    error.response?.data?.message || 
+                    "Código inválido, expirado ou erro no servidor."
+                );
+            }
+        } 
+        // Lógica cadastrar carro
+        else {
             if (!carData.modelo || !carData.marca || !carData.placa || !carData.cor || !carData.ano) {
                 alert("Por favor, preencha todos os campos do formulário.");
                 return;
@@ -145,10 +182,10 @@ const NewCarScreen = () => {
                     formData.append("foto_veiculo", imageFile);
                 } else {
                     alert("Não foi possivel encontrar a foto do seu veículo");
+                    return; // Importante parar aqui se não tiver foto (opcional, dependendo da sua regra)
                 }
 
-                const response = await api.post("/veiculo-usuario", formData, {
-                });
+                const response = await api.post("/veiculo-usuario", formData);
 
                 if (response.data && response.data.status) {
                     alert("Veículo cadastrado com sucesso!");
