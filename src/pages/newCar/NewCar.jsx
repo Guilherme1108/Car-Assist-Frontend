@@ -18,7 +18,8 @@ const NewCarScreen = () => {
         marca: "",
         placa: "",
         ano: "",
-        cor: ""
+        cor: "",
+        quilometragem: "" // Novo campo adicionado
     });
 
     const VEHICLE_COLORS = [
@@ -51,7 +52,8 @@ const NewCarScreen = () => {
             treatedValue = value.toUpperCase();
         }
 
-        if (name === "ano") {
+        // Garante que Ano e Quilometragem recebam apenas números
+        if (name === "ano" || name === "quilometragem") {
             treatedValue = value.replace(/\D/g, "");
         }
 
@@ -100,7 +102,7 @@ const NewCarScreen = () => {
     };
 
     const handleCancel = () => {
-        setCarData({ modelo: "", marca: "", placa: "", ano: "", cor: "" });
+        setCarData({ modelo: "", marca: "", placa: "", ano: "", cor: "", quilometragem: "" });
         setTransferCode("");
         handleRemoveImage();
         setIsFormVisibleMobile(false);
@@ -147,7 +149,8 @@ const NewCarScreen = () => {
         } 
         // Lógica cadastrar carro
         else {
-            if (!carData.modelo || !carData.marca || !carData.placa || !carData.cor || !carData.ano) {
+            // Validação agora inclui a quilometragem
+            if (!carData.modelo || !carData.marca || !carData.placa || !carData.cor || !carData.ano || !carData.quilometragem) {
                 alert("Por favor, preencha todos os campos do formulário.");
                 return;
             }
@@ -175,6 +178,7 @@ const NewCarScreen = () => {
                 formData.append("marca", carData.marca);
                 formData.append("cor", carData.cor);
                 formData.append("ano", parseInt(carData.ano, 10));
+                formData.append("quilometragem", parseInt(carData.quilometragem, 10)); 
                 formData.append("is_ativo", true);
                 formData.append("vinculo", JSON.stringify({})); 
 
@@ -182,7 +186,7 @@ const NewCarScreen = () => {
                     formData.append("foto_veiculo", imageFile);
                 } else {
                     alert("Não foi possivel encontrar a foto do seu veículo");
-                    return; // Importante parar aqui se não tiver foto (opcional, dependendo da sua regra)
+                    return;
                 }
 
                 const response = await api.post("/veiculo-usuario", formData);
@@ -308,6 +312,19 @@ const NewCarScreen = () => {
                                             maxLength={4}
                                         />
                                     </div>
+                                    
+                                    {/* Novo campo Quilometragem */}
+                                    <div className="formInputGroup">
+                                        <label>Quilometragem (Km)</label>
+                                        <Input
+                                            name="quilometragem"
+                                            value={carData.quilometragem}
+                                            onChange={handleChange}
+                                            inputMode="numeric"
+                                            placeholder=""
+                                        />
+                                    </div>
+
                                     <div className="formInputGroup">
                                         <label>Cor</label>
                                         <select
