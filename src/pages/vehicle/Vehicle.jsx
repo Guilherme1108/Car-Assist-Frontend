@@ -2,7 +2,19 @@ import React from "react";
 import "./Vehicle.css";
 import defaultCarImage from "../../assets/carNotFOund.png";
 import { useNavigate, useLocation } from "react-router-dom";
-import { SquarePen, ChevronRight } from "lucide-react";
+import { 
+  SquarePen, 
+  ChevronRight, 
+  CreditCard, 
+  Palette, 
+  CarFront, 
+  CalendarDays, 
+  Users, 
+  Wallet, 
+  ArrowRightLeft, 
+  Wrench,
+  Gauge
+} from "lucide-react";
 import NavBar from "../../components/navBar/NavBar";
 
 const VehicleScreen = () => {
@@ -18,77 +30,126 @@ const VehicleScreen = () => {
         <button className="btnVoltar" onClick={() => navigate("/home")}>
           Voltar para a Garagem
         </button>
-
-        <NavBar></NavBar>
+        <NavBar />
       </div>
     );
   }
 
   return (
     <div className="vehicleScreen">
-      <div className="cardCarro">
-        <div className="superiorCard">
-          <h1 className="titleVeiculo">{vehicle.modelo || vehicle.name}</h1>
-          <SquarePen size={32} className="btnEditar" />
-        </div>
+      
+      {/* Header */}
+      <div className="vehicleHeader">
+        <h1 className="titleVeiculo">{vehicle.modelo}</h1>
+        <button className="btnEditar">
+          <SquarePen size={24} />
+        </button>
+      </div>
 
+      {/* Imagem do Carro */}
+      <div className="imageContainer">
         <img
           src={vehicle.foto_veiculo ? vehicle.foto_veiculo : defaultCarImage}
-          alt={vehicle.modelo || vehicle.name}
+          alt={vehicle.modelo}
           className="carImage"
         />
+      </div>
 
-        <div className="carInformations">
-          <div className="cardInformationBlock">
-            <span className="titleInformation">Placa</span>
-            <span className="contentInformation">{vehicle.placa || vehicle.plate}</span>
+      {/* Grid de Informações Básicas */}
+      <div className="infoCardsGrid">
+        <div className="infoCard">
+          <div className="iconWrapper iconOutline"><CreditCard size={20} /></div>
+          <div className="infoTexts">
+            <span className="infoLabel">Placa</span>
+            <span className="infoValue">{vehicle.placa}</span>
           </div>
+        </div>
 
-          <div className="cardInformationBlock">
-            <span className="titleInformation">Cor</span>
-            <span className="contentInformation">
-              {vehicle.cor ? vehicle.cor.charAt(0).toUpperCase() + vehicle.cor.slice(1).toLowerCase() : "Não informada"}
+        <div className="infoCard">
+          <div className="iconWrapper iconOutline"><Palette size={20} /></div>
+          <div className="infoTexts">
+            <span className="infoLabel">Cor</span>
+            <span className="infoValue">
+              {vehicle.cor ? vehicle.cor.charAt(0).toUpperCase() + vehicle.cor.slice(1).toLowerCase() : "N/A"}
             </span>
           </div>
+        </div>
 
-          <div className="cardInformationBlock">
-            <span className="titleInformation">Marca</span>
-            <span className="contentInformation">{vehicle.marca || "Não informada"}</span>
+        <div className="infoCard">
+          <div className="iconWrapper iconOutline"><CarFront size={20} /></div>
+          <div className="infoTexts">
+            <span className="infoLabel">Marca</span>
+            <span className="infoValue">{vehicle.marca || "N/A"}</span>
           </div>
+        </div>
 
-          <div className="cardInformationBlock">
-            <span className="titleInformation">Ano</span>
-            <span className="contentInformation">{vehicle.ano}</span>
+        <div className="infoCard">
+          <div className="iconWrapper iconOutline"><CalendarDays size={20} /></div>
+          <div className="infoTexts">
+            <span className="infoLabel">Ano</span>
+            <span className="infoValue">{vehicle.ano}</span>
+          </div>
+        </div>
+
+        <div className="infoCard">
+          <div className="iconWrapper iconOutline"><Gauge size={20} /></div>
+          <div className="infoTexts">
+            <span className="infoLabel">Quilometragem</span>
+            <span className="infoValue">{vehicle.quilometragem}</span>
           </div>
         </div>
       </div>
 
-      <li className="historicoDonos">
-        Histórico de donos <ChevronRight />
-      </li>
-
-      <div className="containerButtons">
-        <button
-          className="buttonGastos"
-          onClick={() => navigate("./gastos", { state: { vehicleData: vehicle } })}
-        >
-          Gastos
-        </button>
-        
-        <button 
-          className="buttonTransferencia"
-          onClick={() => navigate("./transferencia", { state: { vehicleData: vehicle } })}
-        >
-          Transferência
-        </button>
+      {/* Card Histórico de Donos */}
+      <div className="actionCard fullWidthCard donosCard">
+        <div className="cardLeft">
+          <div className="iconWrapper iconPrimaryLight"><Users size={24} /></div>
+          <div className="cardTexts">
+            <h3>Histórico de donos</h3>
+            <p>Veja todos os proprietários deste veículo.</p>
+          </div>
+        </div>
+        <div className="cardRight">
+          <span className="badgeDonos">Ver donos</span>
+          <ChevronRight size={20} className="chevron" />
+        </div>
       </div>
 
-      <button
-        className="buttonHistManutencao"
-        onClick={() => navigate("./manutencao", { state: { vehicleData: vehicle } })}
-      >
-        Histórico de Manutenções
-      </button>
+      {/* Grid de Ações */}
+      <div className="actionsGrid">
+        <div className="actionCard" onClick={() => navigate("./gastos", { state: { vehicleData: vehicle } })}>
+          <div className="cardLeft">
+            <div className="iconWrapper iconPrimaryLight"><Wallet size={24} /></div>
+            <div className="cardTexts">
+              <h3>Gastos</h3>
+              <p>Acompanhe todos os gastos.</p>
+            </div>
+          </div>
+          <ChevronRight size={20} className="chevron" />
+        </div>
+
+        <div className="actionCard" onClick={() => navigate("./transferencia", { state: { vehicleData: vehicle } })}>
+          <div className="cardLeft">
+            <div className="iconWrapper iconPrimaryLight"><ArrowRightLeft size={24} /></div>
+            <div className="cardTexts">
+              <h3>Transferência</h3>
+              <p>Realize a transferência.</p>
+            </div>
+          </div>
+          <ChevronRight size={20} className="chevron" />
+        </div>
+
+        <div className="actionCard" onClick={() => navigate("./manutencao", { state: { vehicleData: vehicle } })}>
+          <div className="cardLeft">
+            <div className="iconWrapper iconPrimaryLight"><Wrench size={24} /></div>
+            <div className="cardTexts">
+              <h3>Manutenções</h3>
+              <p>Consulte o histórico.</p>
+            </div>
+          </div>
+          <ChevronRight size={20} className="chevron" />
+        </div>
+      </div>
 
       <NavBar />
     </div>
