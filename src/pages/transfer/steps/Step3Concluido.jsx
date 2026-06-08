@@ -2,9 +2,7 @@ import "../Transfer.css";
 import Lottie from "lottie-react";
 import confirmGif from "../../../assets/animations/confirmGif.json";
 
-// Recebe os "data" passados pela TransferScreen
 const Step3 = ({ data }) => {
-    // Evita erros caso os dados demorem ou não cheguem.
     const codigoVerificacao = data?.codigo_verificacao || "------";
     const tempoExpiracao = data?.expira_em_minutos || 0;
 
@@ -29,14 +27,12 @@ const Step3 = ({ data }) => {
                     Código de transferência
                 </span>
                 <span className="code">
-                    {/* Código renderizado dinamicamente */}
                     {codigoVerificacao}
                 </span>
             </div>
 
             <div className="alertDiv">
                 <p className="textAlert">
-                    {/* Tempo de expiração renderizado dinamicamente */}
                     Esse código expira em {tempoExpiracao} minutos.<br></br>Compartilhe apenas com o novo dono.
                 </p>
             </div>

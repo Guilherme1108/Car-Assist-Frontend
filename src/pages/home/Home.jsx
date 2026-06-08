@@ -46,6 +46,7 @@ const HomeScreen = () => {
               cor: vehicle.cor,
               ano: vehicle.ano,
               placa: vehicle.placa,
+              quilometragem: vehicle.quilometragem,
               points: parseFloat(vehicle.score) || 0,
               foto_veiculo:
                 vehicle.foto && vehicle.foto !== ""
