@@ -38,15 +38,16 @@ const VehicleScreen = () => {
   return (
     <div className="vehicleScreen">
       
-      {/* Header */}
       <div className="vehicleHeader">
         <h1 className="titleVeiculo">{vehicle.modelo}</h1>
-        <button className="btnEditar">
+        <button 
+          className="btnEditar" 
+          onClick={() => navigate(`/home/veiculo/editar/${vehicle.id}`, { state: { vehicleData: vehicle } })}
+        >
           <SquarePen size={24} />
         </button>
       </div>
 
-      {/* Imagem do Carro */}
       <div className="imageContainer">
         <img
           src={vehicle.foto_veiculo ? vehicle.foto_veiculo : defaultCarImage}
@@ -55,7 +56,6 @@ const VehicleScreen = () => {
         />
       </div>
 
-      {/* Grid de Informações Básicas */}
       <div className="infoCardsGrid">
         <div className="infoCard">
           <div className="iconWrapper iconOutline"><CreditCard size={20} /></div>

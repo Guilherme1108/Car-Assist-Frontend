@@ -26,6 +26,7 @@ function App() {
         <Route path="/perfil" element={<ProfileScreen />} />
         <Route path="/servicos" element={<ServiceScreen />} />
         <Route path="/home/cadastrarveiculo" element={<NewCarScreen />} />
+        <Route path="/home/veiculo/editar/:id" element={<NewCarScreen />} />
         
         <Route path="/home/veiculo" element={<VehicleScreen />} />
         <Route path="/home/veiculo/manutencao" element={<MaintenanceScreen />} />

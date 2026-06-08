@@ -1,16 +1,23 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import './NewCar.css';
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import NavBar from '../../components/navBar/NavBar';
 import { ImagePlus, X } from "lucide-react";
 import api from "../../services/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 const NewCarScreen = () => {
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("");
-    const [isFormVisibleMobile, setIsFormVisibleMobile] = useState(false);
+    const location = useLocation();
+    const { id } = useParams(); 
+
+    const editingVehicle = location.state?.vehicleData;
+    const isEditMode = !!id;
+
+    const [activeTab, setActiveTab] = useState(isEditMode ? "register" : "");
+    const [isFormVisibleMobile, setIsFormVisibleMobile] = useState(isEditMode);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [transferCode, setTransferCode] = useState("");
     const [carData, setCarData] = useState({
@@ -19,8 +26,29 @@ const NewCarScreen = () => {
         placa: "",
         ano: "",
         cor: "",
-        quilometragem: "" // Novo campo adicionado
+        quilometragem: "" 
     });
+
+    const [carImage, setCarImage] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
+    const fileInputRef = useRef(null);
+
+    useEffect(() => {
+        if (isEditMode && editingVehicle) {
+            setCarData({
+                modelo: editingVehicle.modelo || "",
+                marca: editingVehicle.marca || "",
+                placa: editingVehicle.placa || "",
+                ano: editingVehicle.ano?.toString() || "",
+                cor: editingVehicle.cor || "",
+                quilometragem: editingVehicle.quilometragem?.toString() || ""
+            });
+
+            if (editingVehicle.foto_veiculo && !editingVehicle.foto_veiculo.includes("carNotFOund")) {
+                setCarImage(editingVehicle.foto_veiculo.replace("localhost", "127.0.0.1")); 
+            }
+        }
+    }, [isEditMode, editingVehicle]);
 
     const VEHICLE_COLORS = [
         { value: 'AMARELO', label: 'Amarelo' },
@@ -39,11 +67,6 @@ const NewCarScreen = () => {
         { value: 'FANTASIA', label: 'Fantasia (Multicor)' }
     ];
 
-    // Estados para controle da imagem
-    const [carImage, setCarImage] = useState(null);
-    const [imageFile, setImageFile] = useState(null);
-    const fileInputRef = useRef(null);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         let treatedValue = value;
@@ -52,7 +75,6 @@ const NewCarScreen = () => {
             treatedValue = value.toUpperCase();
         }
 
-        // Garante que Ano e Quilometragem recebam apenas números
         if (name === "ano" || name === "quilometragem") {
             treatedValue = value.replace(/\D/g, "");
         }
@@ -61,22 +83,19 @@ const NewCarScreen = () => {
     };
 
     const handleImageChange = (e) => {
-        if (!e || !e.target || !e.target.files || e.target.files.length === 0) {
-            return;
-        }
+        if (!e || !e.target || !e.target.files || e.target.files.length === 0) return;
 
-        const files = Array.from(e.target.files);
-        const file = files[0];
-
+        const file = e.target.files[0];
         const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+        
         if (!allowedTypes.includes(file.type)) {
             alert("Apenas arquivos PNG ou JPEG são permitidos.");
             e.target.value = "";
             return;
         }
 
-        if (carImage) {
-            URL.revokeObjectURL(carImage);
+        if (carImage && !carImage.includes("http")) {
+            URL.revokeObjectURL(carImage); 
         }
 
         setCarImage(URL.createObjectURL(file));
@@ -86,14 +105,12 @@ const NewCarScreen = () => {
 
     const handleRemoveImage = (e) => {
         if (e) e.preventDefault();
-        if (carImage) {
+        if (carImage && !carImage.includes("http")) {
             URL.revokeObjectURL(carImage);
         }
         setCarImage(null);
         setImageFile(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
+        if (fileInputRef.current) fileInputRef.current.value = "";
     };
 
     const handleSelectTabMobile = (tabName) => {
@@ -102,109 +119,107 @@ const NewCarScreen = () => {
     };
 
     const handleCancel = () => {
-        setCarData({ modelo: "", marca: "", placa: "", ano: "", cor: "", quilometragem: "" });
-        setTransferCode("");
-        handleRemoveImage();
-        setIsFormVisibleMobile(false);
+        navigate(-1); 
+    };
+
+    const handleDelete = async () => {
+        if (!window.confirm("Atenção! Tem certeza que deseja excluir este veículo e todo o seu histórico?")) return;
+
+        setIsLoading(true);
+        try {
+            const response = await api.delete(`/veiculo/${id}`);
+            
+            if (response.data?.status || response.status === 200) {
+                alert("Veículo excluído com sucesso!");
+                navigate("/home"); 
+            } else {
+                alert(response.data?.message || "Erro ao excluir veículo.");
+            }
+        } catch (error) {
+            alert(error.response?.data?.message || "Falha na conexão ao tentar excluir.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleConfirm = async () => {
-        // Lógica adquirir (código)
         if (activeTab === "acquire") {
-            if (!transferCode) {
-                alert("Por favor, digite o código de transferência.");
-                return;
-            }
-
+            if (!transferCode) return alert("Por favor, digite o código de transferência.");
             try {
                 const storageUser = localStorage.getItem("user");
-                if (!storageUser) {
-                    alert("Usuário não identificado. Faça login novamente.");
-                    return;
-                }
+                if (!storageUser) return alert("Usuário não identificado.");
+                
                 const userLogged = JSON.parse(storageUser);
-
-                const payload = {
-                    codigo_verificacao: transferCode,
-                    id_usuario_destino: userLogged.id
-                };
-
+                const payload = { codigo_verificacao: transferCode, id_usuario_destino: userLogged.id };
                 const response = await api.post("/transferencia/aceitar", payload);
 
                 if (response.data && (response.data.status === true || response.data.status_code === 200)) {
-                    alert(`Veículo adquirido com sucesso! Você agora é: ${response.data.data.papel_atribuido}`);
-                    handleCancel();
+                    alert(`Veículo adquirido com sucesso!`);
                     navigate("/home");
                 } else {
                     alert(response.data?.message || "Erro ao adquirir o veículo.");
                 }
-
             } catch (error) {
-                console.error("Erro ao adquirir carro por código:", error);
-                alert(
-                    error.response?.data?.message || 
-                    "Código inválido, expirado ou erro no servidor."
-                );
+                alert(error.response?.data?.message || "Código inválido ou erro no servidor.");
             }
-        } 
-        // Lógica cadastrar carro
-        else {
-            // Validação agora inclui a quilometragem
+        } else {
             if (!carData.modelo || !carData.marca || !carData.placa || !carData.cor || !carData.ano || !carData.quilometragem) {
-                alert("Por favor, preencha todos os campos do formulário.");
-                return;
+                return alert("Por favor, preencha todos os campos do formulário.");
             }
 
             if (carData.ano.length < 4) {
-                alert("O ano precisa ter exatamente 4 dígitos.");
-                return;
+                return alert("O ano precisa ter exatamente 4 dígitos.");
             }
 
+            setIsLoading(true);
             try {
                 const storageUser = localStorage.getItem("user");
-
-                if (!storageUser) {
-                    alert("Usuário não identificado. Faça login novamente.");
-                    return;
-                }
-
+                if (!storageUser) return alert("Usuário não identificado.");
                 const userLogged = JSON.parse(storageUser);
 
                 const formData = new FormData();
                 
-                formData.append("id_usuario", userLogged.id);
                 formData.append("placa", carData.placa);
                 formData.append("modelo", carData.modelo);
                 formData.append("marca", carData.marca);
                 formData.append("cor", carData.cor);
-                formData.append("ano", parseInt(carData.ano, 10));
-                formData.append("quilometragem", parseInt(carData.quilometragem, 10)); 
-                formData.append("is_ativo", true);
-                formData.append("vinculo", JSON.stringify({})); 
-
+                formData.append("ano", carData.ano);
+                formData.append("quilometragem", carData.quilometragem); 
+                
+                // Lógica de Imagem
                 if (imageFile) {
-                    formData.append("foto_veiculo", imageFile);
+                    formData.append("foto_veiculo", imageFile); // Imagem Nova
+                } else if (isEditMode && carImage) {
+                    // Truque: Faz o download da imagem antiga e anexa para o servidor não apagar
+                    const res = await fetch(carImage);
+                    const blob = await res.blob();
+                    formData.append("foto_veiculo", blob, "foto_mantida.jpg");
                 } else {
-                    alert("Não foi possivel encontrar a foto do seu veículo");
-                    return;
+                    setIsLoading(false);
+                    return alert("A foto do veículo é obrigatória.");
                 }
 
-                const response = await api.post("/veiculo-usuario", formData);
+                // Dados exclusivos de Criação (POST)
+                if (!isEditMode) {
+                    formData.append("id_usuario", userLogged.id);
+                    formData.append("is_ativo", true);
+                    formData.append("vinculo", JSON.stringify({})); 
+                }
 
-                if (response.data && response.data.status) {
-                    alert("Veículo cadastrado com sucesso!");
-                    handleCancel();
+                const url = isEditMode ? `/veiculo/${id}` : "/veiculo-usuario";
+                const response = isEditMode ? await api.put(url, formData) : await api.post(url, formData);
+
+                if (response.data && (response.data.status || response.status === 200)) {
+                    alert(isEditMode ? "Veículo atualizado com sucesso!" : "Veículo cadastrado com sucesso!");
                     navigate("/home");
                 } else {
-                    alert(response.data?.message || "Erro ao cadastrar o veículo.");
+                    alert(response.data?.message || "Erro ao salvar o veículo.");
                 }
 
             } catch (error) {
-                console.error("Erro na requisição de cadastro do carro:", error);
-                alert(
-                    error.response?.data?.message || 
-                    "Não foi possível conectar ao servidor para cadastrar o veículo."
-                );
+                alert(error.response?.data?.message || "Não foi possível conectar ao servidor.");
+            } finally {
+                setIsLoading(false);
             }
         }
     };
@@ -212,36 +227,31 @@ const NewCarScreen = () => {
     return (
         <div className="newCarScreen">
             <main className="mainContainer">
-                <h1 className="screenTitle">ADQUIRIR CARRO</h1>
+                <h1 className="screenTitle">{isEditMode ? "EDITAR VEÍCULO" : "ADQUIRIR CARRO"}</h1>
 
                 <div className="contentCard">
-                    <div className={`buttonsArea ${isFormVisibleMobile ? 'hideOnMobile' : ''}`}>
-                        <Button
-                            className={`acquireVehicleButton ${activeTab === 'acquire' ? 'active' : ''}`}
-                            text="ADQUIRIR"
-                            variant={activeTab === 'acquire' ? 'primary' : 'secondary'}
-                            onClick={() => {
-                                setActiveTab("acquire");
-                                handleSelectTabMobile("acquire");
-                            }}
-                        />
-                        <Button
-                            className={`registerVehicleButton ${activeTab === 'register' ? 'active' : ''}`}
-                            text="CADASTRAR"
-                            variant={activeTab === 'register' ? 'primary' : 'secondary'}
-                            onClick={() => {
-                                setActiveTab("register");
-                                handleSelectTabMobile("register");
-                            }}
-                        />
-                    </div>
+                    {!isEditMode && (
+                        <div className={`buttonsArea ${isFormVisibleMobile ? 'hideOnMobile' : ''}`}>
+                            <Button
+                                className={`acquireVehicleButton ${activeTab === 'acquire' ? 'active' : ''}`}
+                                text="ADQUIRIR"
+                                variant={activeTab === 'acquire' ? 'primary' : 'secondary'}
+                                onClick={() => handleSelectTabMobile("acquire")}
+                            />
+                            <Button
+                                className={`registerVehicleButton ${activeTab === 'register' ? 'active' : ''}`}
+                                text="CADASTRAR"
+                                variant={activeTab === 'register' ? 'primary' : 'secondary'}
+                                onClick={() => handleSelectTabMobile("register")}
+                            />
+                        </div>
+                    )}
 
                     <div className={`formsArea ${isFormVisibleMobile ? 'showOnMobile' : 'hideOnMobile'}`}>
-                        {activeTab === "acquire" && (
+                        
+                        {activeTab === "acquire" && !isEditMode && (
                             <div className="codeVehicle">
-                                <p className="instructionText">
-                                    Digite o código gerado pelo proprietário para confirmar a transferência
-                                </p>
+                                <p className="instructionText">Digite o código gerado pelo proprietário para confirmar a transferência</p>
                                 <div className="formInputGroup">
                                     <Input
                                         name="transferCode"
@@ -313,7 +323,6 @@ const NewCarScreen = () => {
                                         />
                                     </div>
                                     
-                                    {/* Novo campo Quilometragem */}
                                     <div className="formInputGroup">
                                         <label>Quilometragem (Km)</label>
                                         <Input
@@ -342,10 +351,17 @@ const NewCarScreen = () => {
                                         </select>
                                     </div>
 
-                                    <div className="formActionButtons">
-                                        <Button text="Cancelar" variant="secondary" onClick={handleCancel} className="btnCancel" />
-                                        <Button text="Confirmar" variant="primary" onClick={handleConfirm} className="btnConfirm" />
-                                    </div>
+                                    {isEditMode ? (
+                                        <div className="formActionButtons" style={{ gap: '10px' }}>
+                                            <Button text="Excluir" variant="secondary" onClick={handleDelete} className="btnCancel" style={{ borderColor: 'red', color: 'red' }} disabled={isLoading} />
+                                            <Button text={isLoading ? "Salvando..." : "Salvar"} variant="primary" onClick={handleConfirm} className="btnConfirm" disabled={isLoading} />
+                                        </div>
+                                    ) : (
+                                        <div className="formActionButtons">
+                                            <Button text="Cancelar" variant="secondary" onClick={handleCancel} className="btnCancel" disabled={isLoading} />
+                                            <Button text={isLoading ? "Salvando..." : "Confirmar"} variant="primary" onClick={handleConfirm} className="btnConfirm" disabled={isLoading} />
+                                        </div>
+                                    )}
                                 </form>
                             </div>
                         )}
