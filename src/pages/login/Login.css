@@ -37,6 +37,11 @@
     gap: 24px;
 }
 
+.labelInput {
+    width: 100%;
+    font-size: 1rem;
+}
+
 .senha {
     margin-bottom: 24px;
 }
@@ -56,13 +61,14 @@
     cursor: pointer;
 }
 
-.esqueciSenha {
-    color: #FF0000;
-}
-
 @media (min-width: 768px) {
     .textWelcome {
         font-size: 2.25rem;
+        font-weight: 600;
+    }
+
+    .labelInput {
+        font-size: 1.25rem;
     }
 }
 
@@ -104,13 +110,16 @@
     .cadastroLeftSide {
         display: flex;
         height: 100%;
-        width: 60%;
-        background-color: black;
-        padding-right: 10%;
+        width: 50%;
+        background-color: white;
     }
 
     .containerInputsLogin {
         z-index: 4;
+    }
+
+    .labelInput {
+        font-weight: 600;
     }
 
     .registerAccountInLogin {
@@ -122,27 +131,27 @@
         position: absolute;
         top: 0;
         right: 50%;
-        width: 50%;
-        height: 100%;
-        background-color: #D5242B;
+        width: 48%;
+        height: 60%;
+        background-color: var(--primary-color);
         transition: transform 0.6s ease-in-out;
         display: flex;
         align-items: center;
-        justify-content: start;
+        justify-content: center;
         flex-direction: column;
-        padding-top: 100px;
-        gap: 50px;
-        border-bottom-right-radius: 50px;
-        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50%;
+        border-bottom-left-radius: 50%;
+        padding-bottom: 250px;
         z-index: 2;
+    }
+
+    .carLoginimage {
+        position: absolute;
+        bottom: -300px;
     }
 
     .loginScreen.active-register .redSide {
         transform: translateX(100%);
-        border-bottom-right-radius: 0px;
-        border-top-right-radius: 0px;
-        border-bottom-left-radius: 50px;
-        border-top-left-radius: 50px;
     }
 
     .cadastroLeftSide,
@@ -153,11 +162,12 @@
     .cadastroLeftSide {
         opacity: 0;
         width: 50%;
+        background-color: white;
     }
 
     .loginScreen.active-register .cadastroLeftSide {
         opacity: 1;
-        width: 60%;
+        width: 50%;
     }
 
     .loginScreen.active-register .loginRightSide {
@@ -165,10 +175,10 @@
     }
 
     .phraseLogin {
-    color: white;
-    font-size: 2.5rem;
-    z-index: 4;
-    text-align: center;
+        color: white;
+        font-size: 2.5rem;
+        z-index: 4;
+        text-align: center;
     }
 
     .containerOpcoes {
@@ -184,4 +194,30 @@
         text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
         font-weight: 500;
     }
+}
+
+@media (max-height: 900px) {
+    .redSide {
+
+        height: 80%;
+    }
+
+    .carLoginimage {
+        height: 400px;
+        bottom: -50px;
+    }
+
+}
+
+@media (max-height: 800px) {
+    .redSide {
+        padding-bottom: 250px;
+        height: 80%;
+    }
+
+    .carLoginimage {
+        height: 300px;
+        bottom: 0px;
+    }
+
 }

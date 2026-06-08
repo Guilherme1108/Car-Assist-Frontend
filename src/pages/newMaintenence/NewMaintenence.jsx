@@ -1,24 +1,111 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./NewMaintenence.css";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import NavBar from "../../components/navBar/NavBar";
 import { Paperclip, X } from "lucide-react";
-
+import api from "../../services/api";
 
 const NewMaintenence = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fileInputRef = useRef(null);
+  
+  // Captura o ID diretamente da URL (ex: /editar/5)
+  const { id } = useParams(); 
+  const isEditMode = !!id;
+
+  // Estados para Controle de Usuário e Veículo
+  const [idUsuarioLogado, setIdUsuarioLogado] = useState(null);
+  const idVeiculoAtual = 4; // Alinhado com o ID do veículo do banco
+
+  const [tiposManutencao, setTiposManutencao] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [images, setImages] = useState([]);
+
   const [formData, setFormData] = useState({
     dataManutencao: "",
     quilometragem: "",
     valor: "",
     oficina: "",
     pecas: "",
-    observacoes: ""
+    observacoes: "",
+    fkIdTipoManutencao: ""
   });
 
-  const [images, setImages] = useState([]);
+  useEffect(() => {
+    const storageUser = localStorage.getItem("user");
+    if (!storageUser) {
+      alert("Sessão expirada. Faça login novamente.");
+      navigate("/");
+      return;
+    }
+    const loggedUser = JSON.parse(storageUser);
+    setIdUsuarioLogado(loggedUser.id);
+  }, [navigate]);
 
-  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const carregarDadosManutencao = async () => {
+      let dados = location.state?.maintenanceToEdit;
+
+
+      if (!dados && id) {
+        try {
+          setIsLoading(true);
+          const response = await api.get(`/manutencao/${id}`);
+          if (response.data && response.data.status) {
+            dados = response.data.data.manutencao || response.data.data;
+          }
+        } catch (e) {
+          console.error("Erro ao carregar dados da manutenção para edição:", e);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+
+      if (dados) {
+        setFormData({
+          dataManutencao: dados.data_manutencao ? dados.data_manutencao.split("T")[0] : "",
+          quilometragem: dados.quilometragem?.toString() || "",
+          valor: dados.custo || "",
+          oficina: dados.oficina || "",
+          pecas: dados.pecas || "",
+          observacoes: dados.observacoes || "",
+          fkIdTipoManutencao: dados.tipo_manutencao?.id?.toString() || ""
+        });
+
+        if (dados.evidencia && Array.isArray(dados.evidencia)) {
+          const urlsAntigas = dados.evidencia.map(item => {
+            let urlString = (item && typeof item === 'object' && item.url) ? item.url : item;
+            if (typeof urlString === 'string') {
+              urlString = urlString.replace("localhost", "127.0.0.1");
+            }
+            return { url: urlString, file: null };
+          }).filter(Boolean);
+
+          setImages(urlsAntigas);
+        }
+      }
+    };
+
+    carregarDadosManutencao();
+  }, [id, location.state]);
+
+  useEffect(() => {
+    const fetchTipos = async () => {
+      try {
+        const response = await api.get("/tipo-manutencao/");
+        if (response.data && response.data.status) {
+          setTiposManutencao(response.data.data.tipos_manutencao || []);
+        }
+      } catch (e) {
+        console.error("Erro ao buscar tipos de manutenção", e);
+      }
+    };
+    fetchTipos();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +131,8 @@ const NewMaintenence = () => {
     }
 
     const newImages = files.map(file => ({
-      url: URL.createObjectURL(file)
+      url: URL.createObjectURL(file), 
+      file: file 
     }));
 
     setImages([...images, ...newImages]);
@@ -53,7 +141,8 @@ const NewMaintenence = () => {
 
   const handleRemoveImage = (indexToRemove) => {
     setImages((prevImages) => {
-      URL.revokeObjectURL(prevImages[indexToRemove].url);
+      const removedImage = prevImages[indexToRemove];
+      if (removedImage.file) URL.revokeObjectURL(removedImage.url);
       return prevImages.filter((_, index) => index !== indexToRemove);
     });
 
@@ -62,16 +151,83 @@ const NewMaintenence = () => {
     }
   };
 
-  const handleDelete = () => {/* TODO */ };
+  const handleDelete = async () => {
+    if (!window.confirm("Deseja realmente excluir esta manutenção?")) return;
+    
+    try {
+      setIsLoading(true);
+      const response = await api.delete(`/manutencao/${id}`);
 
-  const handleSave = () => {/* TODO */ };
+      if (response.data?.status || response.status === 200) {
+        alert("Manutenção excluída com sucesso!");
+        navigate(-1); 
+      } else {
+        alert(response.data?.message || "Erro ao excluir.");
+      }
+    } catch (e) {
+      alert(e.response?.data?.message || "Falha na conexão.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!idUsuarioLogado) return alert("Usuário não identificado.");
+    if (!formData.fkIdTipoManutencao) return alert("Selecione um tipo de manutenção.");
+    if (images.length === 0) return alert("Adicione pelo menos uma evidência.");
+
+    setIsLoading(true);
+
+    try {
+      const payload = new FormData();
+      
+      payload.append("data_manutencao", formData.dataManutencao);
+      payload.append("custo", formData.valor);
+      payload.append("quilometragem", formData.quilometragem);
+      payload.append("oficina", formData.oficina);
+      payload.append("observacoes", formData.observacoes);
+      payload.append("pecas", formData.pecas);
+      payload.append("fk_id_tipo_manutencao", formData.fkIdTipoManutencao);
+      payload.append("fk_id_usuario", idUsuarioLogado);
+      payload.append("fk_id_veiculo", idVeiculoAtual);
+
+      for (let i = 0; i < images.length; i++) {
+        const img = images[i];
+        
+        if (img.file) {
+          payload.append("evidencias", img.file);
+        } else {
+          const response = await fetch(img.url);
+          const blob = await response.blob();
+          payload.append("evidencias", blob, `evidencia_mantida_${i}.jpg`);
+        }
+      }
+
+      const url = isEditMode ? `/manutencao/${id}` : `/manutencao-evidencia`;
+      const apiResponse = isEditMode ? await api.put(url, payload) : await api.post(url, payload);
+
+      if (apiResponse.data && (apiResponse.data.status === true || apiResponse.status === 200)) {
+        alert(isEditMode ? "Manutenção atualizada com sucesso!" : "Manutenção salva com sucesso!");
+        navigate(-1);
+      } else {
+        alert(`Erro ao salvar: ${apiResponse.data?.message || 'Erro desconhecido'}`);
+      }
+
+    } catch (e) {
+      alert(`Falha na conexão: ${e.response?.data?.message || e.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="newMaintenenceScreen">
-
       <main className="mainContent">
         <header className="headerMain">
-          <h1>Nova Manutenção no <span className="carName">Civic SI</span></h1>
+          <h1>
+            {isEditMode ? "Editar Manutenção" : "Nova Manutenção no"}{" "}
+            <span className="carName">Civic SI</span>
+          </h1>
           <p>Data de criação: 27/04/2026</p>
         </header>
 
@@ -80,23 +236,31 @@ const NewMaintenence = () => {
             <h3>Dados da Manutenção</h3>
             <div className="inputGroup">
               <label>Tipo da Manutenção</label>
-              <select className="typeMaintenanceOption" name="typeMaintenance">
+              <select 
+                className="typeMaintenanceOption" 
+                name="fkIdTipoManutencao"
+                value={formData.fkIdTipoManutencao}
+                onChange={handleChange}
+              >
                 <option value="">Selecione...</option>
+                {tiposManutencao.map(tipo => (
+                  <option key={tipo.id} value={tipo.id}>{tipo.nome}</option>
+                ))}
               </select>
             </div>
 
             <div className="dataGrid">
               <div className="inputGroup">
                 <label>Data</label>
-                <Input name="dataManutencao" value={formData.dataManutencao} onChange={handleChange} />
+                <Input type="date" name="dataManutencao" value={formData.dataManutencao} onChange={handleChange} />
               </div>
               <div className="inputGroup">
                 <label>KM</label>
-                <Input name="quilometragem" value={formData.quilometragem} onChange={handleChange} />
+                <Input type="number" name="quilometragem" value={formData.quilometragem} onChange={handleChange} />
               </div>
               <div className="inputGroup">
                 <label>Valor</label>
-                <Input name="valor" value={formData.valor} onChange={handleChange} />
+                <Input name="valor" value={formData.valor} onChange={handleChange} placeholder="Ex: 150.00" />
               </div>
               <div className="inputGroup">
                 <label>Oficina</label>
@@ -136,7 +300,7 @@ const NewMaintenence = () => {
               {images.map((img, index) => (
                 <div key={index} className="imageItem">
                   <img src={img.url} alt="Preview" />
-                  <X className="removeBtn" onClick={() => { handleRemoveImage(index) }} size={18}> </X>
+                  <X className="removeBtn" onClick={() => handleRemoveImage(index)} size={18} />
                 </div>
               ))}
             </div>
@@ -153,14 +317,28 @@ const NewMaintenence = () => {
             />
 
             <div className="buttonActionGroup">
-              <Button className="saveMaintenence" text="Excluir" variant="secondary" onClick={handleDelete}></Button>
-              <Button className="deleteMaintenence" text="Salvar" variant="primary" onClick={handleSave}></Button>
+              {isEditMode && (
+                <Button 
+                  className="deleteMaintenence" 
+                  text="Excluir" 
+                  variant="secondary" 
+                  onClick={handleDelete}
+                  disabled={isLoading}
+                />
+              )}
+              <Button 
+                className="saveMaintenence" 
+                text={isLoading ? "Processando..." : "Salvar"} 
+                variant="primary" 
+                onClick={handleSave}
+                disabled={isLoading}
+              />
             </div>
           </section>
         </div>
       </main>
 
-      <NavBar></NavBar>
+      <NavBar />
     </div>
   );
 };

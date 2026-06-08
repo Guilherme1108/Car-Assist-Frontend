@@ -16,8 +16,7 @@
 }
 
 .screenTitle {
-    font-size: 20px;
-    color: #333;
+    font-size: 1.25rem;
     font-weight: 600;
     text-align: left;
     margin-bottom: 24px;
@@ -36,6 +35,7 @@
 }
 
 .buttonsArea {
+    flex: 1;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -52,6 +52,7 @@
 }
 
 .formsArea {
+    flex: 1;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -175,7 +176,7 @@
     font-size: 16px;
     cursor: pointer;
     box-sizing: border-box;
-    color: #000000; 
+    color: #000000;
 }
 
 .classSelectCor option[value=""] {
@@ -195,13 +196,31 @@
     display: flex !important;
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 768px) {
+    .screenTitle {
+        font-size: 1.75rem;
+    }
+
+    .mainContainer {
+        height: 100%;
+    }
+
+    .formsArea{
+        padding-bottom: 10%;
+    }
+
+    .contentCard {
+        height: 100%;
+    }
+}
+
+@media (min-width: 1024px) {
     .contentCard {
         background: #ffffff;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         flex-direction: row;
         border: 1px solid #ededed;
-        height: 600px;
+        height: 100%;
     }
 
     .buttonsArea {
@@ -217,11 +236,25 @@
         display: flex !important;
     }
 
+    .classSelectCor {
+        height: 52px;
+        padding: 0px 16px;
+        font-size: 1.25rem;
+    }
+
     .hideOnMobile {
         display: flex !important;
     }
 
     .showOnMobile {
         display: flex !important;
+    }
+}
+
+@media (max-height: 740px) {
+    .classSelectCor {
+        height: 32px;
+        padding: 0px 16px;
+        font-size: 1rem;
     }
 }

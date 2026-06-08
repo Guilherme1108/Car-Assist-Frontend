@@ -53,16 +53,24 @@
 
 @media (min-width: 1024px) {
 
+    .registerAccountScreen {
+        padding-top: 25px;
+        padding-bottom: 25px;
+        background-color: white;
+    }
+
     .form {
         position: relative;
         z-index: 4;
     }
 
     .titleCadastrar {
-        color: white;
+        color: black;
+        font-weight: 600;
     }
 
     .formElement label {
-        color: white;
+        color: black;
+        font-weight: 600;
     }
 }

@@ -1,200 +1,213 @@
+/* Container Principal */
 .vehicleScreen {
-    min-height: 100%;
+    min-height: 100vh;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    background-color: #ffffff;
+    padding: 24px 16px 100px 16px;
     gap: 20px;
-    padding-bottom: 80px;
+    font-family: 'Inter', sans-serif;
 }
 
-.cardCarro {
+/* Header */
+.vehicleHeader {
     width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: 22px 18px;
-    border-radius: 12px;
-    background: linear-gradient(
-    to bottom, 
-    #ffffff 0%, 
-    #a8a8a8 48%, 
-    #a8a8a8 52%, 
-    #ffffff 100%
-  );
-
-}
-
-.superiorCard {
-    height: 32px;
-    width: 100%;
+    max-width: 1200px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.titleVeiculo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #111827; /* Preto suave */
+    margin: 0;
 }
 
 .btnEditar {
-    color: #bdbdbd;
+    background-color: transparent;
+    color: #6b7280;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px;
     cursor: pointer;
-    background-color: #ffffff;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #e0e0e0;
-    transition: 0.2s;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnEditar:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* Imagem do Veículo */
+.imageContainer {
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .carImage {
-    height: 200px;
     width: 100%;
-    border-radius: 22px;
-    margin-top: 22px;
-    margin-bottom: 40px;
-    border: solid 2px var(--border-primary);
+    height: 250px;
     object-fit: cover;
     object-position: center;
+    display: block;
 }
 
-.carInformations {
+/* Grid de Cards de Informação */
+.infoCardsGrid {
     width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+}
+
+.infoCard {
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 16px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
     gap: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-.cardInformationBlock {
-    height: 64px;
-    width: 132px;
+.infoTexts {
     display: flex;
     flex-direction: column;
 }
 
-.titleInformation {
-    font-size: 1.25rem;
-    color: #4B4B4B;
+.infoLabel {
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 500;
 }
 
-.contentInformation {
-    height: 40px;
-    width: 132px;
+.infoValue {
     font-size: 1rem;
-    border: solid 2px var(--border-primary);
-    color: #4B4B4B;
+    color: #111827;
+    font-weight: 700;
+}
+
+/* Base dos Ícones */
+.iconWrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
-    background-color: white;
 }
 
-.historicoDonos {
+/* Nova Paleta (Vermelho, Preto, Branco/Cinza) */
+.iconOutline { border: 1px solid #e5e7eb; color: #374151; }
+.iconOutlinePrimary { border: 1px solid var(--primary-color, #ef4444); color: var(--primary-color, #ef4444); }
+
+/* Ícones com fundo preenchido */
+.iconDark { background-color: #111827; color: #ffffff; }
+.iconPrimaryLight { background-color: #fff0f0; color: var(--primary-color, #ef4444); } /* Fundo rosinha claro, ícone vermelho */
+
+/* Cards de Ação */
+.actionsGrid {
     width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.fullWidthCard {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.actionCard {
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: 0.2s ease;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-.historicoDonos:hover {
-    background-color: var(--border-primary);
-    border-radius: 4px;
+.actionCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
 }
 
-.containerButtons {
+.actionCard:active {
+    transform: translateY(0);
+}
+
+.cardLeft {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
+    gap: 16px;
 }
 
-.buttonGastos {
-    height: 50px;
-    width: 110px;
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 12px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
+.cardRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.buttonTransferencia {
-    height: 50px;
-    width: 172px;
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 12px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
+.cardTexts h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    color: #111827;
+    font-weight: 600;
 }
 
-.buttonHistManutencao {
-    height: 50px;
-    width: 100%;
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 12px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
+.cardTexts p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #6b7280;
 }
 
-@media (min-width: 500px) {
-    .carImage {
-        height: 300px;
-    }
+.chevron {
+    color: #9ca3af;
 }
 
+/* Card Donos Especial (Detalhe lateral primário) */
+.donosCard {
+    border-left: 4px solid var(--primary-color, #ef4444);
+}
+
+.badgeDonos {
+    background-color: #fff0f0;
+    color: var(--primary-color, #ef4444);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Tela de Erro */
+.errorScreen {
+    justify-content: center;
+}
+
+/* Responsividade para Desktop/Tablet */
 @media (min-width: 768px) {
     .carImage {
         height: 400px;
-        width: 60%;
-        border-radius: 22px;
-        margin-top: 22px;
-        margin-bottom: 40px;
     }
-
-    .historicoDonos {
-        font-size: 1.25rem;
-    }
-
-    .buttonGastos,
-    .buttonTransferencia,
-    .buttonHistManutencao {
-        width: 40%;
-        font-size: 1.2rem;
-    }
-}
-
-@media (min-width: 1025px) {
-    .cardCarro {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        padding: 22px 18px;
-        border-radius: 12px;
-    }
-
-    .historicoDonos {
-        width: 75%;
-    }
-
-    .containerButtons {
-        width: 80%;
-    }
-
-    .buttonGastos,
-    .buttonTransferencia {
-        width: 45%;
-        font-size: 1.2rem;
-    }
-
-    .buttonHistManutencao {
-        width: 80%;
-        font-size: 1.2rem;
+    
+    .actionsGrid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }

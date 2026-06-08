@@ -1,22 +1,26 @@
 import "./Expenses.css";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import NavBar from "../../components/navBar/NavBar";
-import { ChevronRight } from "lucide-react";
+import {ChevronRight} from "lucide-react";
 import Button from "../../components/button/Button";
+import ModalGastos from "../../components/modalGastos/ModalGastos";
+import {useState} from "react";
 
 const ExpensesScreen = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const expenses = [
-    { label: "Combustível", value: "R$ 230,00" },
-    { label: "Limpeza", value: "R$ 230,00" },
-    { label: "Pedagio", value: "R$ 230,00" },
-    { label: "Estacionamento", value: "R$ 230,00" },
-    { label: "Manutenção", value: "R$ 230,00" },
-    { label: "Multas", value: "R$ 230,00" },
+    {label: "Combustível", value: "R$ 230,00"},
+    {label: "Limpeza", value: "R$ 230,00"},
+    {label: "Pedagio", value: "R$ 230,00"},
+    {label: "Estacionamento", value: "R$ 230,00"},
+    {label: "Manutenção", value: "R$ 230,00"},
+    {label: "Multas", value: "R$ 230,00"},
   ];
 
   const handleInsertExpense = () => {
-
-  }
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="expensesScreen">
@@ -45,9 +49,16 @@ const ExpensesScreen = () => {
         </div>
       </div>
 
-      <Button text="Inserir novo gasto" variant="primary" onClick={handleInsertExpense}></Button>
+      <Button
+        text="Inserir novo gasto"
+        variant="primary"
+        onClick={handleInsertExpense}
+      ></Button>
 
+      {isModalOpen && <ModalGastos onClose={() => setIsModalOpen(false)} />}
+        
       <NavBar></NavBar>
+
     </div>
   );
 };

@@ -41,42 +41,39 @@
 .low-score {
     color: #ef4444 !important;
 }
+
 div.filledBar.low-score {
     background-color: #ef4444 !important;
 }
-/* Aplica o fundo vermelho com texto branco no indicador do carro */
+
 .carPoints.low-score {
     background-color: #ef4444 !important;
     color: #ffffff !important;
 }
 
 
-/* ==========================================
-   Controle Dinâmico de Cores (De 50 até 70)
-   ========================================== */
 .medium-score {
     color: #f59e0b !important;
 }
+
 div.filledBar.medium-score {
     background-color: #f59e0b !important;
 }
-/* Aplica o fundo laranja com texto branco no indicador do carro */
+
 .carPoints.medium-score {
     background-color: #f59e0b !important;
     color: #ffffff !important;
 }
 
 
-/* ==========================================
-   Controle Dinâmico de Cores (Acima de 70)
-   ========================================== */
 .high-score {
-    color: #34C759 !important; /* Mantém o seu verde padrão atual */
+    color: #34C759 !important;
 }
+
 div.filledBar.high-score {
     background-color: #34C759 !important;
 }
-/* Aplica o fundo verde com texto branco no indicador do carro */
+
 .carPoints.high-score {
     background-color: #34C759 !important;
     color: #ffffff !important;
@@ -131,6 +128,13 @@ div.filledBar.high-score {
     object-position: center;
 }
 
+.sem-imagem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e0e0e0;
+}
+
 .lowerInformations {
     height: 10%;
     width: 100%;
@@ -168,7 +172,6 @@ div.filledBar.high-score {
     background-color: var(--primary-color);
     border-radius: 12px;
     border: none;
-    border: solid 2px var(--border-primary);
     cursor: pointer;
     color: var(--secondary-color);
 }
@@ -265,11 +268,56 @@ div.filledBar.high-score {
         width: 80%;
         height: 100vh;
         z-index: 9999;
-        justify-content: space-around;
-        padding-bottom: 0px;
+        justify-content: flex-start;
+        padding-bottom: 40px;
         padding-left: 40px;
         padding-right: 40px;
         overflow-y: auto;
+        gap: 30px;
+    }
+
+    .carouselContainer {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: auto;
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+
+    .card {
+        min-height: 320px;
+        height: auto;
+        width: 450px;
+        gap: 24px;
+        transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card:active {
+        transform: scale(0.97);
+    }
+
+    .carouselBtn.prev {
+        left: -30px;
+        transition: transform 0.2s ease;
+    }
+
+    .carouselBtn.next {
+        right: -30px;
+        transition: transform 0.2s ease;
+    }
+
+    .carouselBtn.prev:hover {
+        background-color: #e7e7e7;
+    }
+
+        .carouselBtn.next:hover {
+        background-color: #e7e7e7;
     }
 
     .titleHome {
@@ -280,15 +328,6 @@ div.filledBar.high-score {
         font-size: 2rem;
     }
 
-    .carouselContainer {
-        display: flex;
-        align-items: center;
-        height: 65%;
-        width: 90%;
-        margin: 0 auto;
-        margin-top: 50px;
-    }
-
     .backgorundCarName {
         display: block;
         position: absolute;
@@ -297,6 +336,12 @@ div.filledBar.high-score {
         z-index: -10;
         color: rgba(0, 0, 0, 0.043);
         text-align: center;
+    }
+
+    .emptyGarageText {
+        text-align: center;
+        margin: 40px 0;
+        color: #666666;
     }
 
     .cards {
@@ -311,6 +356,9 @@ div.filledBar.high-score {
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
+        transition:
+            transform 0.4s ease,
+            box-shadow 0.4s ease;
     }
 
     .cards::-webkit-scrollbar {
@@ -323,12 +371,11 @@ div.filledBar.high-score {
         display: flex;
         justify-content: center;
         scroll-snap-align: center;
-    }
-
-    .card {
-        height: 90%;
-        width: 60%;
-        gap: 24px;
+        transition:
+            transform 0.4s ease,
+            opacity 0.4s ease,
+            filter 0.4s ease;
+        transform: scale(0.85);
     }
 
     .carouselBtn {
@@ -354,14 +401,6 @@ div.filledBar.high-score {
         background-color: #f9f9f9;
     }
 
-    .carouselBtn.prev {
-        left: 100px;
-    }
-
-    .carouselBtn.next {
-        right: 100px;
-    }
-
     .carPoints {
         height: 40px;
         width: 80px;
@@ -370,6 +409,11 @@ div.filledBar.high-score {
         justify-content: center;
         text-align: center;
         border-radius: 6px;
+    }
+
+    .carName {
+        font-size: 1.5rem;
+        font-weight: 600;
     }
 
     .alinhamentoBtn {
@@ -425,5 +469,32 @@ div.filledBar.high-score {
         border-radius: 12px;
         border: solid 2px var(--primary-color);
         cursor: pointer;
+    }
+
+    .carouselItem.active .card {
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .carouselItem.active {
+        opacity: 1;
+
+        transform: scale(1);
+
+        z-index: 5;
+    }
+
+    .carouselItem.left {
+        transform:
+            translateX(-40px) scale(0.85);
+
+        opacity: 0.5;
+    }
+
+    .carouselItem.right {
+        transform:
+            translateX(40px) scale(0.85);
+
+        opacity: 0.5;
     }
 }

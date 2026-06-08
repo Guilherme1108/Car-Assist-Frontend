@@ -7,6 +7,15 @@
     border: none;
     cursor: pointer;
     z-index: 3;
+    transition: transform 0.2s ease;
+}
+
+.buttonDefault:hover {
+    transform: scale(1.05);
+}
+
+.buttonDefault:active {
+    transform: scale(0.97);
 }
 
 .primary {

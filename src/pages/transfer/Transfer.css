@@ -1,0 +1,276 @@
+.transferScreen {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 24px;
+}
+
+.stepperContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+}
+
+.stepItem {
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.stepCircle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.stepItem span {
+    font-size: 0.9rem;
+    color: #4a4a4a;
+}
+
+.stepLine {
+    flex: 1;
+    height: 2px;
+    background-color: #e0e0e0;
+    margin-bottom: 24px;
+}
+
+
+.stepItem.active .stepCircle {
+    background-color: var(--primary-color);
+}
+
+.stepLine.active {
+    background-color: var(--primary-color);
+}
+
+.transferTitle {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #000;
+}
+
+/*=============== STEP 1 ==========================*/
+
+.step1Data {
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    font-family: sans-serif;
+}
+
+.transferSubtitle {
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin-bottom: 24px;
+}
+
+.formTransfer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputGroup label {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.checkboxGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    color: #000;
+    position: relative;
+}
+
+.checkboxLabel input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.customCheckbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.checkboxLabel input:checked~.customCheckbox {
+    background-color: var(--primary-color);
+}
+
+.customCheckbox::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkboxLabel input:checked~.customCheckbox::after {
+    display: block;
+}
+
+.transferButtonContainer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.transferButtonContainer button {
+    width: 100%;
+    max-width: 280px;
+}
+
+@media (min-width: 768px) {
+    .transferScreen {
+        padding: 0px 100px;
+        gap: 24px;
+    }
+
+    .step1Data {
+        height: 100%;
+        display: flex;
+        justify-content: start;
+    }
+}
+
+
+
+
+/*===================== STEP 2==============================*/
+
+.step2Confirm {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.confirmTransferText {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.textConfirm {
+    color: var(--primary-color);
+    font-weight: bolder;
+}
+
+.containerButtonsonfirmTransfer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.permissionWarningText {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+}
+
+.permissionWarningText.danger {
+  color: var(--primary-color);
+}
+
+/*==================== STEP 3 ======================*/
+.step3Code {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 150px;
+}
+
+.topDiv {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.confirmGif {
+    width: 100px;
+}
+
+.textsCodeScreen {
+    font-size: 1rem;
+}
+
+.containerCode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.textCode {
+    font-size: 0.875;
+    font-weight: bold;
+}
+
+.code {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.alertDiv {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #E5E5E5;
+    color: rgb(42, 42, 42, 0.7);
+    border-radius: 6px;
+}
+
+.textAlert {
+    text-align: center;
+}

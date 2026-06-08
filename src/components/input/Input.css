@@ -1,7 +1,14 @@
+.inputContainer {
+    position: relative;
+    width: 100%;
+}
+
 .inputDefault {
+    position: relative;
     height: 16px;
     width: 100%;
     padding: 16px;
+    padding-right: 50px;
     border: none;
     outline: none;
     border-radius: 8px;
@@ -10,7 +17,39 @@
     font-size: 16px;
 }
 
-/* Muda a cor do texto dd/mm/aaaa quando está vazio */
+.inputDefault[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+
+    right: 14px;
+
+    cursor: pointer;
+
+    opacity: 0.7;
+}
+
+.togglePasswordButton {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #777;
+    transition: 0.2s;
+}
+
+.togglePasswordButton:hover {
+    color: var(--red-primary);
+}
+
+.inputDefault:focus {
+    border-color: var(--terciary-color);
+}
+
 .inputDefault[type="date"]::-webkit-datetime-edit-text,
 .inputDefault[type="date"]::-webkit-datetime-edit-month-field,
 .inputDefault[type="date"]::-webkit-datetime-edit-day-field,
@@ -18,10 +57,26 @@
     color: #999;
 }
 
-/* Voltar para preto quando digitar */
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-text,
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-month-field,
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-day-field,
 .inputDefault[type="date"]:not([value=""])::-webkit-datetime-edit-year-field {
     color: #000;
+}
+
+@media (min-width: 1024px) {
+    .inputDefault {
+        padding: 24px;
+        padding-right: 50px;
+        background-color: white;
+        border: solid 2px var(--border-primary);
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-height: 740px) {
+    .inputDefault {
+        padding: 16px;
+        font-size: 16px;
+    }
 }
