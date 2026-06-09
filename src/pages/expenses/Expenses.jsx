@@ -1,22 +1,58 @@
 import "./Expenses.css";
-import {useNavigate} from "react-router-dom";
+
 import NavBar from "../../components/navBar/NavBar";
-import {ChevronRight} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Button from "../../components/button/Button";
 import ModalGastos from "../../components/modalGastos/ModalGastos";
-import {useState} from "react";
+import { useEffect, useState } from "react";
+import api from "../../services/api";
+
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 const ExpensesScreen = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const expenses = [
-    {label: "Combustível", value: "R$ 230,00"},
-    {label: "Limpeza", value: "R$ 230,00"},
-    {label: "Pedagio", value: "R$ 230,00"},
-    {label: "Estacionamento", value: "R$ 230,00"},
-    {label: "Manutenção", value: "R$ 230,00"},
-    {label: "Multas", value: "R$ 230,00"},
-  ];
+const vehicleData = location.state?.vehicleData
+
+  const [expenses, setExpenses] = useState([]);
+  const [category, setCategory] = useState([]);
+
+  const getCategory = async () => {
+    let resultCategory = await api.get('categoria-gasto');
+  }
+
+  const getExpenses = async (id) => {
+    let resultExpenses = await api.get(`gasto/veiculo/${id}`);
+   console.log("RESPOSTA:", resultExpenses.data);
+  setExpenses(resultExpenses.data.data.gasto);
+  
+  }
+
+
+
+  useEffect(() => {
+    if (vehicleData.id) {
+      getExpenses(vehicleData.id);
+    }
+  }, [vehicleData]);
+
+ 
+console.log(expenses)
+
+const totalPorTipo = expenses.reduce((acc, gasto) => {
+  const tipo = gasto.tipo_gasto.nome;
+
+  if (!acc[tipo]) {
+    acc[tipo] = 0;
+  }
+
+  acc[tipo] += Number(gasto.valor);
+
+  return acc;
+}, {});
 
   const handleInsertExpense = () => {
     setIsModalOpen(true);
@@ -36,13 +72,21 @@ const ExpensesScreen = () => {
       </div>
 
       <div className="expensesList">
-        {expenses.map((item, index) => (
-          <div key={index} className="expenseItem">
-            <div className="expenseLabel">{item.label}</div>
-            <span className="expenseValue">{item.value}</span>
-            <ChevronRight></ChevronRight>
-          </div>
-        ))}
+  {Object.entries(totalPorTipo).map(([tipo, total]) => (
+    <div
+  key={tipo}
+  className="expenseItem"
+  onClick={() => navigate("/home/veiculo/gastos/categoria")}
+>
+  <div className="expenseLabel">{tipo}</div>
+
+  <span className="expenseValue">
+    R$ {total.toFixed(2)}
+  </span>
+
+  <ChevronRight />
+</div>
+  ))}
         <div className="expenseItem totalRow">
           <div className="expenseLabel totalLabel">Total</div>
           <span className="expenseValue totalValue">R$ 1380,00</span>
@@ -56,7 +100,7 @@ const ExpensesScreen = () => {
       ></Button>
 
       {isModalOpen && <ModalGastos onClose={() => setIsModalOpen(false)} />}
-        
+
       <NavBar></NavBar>
 
     </div>

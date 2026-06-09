@@ -1,244 +1,126 @@
-.expensesScreen {
-    min-height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0px 20px;
-    padding-bottom: 100px;
-    font-family: sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.headerExpenseScreen {
-    width: 100%;
+.expense-detail-page {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
-.expensesTitle {
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin-bottom: 30px;
-    color: #333;
-    text-align: center;
+.expense-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
-.filterContainer {
-    width: 100%;
+.expense-detail-header h1 {
+  font-size: 1rem;
+  color: #666;
+  text-transform: uppercase;
 }
 
-.buttonExpenses {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
+.back-button {
+  cursor: pointer;
 }
 
-.btnFilter {
-    flex: 1;
-    padding: 15px 0;
-    border-radius: 10px;
-    border: none;
-    font-size: 1.1rem;
-    cursor: pointer;
+.expense-detail-content {
+  flex: 1;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.btnFilter.active {
-    background-color: var(--primary-color);
-    color: white;
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
 }
 
-.btnFilter.inactive {
-    background-color: var(--secondary-color);
-    color: var(--terciary-color);
-    border: solid 2px var(--border-primary);
+.logo-container img {
+  width: 180px;
+  max-width: 100%;
 }
 
-.divider {
-    width: 100%;
-    height: 2px;
-    background-color: #f4a7a7;
-    margin-bottom: 30px;
+.expense-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 30px;
 }
 
-.expensesList {
-    width: 100%;
-    max-width: 1100px;
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    margin-bottom: 25px;
-    border: solid 2px var(--border-primary);
-    border-radius: 12px;
-    height: auto;
-    background-color: white;
+.expense-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
 }
 
-.expenseItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: solid 2px var(--border-primary);
-    min-height: 50px;
-    padding: 8px 16px;
+.expense-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+}
+
+.expense-row:not(:last-child) {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.expense-date {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.expense-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.expense-actions {
+  cursor: pointer;
+}
+
+.bottom-nav {
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .expense-detail-page {
+    padding: 16px;
+  }
+
+  .expense-title {
+    font-size: 1.6rem;
+  }
+
+  .expense-row {
     gap: 10px;
+  }
+
+  .expense-date,
+  .expense-value {
+    font-size: 0.9rem;
+  }
 }
 
-.expenseItem:hover {
-    background-color: var(--border-primary);
-}
+@media (max-width: 480px) {
+  .expense-card {
+    padding: 15px;
+    border-radius: 16px;
+  }
 
-.expenseLabel {
-    color: var(--terciary-color);
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    padding-left: 12px;
-    font-size: 0.95rem;
-}
+  .expense-title {
+    font-size: 1.3rem;
+  }
 
-.expenseValue {
-    font-size: 1.1rem;
-    color: #333;
-    font-weight: 500;
-    text-align: right;
-    white-space: nowrap;
-}
-
-.totalRow {
-    width: 100%;
-    border-bottom: none;
-    padding-top: 10px;
-}
-
-.totalLabel {
-    flex: 1;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-.totalValue {
-    font-weight: bold;
-    color: var(--primary-color);
-    font-size: 1.5rem;
-    text-align: right;
-    white-space: nowrap;
-}
-
-@media (min-width: 768px) {
-
-    .expensesScreen {
-        min-height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        padding: 0px 20px;
-        padding-bottom: 100px;
-        font-family: sans-serif;
-    }
-
-    .headerExpenseScreen {
-        display: flex;
-    }
-
-    .filterContainer {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: end;
-    }
-
-    .expenseItem {
-        min-height: 80px;
-        /* Aumentado de 50px para 80px */
-        padding: 12px 24px;
-        /* Mais preenchimento interno */
-    }
-
-    .expenseLabel {
-        font-size: 1.2rem;
-        /* Texto um pouco maior */
-    }
-
-    .expenseValue {
-        font-size: 1.3rem;
-    }
-
-
-    .buttonExpenses {
-        width: 40%;
-    }
-
-    .totalLabel {
-        font-size: 2rem;
-        flex: 1;
-    }
-
-    .totalValue {
-        font-size: 2rem;
-        text-align: right;
-    }
-}
-
-@media (min-width: 1025px) {
-    .expensesScreen {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 80%;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        padding: 40px;
-        overflow-y: auto;
-    }
-
-    .expensesTitle {
-        display: flex;
-        margin-top: 24px;
-        width: 100%;
-        text-align: start;
-        font-size: 2rem;
-    }
-
-    .buttonExpenses {
-        width: 80%;
-    }
-
-    .expensesList {
-        margin-top: 40px;
-        width: 100%;
-        overflow-y: auto;
-    }
-
-    .expenseItem {
-        min-height: 90px; /* Itens bem robustos para preencher o notebook */
-        padding: 15px 32px;
-    }
-
-    .expenseLabel,
-    .expenseValue {
-        font-size: 1.4rem; /* Fontes maiores para telas grandes */
-    }
-
-    .totalLabel {
-        font-size: 2rem;
-        width: 76%;
-    }
-
-    .totalValue {
-        font-size: 2rem;
-        width: auto;
-    }
-
-    .totalRow {
-        padding: 20px 32px;
-    }
+  .expense-row {
+    padding: 14px 0;
+  }
 }

@@ -9,7 +9,7 @@ import api from "../../services/api";
 const MaintenanceScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { idVeiculo } = useParams(); // Caso use rotas como /manutencao/:idVeiculo
+  const { idVeiculo } = useParams(); 
 
   const [maintenances, setMaintenances] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
