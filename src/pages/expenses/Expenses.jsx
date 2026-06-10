@@ -18,7 +18,7 @@ const ExpensesScreen = () => {
 const vehicleData = location.state?.vehicleData
 
   const [expenses, setExpenses] = useState([]);
-  const [category, setCategory] = useState([]);
+
 
   const getCategory = async () => {
     let resultCategory = await api.get('categoria-gasto');
@@ -59,8 +59,8 @@ const totalPorTipo = expenses.reduce((acc, gasto) => {
   };
 
   return (
-    <div className="expensesScreen">
-      <div className="headerExpenseScreen">
+    <div className="expense-detail-page">
+      <div className="expense-detail-header">
         <h1 className="expensesTitle">Gastos</h1>
 
         <div className="filterContainer">
@@ -71,11 +71,11 @@ const totalPorTipo = expenses.reduce((acc, gasto) => {
         </div>
       </div>
 
-      <div className="expensesList">
+      <div className="expense-card">
   {Object.entries(totalPorTipo).map(([tipo, total]) => (
     <div
   key={tipo}
-  className="expenseItem"
+  className="expense-row"
   onClick={() => navigate("/home/veiculo/gastos/categoria")}
 >
   <div className="expenseLabel">{tipo}</div>
@@ -87,7 +87,7 @@ const totalPorTipo = expenses.reduce((acc, gasto) => {
   <ChevronRight />
 </div>
   ))}
-        <div className="expenseItem totalRow">
+        <div className="expense-row totalRow">
           <div className="expenseLabel totalLabel">Total</div>
           <span className="expenseValue totalValue">R$ 1380,00</span>
         </div>
