@@ -41,6 +41,7 @@ const HomeScreen = () => {
 
             return {
               id: vehicle.id,
+              papel_usuario: relation.papel_usuario,
               modelo: vehicle.modelo,
               marca: vehicle.marca,
               cor: vehicle.cor,
@@ -164,14 +165,16 @@ const HomeScreen = () => {
 
       {vehicles.length > 0 ? (
         <div className="carouselContainer">
-          <button
-            className="carouselBtn prev"
-            onClick={scrollLeft}
-            disabled={currentVehicleIndex === 0}
-            aria-label="Voltar"
-          >
-            <ChevronLeft size={32} />
-          </button>
+          
+          {vehicles.length > 1 && currentVehicleIndex > 0 && (
+            <button
+              className="carouselBtn prev"
+              onClick={scrollLeft}
+              aria-label="Voltar"
+            >
+              <ChevronLeft size={32} />
+            </button>
+          )}
 
           <div className="cards" ref={carouselRef}>
             {vehicles.map((vehicle) => (
@@ -188,16 +191,16 @@ const HomeScreen = () => {
             ))}
           </div>
 
-          <button
-            className="carouselBtn next"
-            onClick={scrollRight}
-            disabled={
-              currentVehicleIndex === vehicles.length - 1
-            }
-            aria-label="Avançar"
-          >
-            <ChevronRight size={32} />
-          </button>
+          {vehicles.length > 1 && currentVehicleIndex < vehicles.length - 1 && (
+            <button
+              className="carouselBtn next"
+              onClick={scrollRight}
+              aria-label="Avançar"
+            >
+              <ChevronRight size={32} />
+            </button>
+          )}
+
         </div>
       ) : (
         <div className="emptyGarageText">

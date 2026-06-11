@@ -35,14 +35,41 @@ const VehicleScreen = () => {
     );
   }
 
+  const role = vehicle.papel_usuario;
+
+  const handleEditClick = () => {
+    if (role === 'Editor') {
+      navigate(`/home/veiculo/editar/${vehicle.id}`, { state: { vehicleData: vehicle } });
+    } else {
+      alert("Permissão negada. Apenas usuários com perfil de Editor podem editar este veículo.");
+    }
+  };
+
+  const handleDonosClick = () => {
+    if (role === 'Proprietário') {
+      alert("Navegando para Histórico de Donos..."); 
+    } else {
+      alert("Permissão negada. Apenas o Proprietário pode visualizar o histórico de donos.");
+    }
+  };
+
+  const handleTransferenciaClick = () => {
+    if (role === 'Proprietário') {
+      navigate("./transferencia", { state: { vehicleData: vehicle } });
+    } else {
+      alert("Permissão negada. Apenas o Proprietário pode transferir este veículo.");
+    }
+  };
+
   return (
     <div className="vehicleScreen">
       
       <div className="vehicleHeader">
         <h1 className="titleVeiculo">{vehicle.modelo}</h1>
+        
         <button 
           className="btnEditar" 
-          onClick={() => navigate(`/home/veiculo/editar/${vehicle.id}`, { state: { vehicleData: vehicle } })}
+          onClick={handleEditClick}
         >
           <SquarePen size={24} />
         </button>
@@ -100,8 +127,8 @@ const VehicleScreen = () => {
         </div>
       </div>
 
-      {/* Card Histórico de Donos */}
-      <div className="actionCard fullWidthCard donosCard">
+      {/* Card sempre visível; validação no onClick */}
+      <div className="actionCard fullWidthCard donosCard" onClick={handleDonosClick}>
         <div className="cardLeft">
           <div className="iconWrapper iconPrimaryLight"><Users size={24} /></div>
           <div className="cardTexts">
@@ -115,7 +142,6 @@ const VehicleScreen = () => {
         </div>
       </div>
 
-      {/* Grid de Ações */}
       <div className="actionsGrid">
         <div className="actionCard" onClick={() => navigate("./gastos", { state: { vehicleData: vehicle } })}>
           <div className="cardLeft">
@@ -128,7 +154,8 @@ const VehicleScreen = () => {
           <ChevronRight size={20} className="chevron" />
         </div>
 
-        <div className="actionCard" onClick={() => navigate("./transferencia", { state: { vehicleData: vehicle } })}>
+        {/* Card sempre visível; validação no onClick */}
+        <div className="actionCard" onClick={handleTransferenciaClick}>
           <div className="cardLeft">
             <div className="iconWrapper iconPrimaryLight"><ArrowRightLeft size={24} /></div>
             <div className="cardTexts">
