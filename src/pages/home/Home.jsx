@@ -41,6 +41,7 @@ const HomeScreen = () => {
 
             return {
               id: vehicle.id,
+              papel_usuario: relation.papel_usuario,
               modelo: vehicle.modelo,
               marca: vehicle.marca,
               cor: vehicle.cor,
@@ -165,7 +166,6 @@ const HomeScreen = () => {
       {vehicles.length > 0 ? (
         <div className="carouselContainer">
           
-          {/* Botão de voltar renderizado APENAS se houver mais de 1 carro E não for o primeiro */}
           {vehicles.length > 1 && currentVehicleIndex > 0 && (
             <button
               className="carouselBtn prev"
@@ -191,7 +191,6 @@ const HomeScreen = () => {
             ))}
           </div>
 
-          {/* Botão de avançar renderizado APENAS se houver mais de 1 carro E não for o último */}
           {vehicles.length > 1 && currentVehicleIndex < vehicles.length - 1 && (
             <button
               className="carouselBtn next"

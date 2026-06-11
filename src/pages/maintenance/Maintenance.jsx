@@ -9,14 +9,14 @@ import api from "../../services/api";
 const MaintenanceScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { idVeiculo } = useParams(); // Caso use rotas como /manutencao/:idVeiculo
+  const { idVeiculo } = useParams();
+
+  const role = location.state?.vehicleData?.papel_usuario;
+  const idVeiculoAtual = idVeiculo || location.state?.vehicleData?.id || location.state?.idVeiculo || 4; 
 
   const [maintenances, setMaintenances] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Tenta pegar o ID do veículo da URL, ou do state enviado no navigate, ou assume o 4 (do seu Postman)
-  const idVeiculoAtual = idVeiculo || location.state?.idVeiculo || 4; 
 
   useEffect(() => {
     const fetchMaintenances = async () => {
@@ -24,11 +24,9 @@ const MaintenanceScreen = () => {
         setIsLoading(true);
         setError(null);
 
-        // Faz a requisição na rota exata do seu Postman usando sua instância do Axios
         const response = await api.get(`/manutencao-veiculo/${idVeiculoAtual}`);
         
         if (response.data && response.data.status) {
-          // Acessa a lista correta dentro de data.manutencao
           setMaintenances(response.data.data.manutencao || []);
         } else {
           setError("Erro ao carregar o histórico de manutenções.");
@@ -36,7 +34,7 @@ const MaintenanceScreen = () => {
       } catch (err) {
         console.error("Erro ao buscar manutenções:", err);
         if (err.response?.status === 404) {
-          setMaintenances([]); // Se retornar 404, define como lista vazia pacificamente
+          setMaintenances([]);
         } else {
           setError("Não foi possível conectar ao servidor.");
         }
@@ -50,14 +48,19 @@ const MaintenanceScreen = () => {
     }
   }, [idVeiculoAtual]);
 
-  const handleGenerateRelatory = () => {/* TODO */};
-
   const handleNewMaintenence = () => {
+    if (role === 'Visualizador') {
+      alert("Acesso Negado: Como visualizador, você não tem permissão para adicionar novas manutenções.");
+      return;
+    }
     navigate("./criar", { state: { idVeiculo: idVeiculoAtual } });
   };
 
   const handleEditMaintenance = (item) => {
-    // Passa o objeto completo vindo da API para a mochila de edição
+    if (role === 'Visualizador') {
+      alert("Acesso Negado: Como visualizador, você não pode editar ou visualizar os detalhes desta manutenção.");
+      return;
+    }
     navigate(`./editar/${item.id}`, { state: { maintenanceToEdit: item } });
   };
 
@@ -81,11 +84,7 @@ const MaintenanceScreen = () => {
       </div>
 
       <div className="buttonsMaintenance">
-        <Button
-          text="Gerar Relatório"
-          variant="primary"
-          onClick={handleGenerateRelatory}
-        />
+        
         <Button
           text="Nova Manutenção"
           variant="primary"
@@ -98,7 +97,6 @@ const MaintenanceScreen = () => {
   );
 };
 
-// Função auxiliar apenas para organizar o mapeamento limpo na renderização
 const PureMaintenancesList = (list, onEditClick) => {
   return list.map((item) => (
     <MaintenanceItem 
