@@ -1,10 +1,10 @@
 import "../Transfer.css";
-import { useState } from "react";
+import {useState} from "react";
 import Input from "../../../components/input/Input";
 import Button from "../../../components/button/Button";
 import api from "../../../services/api";
 
-const Step1 = ({ onSuccess }) => {
+const Step1 = ({onSuccess}) => {
   const [transferData, setTransferData] = useState({
     email: "",
     password: "",
@@ -12,7 +12,7 @@ const Step1 = ({ onSuccess }) => {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
 
     setTransferData((prevState) => ({
       ...prevState,
@@ -30,7 +30,7 @@ const Step1 = ({ onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { email, password, permission } = transferData;
+    const {email, password, permission} = transferData;
 
     if (!email || !password || !permission) {
       alert("Preencha todos os campos");
@@ -49,27 +49,23 @@ const Step1 = ({ onSuccess }) => {
         alert("Usuário não encontrado");
         return;
       }
-      
-      alert("Usuário confirmado com sucesso!");
-      
-      onSuccess(transferData.permission);
 
+      alert("Usuário confirmado com sucesso!");
+
+      onSuccess(transferData.permission);
     } catch (error) {
       console.log(error);
 
-      alert(
-        error.response?.data?.message ||
-        "Erro ao confirmar usuário"
-      );
+      alert(error.response?.data?.message || "Erro ao confirmar usuário");
     }
   };
 
   return (
     <div className="step1Data">
       <p className="transferSubtitle">
-        Informe os dados para transferência do veículo.
+        Para confirmar a realização da transferência do veículo, por favor,
+        valide os seus dados abaixo.
       </p>
-
       <form onSubmit={handleSubmit} className="formTransfer">
         <div className="inputGroup">
           <label>Email</label>
@@ -125,11 +121,7 @@ const Step1 = ({ onSuccess }) => {
         </div>
 
         <div className="transferButtonContainer">
-          <Button
-            text="Transferir"
-            variant="primary"
-            type="submit"
-          />
+          <Button text="Transferir" variant="primary" type="submit" />
         </div>
       </form>
     </div>

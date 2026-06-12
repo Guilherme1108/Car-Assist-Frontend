@@ -22,7 +22,8 @@ const ProfileScreen = () => {
         senha: ""
     });
 
-    const [userImage, setUserImage] = useState(null);
+    const [userImage, setUserImage] = useState(null); // Para o preview visual
+    const [selectedFile, setSelectedFile] = useState(null); // Para o envio real no FormData
     const [imageError, setImageError] = useState(false);
 
     const formatDateForInput = (isoString) => {
@@ -37,11 +38,10 @@ const ProfileScreen = () => {
 
     const formatDateForBackend = (dateString) => {
         if (!dateString) return "";
-
         const actualString = Array.isArray(dateString) ? dateString : dateString;
-
         return String(actualString).substr(0, 10);
     };
+
     useEffect(() => {
         const loadUserData = () => {
             try {
@@ -94,10 +94,10 @@ const ProfileScreen = () => {
 
         const files = Array.from(e.target.files);
         const file = files[0];
-        const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+        const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
 
         if (!allowedTypes.includes(file.type)) {
-            alert("Apenas arquivos PNG ou JPEG são permitidos.");
+            alert("Apenas arquivos PNG, JPEG ou WEBP são permitidos.");
             e.target.value = "";
             return;
         }
@@ -106,6 +106,7 @@ const ProfileScreen = () => {
             URL.revokeObjectURL(userImage);
         }
 
+        setSelectedFile(file);
         setUserImage(URL.createObjectURL(file));
         setImageError(false);
     };
@@ -116,6 +117,7 @@ const ProfileScreen = () => {
             URL.revokeObjectURL(userImage);
         }
         setUserImage(null);
+        setSelectedFile(null);
         setImageError(false);
         if (fileInputRef.current) {
             fileInputRef.current.value = "";
@@ -134,7 +136,9 @@ const ProfileScreen = () => {
             email: userLogged.email || "",
             senha: ""
         });
+        
         setUserImage(userLogged.foto_usuario || null);
+        setSelectedFile(null);
         setImageError(false);
     };
 
@@ -152,32 +156,47 @@ const ProfileScreen = () => {
         }
 
         try {
+            const formData = new FormData();
+            formData.append("nome", profileData.nome);
+            formData.append("email", profileData.email);
+            formData.append("cpf", profileData.cpf);
+            formData.append("data_nascimento", formatDateForBackend(profileData.dataNascimento));
+            
+            if (profileData.senha) {
+                formData.append("senha", profileData.senha);
+            }
 
-            const updatedPayload = {
-                nome: profileData.nome,
-                email: profileData.email,
-                cpf: profileData.cpf,
-                data_nascimento: formatDateForBackend(profileData.dataNascimento),
-                senha: profileData.senha || undefined,
-                foto_usuario: userImage || "",
-                is_ativo: true
-            };
+            // Lógica ajustada para enviar a foto corretamente
+            if (selectedFile) {
+                // Se o usuário selecionou uma nova foto (File)
+                formData.append("foto_usuario", selectedFile);
+            } else if (userImage) {
+                // Se o usuário não selecionou nova foto, mas já tem uma (URL em texto)
+                formData.append("foto_usuario", userImage);
+            } else {
+                // Se o usuário não tem foto ou removeu a foto atual
+                formData.append("foto_usuario", "");
+            }
 
-            console.log(updatedPayload)
-
-            const response = await api.put(`/usuario/${profileData.id}`, updatedPayload);
+            const response = await api.put(`/usuario/${profileData.id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
 
             if (response.data && response.data.status) {
+                const updatedUserResponse = response.data.data.usuario;
 
                 localStorage.setItem("user", JSON.stringify({
                     ...JSON.parse(localStorage.getItem("user")),
                     ...profileData,
-                    data_nascimento: updatedPayload.data_nascimento,
-                    foto_usuario: userImage
+                    data_nascimento: updatedUserResponse?.data_nascimento || profileData.dataNascimento,
+                    foto_usuario: updatedUserResponse?.foto_usuario || userImage
                 }));
 
                 alert("Perfil atualizado com sucesso!");
                 setIsEditable(false);
+                setSelectedFile(null);
             } else {
                 alert(response.data?.message || "Erro ao atualizar dados do perfil.");
             }
@@ -211,7 +230,7 @@ const ProfileScreen = () => {
                     type="file"
                     ref={fileInputRef}
                     style={{ display: "none" }}
-                    accept="image/png, image/jpeg, image/jpg"
+                    accept="image/png, image/jpeg, image/jpg, image/webp"
                     onChange={handleImageChange}
                 />
 
