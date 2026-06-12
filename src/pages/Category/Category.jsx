@@ -1,57 +1,76 @@
 import "./Category.css";
-import { ArrowLeft, EllipsisVertical, Wrench, House, User } from "lucide-react";
+import NavBar from "../../components/navBar/NavBar";
+import {
+  ArrowLeft,
+  EllipsisVertical,
+  Wrench,
+  House,
+  User,
+} from "lucide-react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import api from "../../services/api";
+
 
 const ExpensesDetail = () => {
-  const gastos = [
-    { data: "25/02/2026", valor: "230,00" },
-    { data: "25/02/2026", valor: "230,00" },
-    { data: "25/02/2026", valor: "230,00" },
-  ];
+  // const gastos = [
+  //   { data: "25/02/2026", valor: "230,00" },
+  //   { data: "25/02/2026", valor: "230,00" },
+  //   { data: "25/02/2026", valor: "230,00" },
+  // ];
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [gastos, setGastos] = useState([]);
+
+  const tipoGastoId = location.state?.tipoGastoId;
+  const nomeTipo = location.state?.nomeTipo;
+  const vehicleId = location.state?.vehicleId;
+
+  const getExpenses = async (vehicleId, tipoGastoId) => {
+    let resultGasto = await api.get(`gasto/veiculo/${vehicleId}/gasto/${tipoGastoId}`);
+
+    setGastos(resultGasto.data.data.gasto);
+
+  }
+  useEffect(() => {
+    if (vehicleId && tipoGastoId) {
+      getExpenses(vehicleId, tipoGastoId);
+    }
+  }, [vehicleId, tipoGastoId]);
   return (
-    <div className="expenseDetailContainer">
-      <p className="expenseCategory">Gastos com Combustíveis</p>
 
-      <div className="expenseCard">
-        <button className="backButton" aria-label="Voltar">
-          <ArrowLeft size={28} />
-        </button>
+    <div className="expenseCard">
 
-        <img
-          src="/logo.png"
-          alt="Car Assist Logo"
-          className="logoExpense"
-        />
 
-        <h1>Gastos com combustíveis</h1>
+      <h1>Gastos com {nomeTipo}</h1>
 
-        <div className="expensesBox">
-          {gastos.map((gasto, index) => (
-            <div key={index}>
-              <div className="expenseRow">
-                <span>{gasto.data}</span>
+      <div className="expensesBox">
+        {gastos.map((gasto, index) => (
+          <div key={index}>
+            <div className="expenseRow">
+              <span><span>
+                {new Date(gasto.data).toLocaleDateString("pt-BR")}
+              </span></span>
 
-                <div className="expenseValueContainer">
-                  <span>R$ {gasto.valor}</span>
-                  <EllipsisVertical size={20} />
-                </div>
+              <div className="expenseValueContainer">
+                <span>R$ {gasto.valor}</span>
+                <EllipsisVertical size={20} />
               </div>
-
-              {/* Só renderiza a linha divisória se não for o último item */}
-              {index !== gastos.length - 1 && (
-                <div className="expenseDivider"></div>
-              )}
             </div>
-          ))}
-        </div>
 
-        <div className="bottomNav">
-          <Wrench size={30} />
-          <House size={30} />
-          <User size={30} />
-        </div>
+            {index !== gastos.length - 1 && (
+              <div className="expenseDivider" />
+            )}
+          </div>
+        ))}
       </div>
+      <NavBar></NavBar>
     </div>
+
+
   );
 };
 

@@ -1,11 +1,11 @@
 import "./ModalGastos.css";
-import { useState, useEffect } from "react"; 
+import { useState, useEffect } from "react";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import api from "../../services/api";
 import { OctagonX } from "lucide-react"
 
-const ModalGastos = ({ onClose }) => {
+const ModalGastos = ({ onClose, onSave }) => {
   const [expenseData, setExpenseData] = useState({
     category: "",
     date: "",
@@ -22,10 +22,10 @@ const ModalGastos = ({ onClose }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Dados do gasto salvos:", expenseData);
-    onClose();
+
+    await onSave(expenseData);
   };
 
   useEffect(() => {
@@ -53,9 +53,9 @@ const ModalGastos = ({ onClose }) => {
 
         <form onSubmit={handleSubmit} className="formModalGastos">
           <label>Categoria</label>
-          
+
           <select
-            name="category" 
+            name="category"
             value={expenseData.category}
             onChange={handleChange}
             className="classSelectCor"
@@ -89,8 +89,12 @@ const ModalGastos = ({ onClose }) => {
           />
 
           <div className="bottomModalGastos">
-            <Button text="Salvar" variant="primary"/>
-          </div>
+  <Button
+    text="Salvar"
+    variant="primary"
+    type="submit"
+  />
+</div>
         </form>
       </div>
     </div>

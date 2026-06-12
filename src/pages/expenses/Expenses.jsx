@@ -4,63 +4,104 @@ import NavBar from "../../components/navBar/NavBar";
 import { ChevronRight } from "lucide-react";
 import Button from "../../components/button/Button";
 import ModalGastos from "../../components/modalGastos/ModalGastos";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import api from "../../services/api";
 
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ExpensesScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-const vehicleData = location.state?.vehicleData
-
   const [expenses, setExpenses] = useState([]);
+  const [categories, setCategories] = useState([]);
 
+  const vehicleData = location.state?.vehicleData;
 
   const getCategory = async () => {
-    let resultCategory = await api.get('categoria-gasto');
-  }
+    try {
+      const response = await api.get("categoria-gasto");
 
-  const getExpenses = async (id) => {
-    let resultExpenses = await api.get(`gasto/veiculo/${id}`);
-   console.log("RESPOSTA:", resultExpenses.data);
-  setExpenses(resultExpenses.data.data.gasto);
-  
-  }
+      setCategories(response.data.data.tipo_categoria);
+    } catch (error) {
+      console.error("Erro ao buscar categorias:", error);
+    }
+  };
 
+  const getExpenses = async (vehicleId) => {
+    try {
+      const response = await api.get(`gasto/veiculo/${vehicleId}`);
 
+      setExpenses(response.data.data.gasto);
+    } catch (error) {
+      console.error("Erro ao buscar gastos:", error);
+    }
+  };
 
   useEffect(() => {
-    if (vehicleData.id) {
+    getCategory();
+  }, []);
+
+  useEffect(() => {
+    if (vehicleData?.id) {
       getExpenses(vehicleData.id);
     }
   }, [vehicleData]);
 
- 
-console.log(expenses)
+  const totalPorTipo = useMemo(() => {
+    const resultado = {};
 
-const totalPorTipo = expenses.reduce((acc, gasto) => {
-  const tipo = gasto.tipo_gasto.nome;
+    categories.forEach((categoria) => {
+      resultado[categoria.id] = {
+        id: categoria.id,
+        nome: categoria.nome_categoria,
+        total: 0,
+      };
+    });
 
-  if (!acc[tipo]) {
-    acc[tipo] = 0;
-  }
+    expenses.forEach((gasto) => {
+      const categoriaId = gasto.tipo_gasto?.id;
 
-  acc[tipo] += Number(gasto.valor);
+      if (resultado[categoriaId]) {
+        resultado[categoriaId].total += Number(gasto.valor);
+      }
+    });
 
-  return acc;
-}, {});
+    return resultado;
+  }, [categories, expenses]);
+
+  const totalGeral = Object.values(totalPorTipo).reduce(
+    (acc, categoria) => acc + categoria.total,
+    0
+  );
+
+  const handleCreateExpense = async (expenseData) => {
+    try {
+      const payload = {
+        data_gasto: expenseData.date,
+        valor: Number(expenseData.value),
+        fk_id_veiculo: vehicleData.id,
+        fk_id_categoria: Number(expenseData.category),
+      };
+
+      await api.post("gasto", payload);
+
+      await getExpenses(vehicleData.id);
+
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Erro ao cadastrar gasto:", error);
+    }
+  };
 
   const handleInsertExpense = () => {
     setIsModalOpen(true);
   };
 
   return (
-    <div className="expense-detail-page">
-      <div className="expense-detail-header">
+    <div className="expensesScreen">
+      <div className="headerExpenseScreen">
         <h1 className="expensesTitle">Gastos</h1>
 
         <div className="filterContainer">
@@ -71,25 +112,41 @@ const totalPorTipo = expenses.reduce((acc, gasto) => {
         </div>
       </div>
 
-      <div className="expense-card">
-  {Object.entries(totalPorTipo).map(([tipo, total]) => (
-    <div
-  key={tipo}
-  className="expense-row"
-  onClick={() => navigate("/home/veiculo/gastos/categoria")}
->
-  <div className="expenseLabel">{tipo}</div>
+      <div className="expensesList">
+        {Object.values(totalPorTipo).map((categoria) => (
+          <div
+            key={categoria.id}
+            className="expenseItem"
+            onClick={() =>
+              navigate("/home/veiculo/gastos/categoria", {
+                state: {
+                  tipoGastoId: categoria.id,
+                  nomeTipo: categoria.nome,
+                  vehicleId: vehicleData?.id,
+                },
+              })
+            }
+          >
+            <div className="expenseLabel">
+              {categoria.nome}
+            </div>
 
-  <span className="expenseValue">
-    R$ {total.toFixed(2)}
-  </span>
+            <span className="expenseValue">
+              R$ {categoria.total.toFixed(2)}
+            </span>
 
-  <ChevronRight />
-</div>
-  ))}
-        <div className="expense-row totalRow">
-          <div className="expenseLabel totalLabel">Total</div>
-          <span className="expenseValue totalValue">R$ 1380,00</span>
+            <ChevronRight />
+          </div>
+        ))}
+
+        <div className="expenseItem totalRow">
+          <div className="expenseLabel totalLabel">
+            Total
+          </div>
+
+          <span className="expenseValue totalValue">
+            R$ {totalGeral.toFixed(2)}
+          </span>
         </div>
       </div>
 
@@ -97,12 +154,16 @@ const totalPorTipo = expenses.reduce((acc, gasto) => {
         text="Inserir novo gasto"
         variant="primary"
         onClick={handleInsertExpense}
-      ></Button>
+      />
 
-      {isModalOpen && <ModalGastos onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <ModalGastos
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleCreateExpense}
+        />
+      )}
 
-      <NavBar></NavBar>
-
+      <NavBar />
     </div>
   );
 };
