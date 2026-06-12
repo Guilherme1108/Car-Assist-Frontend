@@ -12,6 +12,7 @@ import ServiceScreen from './pages/servicesScreen/Service'
 import NewCarScreen from './pages/newCar/NewCar'
 import NewMaintenence from './pages/newMaintenence/NewMaintenence'
 import TransferScreen from './pages/transfer/Transfer'
+import ManageAcessScreen from './pages/manageAcess/ManageAcess'
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
         <Route path="/home/veiculo/manutencao/editar/:id" element={<NewMaintenence />} />
         <Route path="/home/veiculo/gastos" element={<ExpensesScreen />} />
         <Route path="/home/veiculo/transferencia" element={<TransferScreen />} />
+
+        <Route path="/home/veiculo/gerenciamentousuarios" element={<ManageAcessScreen />} />
       </Route>
     </Routes>
   );
