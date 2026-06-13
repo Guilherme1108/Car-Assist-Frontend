@@ -368,7 +368,7 @@ div.filledBar.high-score { background-color: #34C759 !important; }
     }
 
     .card {
-        min-height: 320px;
+        max-height: 450px;
         height: auto;
         width: 450px;
         gap: 24px;

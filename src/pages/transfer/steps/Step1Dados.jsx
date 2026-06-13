@@ -37,6 +37,20 @@ const Step1 = ({onSuccess}) => {
       return;
     }
 
+    const storageUser = localStorage.getItem("user");
+    
+    if (!storageUser) {
+      alert("Sessão expirada. Faça login novamente.");
+      return;
+    }
+
+    const loggedUser = JSON.parse(storageUser);
+
+    if (email.trim().toLowerCase() !== loggedUser.email.trim().toLowerCase()) {
+      alert("Acesso negado. O e-mail informado não corresponde à sua conta atual.");
+      return;
+    }
+
     try {
       const response = await api.post("/usuario/login", {
         email,
@@ -47,6 +61,11 @@ const Step1 = ({onSuccess}) => {
 
       if (!user) {
         alert("Usuário não encontrado");
+        return;
+      }
+
+      if (user.id !== loggedUser.id) {
+        alert("Acesso negado. Credenciais inválidas para o usuário atual.");
         return;
       }
 

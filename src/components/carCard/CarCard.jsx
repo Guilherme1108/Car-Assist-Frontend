@@ -29,7 +29,6 @@ const CarCard = ({car, onNavigate, scoreClass}) => {
         <span className={`carPoints ${scoreClass}`}>{car.points}</span>
       </div>
 
-      <div className="alinhamentoBtn"></div>
     </div>
   );
 };
