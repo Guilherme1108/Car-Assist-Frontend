@@ -45,7 +45,6 @@
     color: #111827;
 }
 
-/* Imagem do Veículo */
 .imageContainer {
     width: 100%;
     max-width: 1200px;
@@ -56,13 +55,13 @@
 
 .carImage {
     width: 100%;
-    height: 250px;
-    object-fit: cover;
+    height: auto; /* Deixa a altura flexível */
+    aspect-ratio: 16 / 9; /* Mantém uma proporção retangular clássica */
+    object-fit: cover; 
     object-position: center;
     display: block;
 }
 
-/* Grid de Cards de Informação */
 .infoCardsGrid {
     width: 100%;
     max-width: 1200px;
@@ -109,15 +108,12 @@
     justify-content: center;
 }
 
-/* Nova Paleta (Vermelho, Preto, Branco/Cinza) */
 .iconOutline { border: 1px solid #e5e7eb; color: #374151; }
 .iconOutlinePrimary { border: 1px solid var(--primary-color, #ef4444); color: var(--primary-color, #ef4444); }
 
-/* Ícones com fundo preenchido */
 .iconDark { background-color: #111827; color: #ffffff; }
 .iconPrimaryLight { background-color: #fff0f0; color: var(--primary-color, #ef4444); } /* Fundo rosinha claro, ícone vermelho */
 
-/* Cards de Ação */
 .actionsGrid {
     width: 100%;
     max-width: 1200px;
@@ -196,18 +192,23 @@
     font-weight: 600;
 }
 
-/* Tela de Erro */
 .errorScreen {
     justify-content: center;
 }
 
-/* Responsividade para Desktop/Tablet */
 @media (min-width: 768px) {
     .carImage {
-        height: 400px;
+        max-height: 450px; 
     }
     
     .actionsGrid {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+
+@media (min-width: 1120px) {
+    .imageContainer {
+    width: 100%;
+    max-width: 800px;
+}
 }
