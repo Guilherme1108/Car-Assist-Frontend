@@ -38,14 +38,14 @@ const VehicleScreen = () => {
   const role = vehicle.papel_usuario;
 
   const handleEditClick = () => {
-    if (role === 'Editor') {
+    if (role === 'Editor' || role === 'Proprietário') {
       navigate(`/home/veiculo/editar/${vehicle.id}`, { state: { vehicleData: vehicle } });
     } else {
-      alert("Permissão negada. Apenas usuários com perfil de Editor podem editar este veículo.");
+      alert("Permissão negada. Apenas usuários com perfil de Proprietário ou Editor podem editar este veículo.");
     }
   };
 
-const handleDonosClick = () => {
+  const handleDonosClick = () => {
     if (role === 'Proprietário') {
       navigate(`/home/veiculo/gerenciamentousuarios/`, { state: { vehicleData: vehicle } });
     } else {
