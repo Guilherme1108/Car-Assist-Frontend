@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ChevronLeft, MoreVertical, X } from "lucide-react";
+import { ChevronLeft, MoreVertical, OctagonX } from "lucide-react";
 import api from "../../services/api";
 import "./ManageAcess.css";
 import NavBar from "../../components/navBar/NavBar";
@@ -41,13 +41,32 @@ const ManageAcessScreen = () => {
         );
         setUsers(detailedUsers.sort((a, b) => b.is_ativo - a.is_ativo));
       } catch (err) { 
-        console.error("Erro ao buscar dados:", err); 
+        console.error(err); 
       } finally { 
         setLoading(false); 
       }
     };
     fetchData();
   }, [vehicleId, navigate]);
+
+  const handleRemoveUser = async () => {
+    if (!userToRemove) return;
+
+    try {
+      const response = await api.delete(`/v1/car-assist/usuario-veiculo/${userToRemove.id_usuario}/${vehicleId}`);
+
+      if (response.status === 200 || response.data.status) {
+        alert("Acesso removido com sucesso!");
+        setUsers(users.filter(u => u.id_usuario !== userToRemove.id_usuario));
+        setShowModal(false);
+      } else {
+        alert(response.data?.message || "Erro ao remover usuário.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Não foi possível realizar a remoção.");
+    }
+  };
 
   const filteredUsers = useMemo(() => {
     return users.filter(u => {
@@ -112,11 +131,11 @@ const ManageAcessScreen = () => {
       {showModal && userToRemove && (
         <div className="modalOverlay">
           <div className="modalManageAcess">
-            <X className="closeModal" onClick={() => setShowModal(false)} />
+            <OctagonX className="closeModal" onClick={() => setShowModal(false)} />
             <p className="modalText">Você deseja remover a permissão de <strong>{userToRemove.nome}</strong>?</p>
             <div className="modalActions">
               <button className="btnCancel" onClick={() => setShowModal(false)}>Cancelar</button>
-              <button className="btnConfirm">Sim</button>
+              <button className="btnConfirm" onClick={handleRemoveUser}>Sim</button>
             </div>
           </div>
         </div>
