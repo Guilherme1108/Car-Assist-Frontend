@@ -1,0 +1,229 @@
+.manageAcessScreen {
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.headerManageAcess {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.titleManageAcess {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.filterGroup {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.filterGroup button {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #e5e5e5;
+    background: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filterGroup button.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.filterGroup button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.userList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.userCard {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid #e5e5e5;
+    padding: 16px;
+    border-radius: 12px;
+    transition: transform 0.2s;
+}
+
+.userCard:hover {
+    transform: scale(1.01);
+    border-color: var(--primary-color);
+}
+
+.roleBar {
+    width: 6px;
+    height: 48px;
+    border-radius: 4px;
+}
+
+.proprietario {
+    background-color: #d35400;
+}
+
+.editavel {
+    background-color: #f39c12;
+}
+
+.visualizador {
+    background-color: #3498db;
+}
+
+.inactive {
+    background-color: #95a5a6;
+}
+
+.userAvatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.userAvatarPlaceholder {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    padding: 8px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.userInfo {
+    flex: 1;
+}
+
+.userName {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.userRole,
+.userDate {
+    margin: 2px 0;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.menuIcon {
+    cursor: pointer;
+    color: #333;
+    transition: 0.2s;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.menuIcon:hover {
+    background: #f0f0f0;
+    transform: scale(1.2);
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s;
+}
+
+.modalManageAcess {
+    background: white;
+    padding: 32px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: slideUp 0.3s;
+}
+
+.modalActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btnConfirm,
+.btnCancel {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btnConfirm {
+    background: #c0392b;
+    color: white;
+    border: none;
+}
+
+.btnConfirm:hover {
+    background: #a93226;
+    transform: translateY(-2px);
+}
+
+.btnCancel {
+    background: transparent;
+    border: 1px solid #ccc;
+}
+
+.btnCancel:hover {
+    background: #f9f9f9;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@media (min-width: 768px) {
+    .manageAcessScreen {
+        padding: 40px 80px;
+    }
+}

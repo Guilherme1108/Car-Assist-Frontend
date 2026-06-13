@@ -45,9 +45,9 @@ const VehicleScreen = () => {
     }
   };
 
-  const handleDonosClick = () => {
+const handleDonosClick = () => {
     if (role === 'Proprietário') {
-      alert("Navegando para Histórico de Donos..."); 
+      navigate(`/home/veiculo/gerenciamentousuarios/`, { state: { vehicleData: vehicle } });
     } else {
       alert("Permissão negada. Apenas o Proprietário pode visualizar o histórico de donos.");
     }
@@ -127,12 +127,11 @@ const VehicleScreen = () => {
         </div>
       </div>
 
-      {/* Card sempre visível; validação no onClick */}
       <div className="actionCard fullWidthCard donosCard" onClick={handleDonosClick}>
         <div className="cardLeft">
           <div className="iconWrapper iconPrimaryLight"><Users size={24} /></div>
           <div className="cardTexts">
-            <h3>Histórico de donos</h3>
+            <h3>Usuários com acesso</h3>
             <p>Veja todos os proprietários deste veículo.</p>
           </div>
         </div>
@@ -154,7 +153,6 @@ const VehicleScreen = () => {
           <ChevronRight size={20} className="chevron" />
         </div>
 
-        {/* Card sempre visível; validação no onClick */}
         <div className="actionCard" onClick={handleTransferenciaClick}>
           <div className="cardLeft">
             <div className="iconWrapper iconPrimaryLight"><ArrowRightLeft size={24} /></div>

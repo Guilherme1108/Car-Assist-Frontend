@@ -33,8 +33,11 @@ const HomeScreen = () => {
         const response = await api.get(`/usuario-veiculo/${userId}`);
 
         if (response.data && response.data.status) {
+          // Filtra apenas veículos onde is_ativo é 1
           const userVehicleRelations =
-            response.data.data?.usuario_veiculo || [];
+            response.data.data?.usuario_veiculo.filter(
+              (relation) => relation.is_ativo === 1
+            ) || [];
 
           const parsedVehicles = userVehicleRelations.map((relation) => {
             const vehicle = relation.veiculo;
@@ -205,8 +208,7 @@ const HomeScreen = () => {
       ) : (
         <div className="emptyGarageText">
           <p>
-            Você ainda não possui veículos cadastrados
-            na sua garagem.
+            Você ainda não possui veículos ativos na sua garagem.
           </p>
         </div>
       )}

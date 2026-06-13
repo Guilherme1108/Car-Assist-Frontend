@@ -11,7 +11,6 @@
     font-family: 'Inter', sans-serif;
 }
 
-/* Header */
 .vehicleHeader {
     width: 100%;
     max-width: 1200px;
@@ -23,7 +22,7 @@
 .titleVeiculo {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #111827; /* Preto suave */
+    color: #111827;
     margin: 0;
 }
 
@@ -55,8 +54,8 @@
 
 .carImage {
     width: 100%;
-    height: auto; /* Deixa a altura flexível */
-    aspect-ratio: 16 / 9; /* Mantém uma proporção retangular clássica */
+    height: auto;
+    aspect-ratio: 16 / 9;
     object-fit: cover; 
     object-position: center;
     display: block;
@@ -98,7 +97,6 @@
     font-weight: 700;
 }
 
-/* Base dos Ícones */
 .iconWrapper {
     width: 40px;
     height: 40px;
@@ -178,7 +176,6 @@
     color: #9ca3af;
 }
 
-/* Card Donos Especial (Detalhe lateral primário) */
 .donosCard {
     border-left: 4px solid var(--primary-color, #ef4444);
 }

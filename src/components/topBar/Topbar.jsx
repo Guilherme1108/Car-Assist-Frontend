@@ -26,8 +26,8 @@ const Topbar = () => {
   <div className="side left">
     {showIcons && (
       <>
-        <Calendar size={32} />
-        <MessageSquare size={32} />
+        {/* <Calendar size={32} />
+        <MessageSquare size={32} /> */}
       </>
     )}
 

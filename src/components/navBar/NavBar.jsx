@@ -1,5 +1,5 @@
-import {Home, Wrench, User} from "lucide-react";
-import {useNavigate, useLocation} from "react-router-dom";
+import { Home, Wrench, User } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import "./NavBar.css";
 
@@ -16,13 +16,6 @@ const NavBar = () => {
       </div>
 
       <div className="containerIcons">
-        <div
-          className={`item ${isActive("/servicos") ? "active" : ""}`}
-          onClick={() => navigate("/servicos")}
-        >
-          <Wrench size={32} />
-          <span className="titleNavigationOption">Serviços</span>
-        </div>
 
         <div
           className={`item ${isActive("/home") || isActive("/home/veiculo") || isActive("/home/veiculo/gastos") || isActive("/home/veiculo/manutencao") || isActive("/home/veiculo/transferencia") ? "active" : ""}`}
@@ -31,6 +24,16 @@ const NavBar = () => {
           <Home size={32} />
           <span className="titleNavigationOption">Garagem</span>
         </div>
+
+        <div
+          className={`item ${isActive("/servicos") ? "active" : ""}`}
+          onClick={() => navigate("/servicos")}
+        >
+          <Wrench size={32} />
+          <span className="titleNavigationOption">Serviços</span>
+        </div>
+
+
 
         <div
           className={`item ${isActive("/perfil") ? "active" : ""}`}

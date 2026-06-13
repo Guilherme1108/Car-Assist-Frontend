@@ -16,9 +16,9 @@ const NewMaintenence = () => {
   const { id } = useParams(); 
   const isEditMode = !!id;
 
-  // Estados para Controle de Usuário e Veículo
+  // Estados para Controle de Usuário e Veículo (AGORA DINÂMICO!)
   const [idUsuarioLogado, setIdUsuarioLogado] = useState(null);
-  const idVeiculoAtual = 4; // Alinhado com o ID do veículo do banco
+  const [idVeiculoAtual, setIdVeiculoAtual] = useState(null); 
 
   const [tiposManutencao, setTiposManutencao] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +34,7 @@ const NewMaintenence = () => {
     fkIdTipoManutencao: ""
   });
 
+  // 1. Buscar o Usuário Logado do LocalStorage
   useEffect(() => {
     const storageUser = localStorage.getItem("user");
     if (!storageUser) {
@@ -46,11 +47,18 @@ const NewMaintenence = () => {
   }, [navigate]);
 
 
+  // 2. Carregar/Preencher os dados da manutenção (E pegar o ID do veículo correto)
   useEffect(() => {
     const carregarDadosManutencao = async () => {
       let dados = location.state?.maintenanceToEdit;
 
+      // Se for MODO CRIAÇÃO, o idVeiculo vem direto no state enviado pela tela de histórico
+      if (!isEditMode && location.state?.idVeiculo) {
+        setIdVeiculoAtual(location.state.idVeiculo);
+        return;
+      }
 
+      // Se for MODO EDIÇÃO e o usuário deu F5 (perdeu o state), busca direto da API pelo ID da URL
       if (!dados && id) {
         try {
           setIsLoading(true);
@@ -65,7 +73,11 @@ const NewMaintenence = () => {
         }
       }
 
+      // Se temos os dados da manutenção (seja por navegação ou pela API)
       if (dados) {
+        // Vincula o veículo dinamicamente baseado nos dados reais da manutenção
+        setIdVeiculoAtual(dados.id_veiculo);
+
         setFormData({
           dataManutencao: dados.data_manutencao ? dados.data_manutencao.split("T")[0] : "",
           quilometragem: dados.quilometragem?.toString() || "",
@@ -91,8 +103,9 @@ const NewMaintenence = () => {
     };
 
     carregarDadosManutencao();
-  }, [id, location.state]);
+  }, [id, location.state, isEditMode]);
 
+  // 3. Buscar os tipos de manutenção no select
   useEffect(() => {
     const fetchTipos = async () => {
       try {
@@ -173,6 +186,7 @@ const NewMaintenence = () => {
 
   const handleSave = async () => {
     if (!idUsuarioLogado) return alert("Usuário não identificado.");
+    if (!idVeiculoAtual) return alert("Veículo não identificado."); // Validação de segurança adicionada
     if (!formData.fkIdTipoManutencao) return alert("Selecione um tipo de manutenção.");
     if (images.length === 0) return alert("Adicione pelo menos uma evidência.");
 
@@ -189,7 +203,7 @@ const NewMaintenence = () => {
       payload.append("pecas", formData.pecas);
       payload.append("fk_id_tipo_manutencao", formData.fkIdTipoManutencao);
       payload.append("fk_id_usuario", idUsuarioLogado);
-      payload.append("fk_id_veiculo", idVeiculoAtual);
+      payload.append("fk_id_veiculo", idVeiculoAtual); // Enviando o ID dinâmico correto
 
       for (let i = 0; i < images.length; i++) {
         const img = images[i];
@@ -207,7 +221,7 @@ const NewMaintenence = () => {
       const apiResponse = isEditMode ? await api.put(url, payload) : await api.post(url, payload);
 
       if (apiResponse.data && (apiResponse.data.status === true || apiResponse.status === 200)) {
-        alert(isEditMode ? "Manutenção atualizada com sucesso!" : "Manutenção salva com sucesso!");
+        alert(isEditMode ? "Manutenção updated com sucesso!" : "Manutenção salva com sucesso!");
         navigate(-1);
       } else {
         alert(`Erro ao salvar: ${apiResponse.data?.message || 'Erro desconhecido'}`);
@@ -231,6 +245,7 @@ const NewMaintenence = () => {
           <p>Data de criação: 27/04/2026</p>
         </header>
 
+        {/* ... Restante do JSX continua perfeitamente igual ... */}
         <div className="formMaintenence">
           <section className="cardSection leftColumn">
             <h3>Dados da Manutenção</h3>
