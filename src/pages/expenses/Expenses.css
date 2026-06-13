@@ -77,7 +77,7 @@
 
 .expenseItem {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     border-bottom: solid 2px var(--border-primary);
     min-height: 50px;
