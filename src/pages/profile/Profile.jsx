@@ -22,8 +22,8 @@ const ProfileScreen = () => {
         senha: ""
     });
 
-    const [userImage, setUserImage] = useState(null); // Para o preview visual
-    const [selectedFile, setSelectedFile] = useState(null); // Para o envio real no FormData
+    const [userImage, setUserImage] = useState(null); 
+    const [selectedFile, setSelectedFile] = useState(null); 
     const [imageError, setImageError] = useState(false);
 
     const formatDateForInput = (isoString) => {
@@ -94,10 +94,10 @@ const ProfileScreen = () => {
 
         const files = Array.from(e.target.files);
         const file = files[0];
-        const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+        const allowedTypes = ["image/png", "image/jpeg"];
 
         if (!allowedTypes.includes(file.type)) {
-            alert("Apenas arquivos PNG, JPEG ou WEBP são permitidos.");
+            alert("Apenas arquivos PNG ou JPEG são permitidos.");
             e.target.value = "";
             return;
         }
@@ -166,15 +166,11 @@ const ProfileScreen = () => {
                 formData.append("senha", profileData.senha);
             }
 
-            // Lógica ajustada para enviar a foto corretamente
             if (selectedFile) {
-                // Se o usuário selecionou uma nova foto (File)
                 formData.append("foto_usuario", selectedFile);
             } else if (userImage) {
-                // Se o usuário não selecionou nova foto, mas já tem uma (URL em texto)
                 formData.append("foto_usuario", userImage);
             } else {
-                // Se o usuário não tem foto ou removeu a foto atual
                 formData.append("foto_usuario", "");
             }
 
@@ -230,7 +226,7 @@ const ProfileScreen = () => {
                     type="file"
                     ref={fileInputRef}
                     style={{ display: "none" }}
-                    accept="image/png, image/jpeg, image/jpg, image/webp"
+                    accept="image/png, image/jpeg"
                     onChange={handleImageChange}
                 />
 

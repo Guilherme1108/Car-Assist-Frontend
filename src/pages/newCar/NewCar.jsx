@@ -186,11 +186,9 @@ const NewCarScreen = () => {
                 formData.append("ano", carData.ano);
                 formData.append("quilometragem", carData.quilometragem); 
                 
-                // Lógica de Imagem
                 if (imageFile) {
-                    formData.append("foto_veiculo", imageFile); // Imagem Nova
+                    formData.append("foto_veiculo", imageFile);
                 } else if (isEditMode && carImage) {
-                    // Truque: Faz o download da imagem antiga e anexa para o servidor não apagar
                     const res = await fetch(carImage);
                     const blob = await res.blob();
                     formData.append("foto_veiculo", blob, "foto_mantida.jpg");
@@ -199,7 +197,6 @@ const NewCarScreen = () => {
                     return alert("A foto do veículo é obrigatória.");
                 }
 
-                // Dados exclusivos de Criação (POST)
                 if (!isEditMode) {
                     formData.append("id_usuario", userLogged.id);
                     formData.append("is_ativo", true);
