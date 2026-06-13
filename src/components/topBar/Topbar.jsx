@@ -13,7 +13,7 @@ const Topbar = () => {
 
   const pagesWithreturnIcon = [ "/home/veiculo", "/home/veiculo/manutencao", "/home/veiculo/gastos",
                                 "/perfil", "/servicos", "/home/veiculo/manutencao/criar", "/home/cadastrarveiculo",
-                                "/home/veiculo/transferencia"
+                                "/home/veiculo/transferencia","/home/veiculo/gastos/categoria"
                               ]; // adicionar mais rotas aqui depois
 
   const isDesktop = window.innerWidth >= 1024;

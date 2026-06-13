@@ -13,6 +13,7 @@ import NewCarScreen from './pages/newCar/NewCar'
 import NewMaintenence from './pages/newMaintenence/NewMaintenence'
 import TransferScreen from './pages/transfer/Transfer'
 import ManageAcessScreen from './pages/manageAcess/ManageAcess'
+import ExpensesDetail from './pages/Category/Category'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/home/veiculo/manutencao/criar" element={<NewMaintenence />} />
         <Route path="/home/veiculo/manutencao/editar/:id" element={<NewMaintenence />} />
         <Route path="/home/veiculo/gastos" element={<ExpensesScreen />} />
+         <Route path="/home/veiculo/gastos/categoria" element={<ExpensesDetail  />} />
         <Route path="/home/veiculo/transferencia" element={<TransferScreen />} />
 
         <Route path="/home/veiculo/gerenciamentousuarios" element={<ManageAcessScreen />} />
