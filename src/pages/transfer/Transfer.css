@@ -46,7 +46,6 @@
     margin-bottom: 24px;
 }
 
-
 .stepItem.active .stepCircle {
     background-color: var(--primary-color);
 }
@@ -178,9 +177,6 @@
     }
 }
 
-
-
-
 /*===================== STEP 2==============================*/
 
 .step2Confirm {
@@ -241,6 +237,7 @@
 
 .textsCodeScreen {
     font-size: 1rem;
+    text-align: center;
 }
 
 .containerCode {
@@ -250,7 +247,7 @@
 }
 
 .textCode {
-    font-size: 0.875;
+    font-size: 0.875rem;
     font-weight: bold;
 }
 
@@ -258,6 +255,8 @@
     font-size: 3rem;
     font-weight: bold;
     color: var(--primary-color);
+    letter-spacing: 0.25em;
+    text-align: center;
 }
 
 .alertDiv {
