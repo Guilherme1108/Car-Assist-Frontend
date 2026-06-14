@@ -53,15 +53,13 @@ const MaintenanceScreen = () => {
       alert("Acesso Negado: Como visualizador, você não tem permissão para adicionar novas manutenções.");
       return;
     }
-    navigate("./criar", { state: { idVeiculo: idVeiculoAtual } });
+    navigate("./criar", { state: { idVeiculo: idVeiculoAtual, role: role } });
   };
 
   const handleEditMaintenance = (item) => {
-    if (role === 'Visualizador') {
-      alert("Acesso Negado: Como visualizador, você não pode editar ou visualizar os detalhes desta manutenção.");
-      return;
-    }
-    navigate(`./editar/${item.id}`, { state: { maintenanceToEdit: item } });
+    // 💡 REMOVIDO O ALERTA: O Visualizador agora pode clicar e acessar para visualizar!
+    // Passamos o papel do usuário (role) para a próxima tela saber que está em modo de leitura
+    navigate(`./editar/${item.id}`, { state: { maintenanceToEdit: item, role: role } });
   };
 
   return (
@@ -84,7 +82,6 @@ const MaintenanceScreen = () => {
       </div>
 
       <div className="buttonsMaintenance">
-        
         <Button
           text="Nova Manutenção"
           variant="primary"

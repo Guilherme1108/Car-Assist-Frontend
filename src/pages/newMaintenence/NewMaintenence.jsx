@@ -12,11 +12,12 @@ const NewMaintenence = () => {
   const location = useLocation();
   const fileInputRef = useRef(null);
   
-  // Captura o ID diretamente da URL (ex: /editar/5)
   const { id } = useParams(); 
   const isEditMode = !!id;
 
-  // Estados para Controle de Usuário e Veículo (AGORA DINÂMICO!)
+  const userRole = location.state?.role;
+  const isReadOnly = userRole === "Visualizador";
+
   const [idUsuarioLogado, setIdUsuarioLogado] = useState(null);
   const [idVeiculoAtual, setIdVeiculoAtual] = useState(null); 
 
@@ -34,7 +35,6 @@ const NewMaintenence = () => {
     fkIdTipoManutencao: ""
   });
 
-  // 1. Buscar o Usuário Logado do LocalStorage
   useEffect(() => {
     const storageUser = localStorage.getItem("user");
     if (!storageUser) {
@@ -46,19 +46,15 @@ const NewMaintenence = () => {
     setIdUsuarioLogado(loggedUser.id);
   }, [navigate]);
 
-
-  // 2. Carregar/Preencher os dados da manutenção (E pegar o ID do veículo correto)
   useEffect(() => {
     const carregarDadosManutencao = async () => {
       let dados = location.state?.maintenanceToEdit;
 
-      // Se for MODO CRIAÇÃO, o idVeiculo vem direto no state enviado pela tela de histórico
       if (!isEditMode && location.state?.idVeiculo) {
         setIdVeiculoAtual(location.state.idVeiculo);
         return;
       }
 
-      // Se for MODO EDIÇÃO e o usuário deu F5 (perdeu o state), busca direto da API pelo ID da URL
       if (!dados && id) {
         try {
           setIsLoading(true);
@@ -73,9 +69,7 @@ const NewMaintenence = () => {
         }
       }
 
-      // Se temos os dados da manutenção (seja por navegação ou pela API)
       if (dados) {
-        // Vincula o veículo dinamicamente baseado nos dados reais da manutenção
         setIdVeiculoAtual(dados.id_veiculo);
 
         setFormData({
@@ -105,7 +99,6 @@ const NewMaintenence = () => {
     carregarDadosManutencao();
   }, [id, location.state, isEditMode]);
 
-  // 3. Buscar os tipos de manutenção no select
   useEffect(() => {
     const fetchTipos = async () => {
       try {
@@ -121,11 +114,13 @@ const NewMaintenence = () => {
   }, []);
 
   const handleChange = (e) => {
+    if (isReadOnly) return;
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleImageChange = (e) => {
+    if (isReadOnly) return;
     const files = Array.from(e.target.files);
 
     if (images.length + files.length > 3) {
@@ -153,6 +148,7 @@ const NewMaintenence = () => {
   };
 
   const handleRemoveImage = (indexToRemove) => {
+    if (isReadOnly) return;
     setImages((prevImages) => {
       const removedImage = prevImages[indexToRemove];
       if (removedImage.file) URL.revokeObjectURL(removedImage.url);
@@ -165,6 +161,7 @@ const NewMaintenence = () => {
   };
 
   const handleDelete = async () => {
+    if (isReadOnly) return;
     if (!window.confirm("Deseja realmente excluir esta manutenção?")) return;
     
     try {
@@ -185,8 +182,9 @@ const NewMaintenence = () => {
   };
 
   const handleSave = async () => {
+    if (isReadOnly) return;
     if (!idUsuarioLogado) return alert("Usuário não identificado.");
-    if (!idVeiculoAtual) return alert("Veículo não identificado."); // Validação de segurança adicionada
+    if (!idVeiculoAtual) return alert("Veículo não identificado."); 
     if (!formData.fkIdTipoManutencao) return alert("Selecione um tipo de manutenção.");
     if (images.length === 0) return alert("Adicione pelo menos uma evidência.");
 
@@ -203,7 +201,7 @@ const NewMaintenence = () => {
       payload.append("pecas", formData.pecas);
       payload.append("fk_id_tipo_manutencao", formData.fkIdTipoManutencao);
       payload.append("fk_id_usuario", idUsuarioLogado);
-      payload.append("fk_id_veiculo", idVeiculoAtual); // Enviando o ID dinâmico correto
+      payload.append("fk_id_veiculo", idVeiculoAtual); 
 
       for (let i = 0; i < images.length; i++) {
         const img = images[i];
@@ -221,7 +219,7 @@ const NewMaintenence = () => {
       const apiResponse = isEditMode ? await api.put(url, payload) : await api.post(url, payload);
 
       if (apiResponse.data && (apiResponse.data.status === true || apiResponse.status === 200)) {
-        alert(isEditMode ? "Manutenção updated com sucesso!" : "Manutenção salva com sucesso!");
+        alert(isEditMode ? "Manutenção atualizada com sucesso!" : "Manutenção salva com sucesso!");
         navigate(-1);
       } else {
         alert(`Erro ao salvar: ${apiResponse.data?.message || 'Erro desconhecido'}`);
@@ -239,13 +237,12 @@ const NewMaintenence = () => {
       <main className="mainContent">
         <header className="headerMain">
           <h1>
-            {isEditMode ? "Editar Manutenção" : "Nova Manutenção no"}{" "}
-            <span className="carName">Civic SI</span>
+            {isEditMode ? (isReadOnly ? "Detalhes da Manutenção" : "Editar Manutenção") : "Nova Manutenção no"}{" "}
+            {!isEditMode && <span className="carName">Civic SI</span>}
           </h1>
           <p>Data de criação: 27/04/2026</p>
         </header>
 
-        {/* ... Restante do JSX continua perfeitamente igual ... */}
         <div className="formMaintenence">
           <section className="cardSection leftColumn">
             <h3>Dados da Manutenção</h3>
@@ -256,6 +253,7 @@ const NewMaintenence = () => {
                 name="fkIdTipoManutencao"
                 value={formData.fkIdTipoManutencao}
                 onChange={handleChange}
+                disabled={isReadOnly}
               >
                 <option value="">Selecione...</option>
                 {tiposManutencao.map(tipo => (
@@ -267,19 +265,19 @@ const NewMaintenence = () => {
             <div className="dataGrid">
               <div className="inputGroup">
                 <label>Data</label>
-                <Input type="date" name="dataManutencao" value={formData.dataManutencao} onChange={handleChange} />
+                <Input type="date" name="dataManutencao" value={formData.dataManutencao} onChange={handleChange} disabled={isReadOnly} />
               </div>
               <div className="inputGroup">
                 <label>KM</label>
-                <Input type="number" name="quilometragem" value={formData.quilometragem} onChange={handleChange} />
+                <Input type="number" name="quilometragem" value={formData.quilometragem} onChange={handleChange} disabled={isReadOnly} />
               </div>
               <div className="inputGroup">
                 <label>Valor</label>
-                <Input name="valor" value={formData.valor} onChange={handleChange} placeholder="Ex: 150.00" />
+                <Input name="valor" value={formData.valor} onChange={handleChange} placeholder="Ex: 150.00" disabled={isReadOnly} />
               </div>
               <div className="inputGroup">
                 <label>Oficina</label>
-                <Input name="oficina" value={formData.oficina} onChange={handleChange} />
+                <Input name="oficina" value={formData.oficina} onChange={handleChange} disabled={isReadOnly} />
               </div>
             </div>
           </section>
@@ -294,28 +292,35 @@ const NewMaintenence = () => {
                 value={formData.pecas}
                 onChange={handleChange}
                 placeholder="Descreva as peças trocadas"
+                disabled={isReadOnly}
               />
             </div>
 
-            <label htmlFor="file-upload" className="evidenceUpload">
-              <span>Anexar evidencias</span>
-              <Paperclip></Paperclip>
-            </label>
-            <input
-              id="file-upload"
-              type="file"
-              multiple
-              accept="image/png, image/jpeg"
-              onChange={handleImageChange}
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-            />
+            {!isReadOnly && (
+              <>
+                <label htmlFor="file-upload" className="evidenceUpload">
+                  <span>Anexar evidencias</span>
+                  <Paperclip />
+                </label>
+                <input
+                  id="file-upload"
+                  type="file"
+                  multiple
+                  accept="image/png, image/jpeg"
+                  onChange={handleImageChange}
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                />
+              </>
+            )}
 
-            <div className="imagePreviewGrid">
+            <div className="imagePreviewGrid" style={{ marginTop: isReadOnly ? '1.5rem' : '0' }}>
               {images.map((img, index) => (
                 <div key={index} className="imageItem">
                   <img src={img.url} alt="Preview" />
-                  <X className="removeBtn" onClick={() => handleRemoveImage(index)} size={18} />
+                  {!isReadOnly && (
+                    <X className="removeBtn" onClick={() => handleRemoveImage(index)} size={18} />
+                  )}
                 </div>
               ))}
             </div>
@@ -329,25 +334,37 @@ const NewMaintenence = () => {
               placeholder="Adicione observações adicionais."
               value={formData.observacoes}
               onChange={handleChange}
+              disabled={isReadOnly}
             />
 
             <div className="buttonActionGroup">
-              {isEditMode && (
+              {isReadOnly ? (
                 <Button 
-                  className="deleteMaintenence" 
-                  text="Excluir" 
-                  variant="secondary" 
-                  onClick={handleDelete}
-                  disabled={isLoading}
+                  className="saveMaintenence" 
+                  text="Voltar" 
+                  variant="primary" 
+                  onClick={() => navigate(-1)} 
                 />
+              ) : (
+                <>
+                  {isEditMode && (
+                    <Button 
+                      className="deleteMaintenence" 
+                      text="Excluir" 
+                      variant="secondary" 
+                      onClick={handleDelete}
+                      disabled={isLoading}
+                    />
+                  )}
+                  <Button 
+                    className="saveMaintenence" 
+                    text={isLoading ? "Processando..." : "Salvar"} 
+                    variant="primary" 
+                    onClick={handleSave}
+                    disabled={isLoading}
+                  />
+                </>
               )}
-              <Button 
-                className="saveMaintenence" 
-                text={isLoading ? "Processando..." : "Salvar"} 
-                variant="primary" 
-                onClick={handleSave}
-                disabled={isLoading}
-              />
             </div>
           </section>
         </div>
