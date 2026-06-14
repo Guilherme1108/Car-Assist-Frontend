@@ -57,8 +57,6 @@ const MaintenanceScreen = () => {
   };
 
   const handleEditMaintenance = (item) => {
-    // 💡 REMOVIDO O ALERTA: O Visualizador agora pode clicar e acessar para visualizar!
-    // Passamos o papel do usuário (role) para a próxima tela saber que está em modo de leitura
     navigate(`./editar/${item.id}`, { state: { maintenanceToEdit: item, role: role } });
   };
 

@@ -25,6 +25,9 @@ const NewMaintenence = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
 
+  // ESTADO para guardar a data de criação que aparece no topo da tela
+  const [dataCriacaoHeader, setDataCriacaoHeader] = useState("");
+
   const [formData, setFormData] = useState({
     dataManutencao: "",
     quilometragem: "",
@@ -34,6 +37,13 @@ const NewMaintenence = () => {
     observacoes: "",
     fkIdTipoManutencao: ""
   });
+
+  useEffect(() => {
+    if (!isEditMode) {
+      const hoje = new Date();
+      setDataCriacaoHeader(hoje.toLocaleDateString("pt-BR"));
+    }
+  }, [isEditMode]);
 
   useEffect(() => {
     const storageUser = localStorage.getItem("user");
@@ -72,8 +82,13 @@ const NewMaintenence = () => {
       if (dados) {
         setIdVeiculoAtual(dados.id_veiculo);
 
+        let dataFormatadaISO = "";
+        if (dados.data_manutencao) {
+          dataFormatadaISO = dados.data_manutencao.substring(0, 10);
+        }
+
         setFormData({
-          dataManutencao: dados.data_manutencao ? dados.data_manutencao.split("T")[0] : "",
+          dataManutencao: dataFormatadaISO,
           quilometragem: dados.quilometragem?.toString() || "",
           valor: dados.custo || "",
           oficina: dados.oficina || "",
@@ -81,6 +96,13 @@ const NewMaintenence = () => {
           observacoes: dados.observacoes || "",
           fkIdTipoManutencao: dados.tipo_manutencao?.id?.toString() || ""
         });
+
+        const dataCriacaoOriginal = dados.data || dados.data_criacao;
+        if (dataCriacaoOriginal) {
+          const dataCriacaoFormatada = new Date(dataCriacaoOriginal.replace(" ", "T"))
+                                        .toLocaleDateString("pt-BR", { timeZone: "UTC" });
+          setDataCriacaoHeader(dataCriacaoFormatada);
+        }
 
         if (dados.evidencia && Array.isArray(dados.evidencia)) {
           const urlsAntigas = dados.evidencia.map(item => {
@@ -240,7 +262,8 @@ const NewMaintenence = () => {
             {isEditMode ? (isReadOnly ? "Detalhes da Manutenção" : "Editar Manutenção") : "Nova Manutenção no"}{" "}
             {!isEditMode && <span className="carName">Civic SI</span>}
           </h1>
-          <p>Data de criação: 27/04/2026</p>
+          {/* Exibe a data dinamicamente */}
+          <p>Data de criação: {dataCriacaoHeader}</p>
         </header>
 
         <div className="formMaintenence">

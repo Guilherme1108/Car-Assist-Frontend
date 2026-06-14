@@ -106,11 +106,7 @@ const ExpensesDetail = () => {
             >
               <div className="expenseRow">
                 <span>
-                  {new Date(
-                    gasto.data
-                  ).toLocaleDateString(
-                    "pt-BR"
-                  )}
+                  {new Date(gasto.data).toLocaleDateString("pt-BR", { timeZone: "UTC" })}
                 </span>
 
                 <div className="expenseValueContainer">
@@ -138,8 +134,8 @@ const ExpensesDetail = () => {
 
               {index !==
                 gastos.length - 1 && (
-                <div className="expenseDivider" />
-              )}
+                  <div className="expenseDivider" />
+                )}
             </div>
           ))
         )}
