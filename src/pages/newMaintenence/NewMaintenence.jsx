@@ -259,10 +259,8 @@ const NewMaintenence = () => {
       <main className="mainContent">
         <header className="headerMain">
           <h1>
-            {isEditMode ? (isReadOnly ? "Detalhes da Manutenção" : "Editar Manutenção") : "Nova Manutenção no"}{" "}
-            {!isEditMode && <span className="carName">Civic SI</span>}
+            {isEditMode ? (isReadOnly ? "Detalhes da Manutenção" : "Editar Manutenção") : "Nova Manutenção"}
           </h1>
-          {/* Exibe a data dinamicamente */}
           <p>Data de criação: {dataCriacaoHeader}</p>
         </header>
 
