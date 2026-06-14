@@ -17,13 +17,16 @@ const ExpensesDetail = () => {
   const nomeTipo = location.state?.nomeTipo;
   const vehicleId = location.state?.vehicleId;
 
-  const getExpenses = async () => {
+const getExpenses = async () => {
     try {
       const response = await api.get(
         `gasto/veiculo/${vehicleId}/gasto/${tipoGastoId}`
       );
 
-      setGastos(response.data.data.gasto);
+      const allGastos = response.data.data.gasto || [];
+      const activeGastos = allGastos.filter(gasto => gasto.is_ativo === 1); 
+
+      setGastos(activeGastos);
     } catch (error) {
       console.error("Erro ao buscar gastos:", error);
     }
