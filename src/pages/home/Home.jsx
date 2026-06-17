@@ -188,7 +188,7 @@ const HomeScreen = () => {
                 <CarCard
                   car={vehicle}
                   onNavigate={navigate}
-                  scoreClass={scoreColorClass}
+                  scoreClass={getScoreColorClass(vehicle.points)}
                 />
               </div>
             ))}
