@@ -105,7 +105,17 @@ const ManageAcessScreen = () => {
             <div className="userInfo">
               <h4 className="userName">{user.nome} {user.is_ativo === 1 && user.papel_usuario === 'Proprietário' && "(Atual)"}</h4>
               <p className="userRole">{user.papel_usuario}</p>
-              <p className="userDate">Desde: {new Date(user.data_vinculo).toLocaleDateString()}</p>
+              
+              <div className="userDatesContainer">
+                {user.is_ativo === 1 ? (
+                  <p className="userDate">Desde: {user.data_vinculo ? new Date(user.data_vinculo).toLocaleDateString() : "N/A"}</p>
+                ) : (
+                  <>
+                    <p className="userDate textMuted">Vinculado em: {user.data_vinculo ? new Date(user.data_vinculo).toLocaleDateString() : "N/A"}</p>
+                    <p className="userDate textDanger">Desvinculado em: {user.data_desvinculo ? new Date(user.data_desvinculo).toLocaleDateString() : "N/A"}</p>
+                  </>
+                )}
+              </div>
             </div>
             
             {user.is_ativo === 1 && user.papel_usuario !== 'Proprietário' && (
