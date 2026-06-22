@@ -1,8 +1,9 @@
-import {useState, useEffect} from "react"; // Importamos o useEffect
-import {useNavigate} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import api from "../../services/api";
+import { MySwal } from "../../config/swal";
 import "./Login.css";
 import RegisterAccountScreen from "../registerAccount/RegisterAccount";
 import imagemCarro from "../../assets/imagemCarroDesktop.svg";
@@ -28,7 +29,7 @@ const LoginScreen = () => {
   });
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
 
     setCredentials({
       ...credentials,
@@ -37,15 +38,18 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    const {email, password} = credentials;
+    const { email, password } = credentials;
 
     if (!email || !password) {
-      alert("Por favor, preencha todos os campos");
+      await MySwal.fire({
+        icon: "warning",
+        title: "Campos obrigatórios",
+        text: "Por favor, preencha todos os campos",
+      });
       return;
     }
 
     try {
-      // Endpoint atual do backend
       const response = await api.post(`/usuario/login`, {
         email,
         password,
@@ -56,7 +60,11 @@ const LoginScreen = () => {
       const user = response.data.data.usuario;
 
       if (!user) {
-        alert("Usuário não encontrado");
+        await MySwal.fire({
+          icon: "error",
+          title: "Usuário não encontrado",
+          text: "Verifique suas credenciais e tente novamente",
+        });
         return;
       }
 
@@ -66,7 +74,11 @@ const LoginScreen = () => {
     } catch (error) {
       console.log(error);
 
-      alert(error.response?.data?.message || "Erro ao fazer login");
+      await MySwal.fire({
+        icon: "error",
+        title: "Erro ao fazer login",
+        text: error.response?.data?.message || "Tente novamente mais tarde",
+      });
     }
   };
 
@@ -99,8 +111,6 @@ const LoginScreen = () => {
         <span className="phraseLogin">
           Cuide do seu carro, valorize <br></br> seu investimento.
         </span>
-
-        {/* <img src={carLoginImage} alt="carro" className="carLoginimage" /> */}
 
         {
           <div className="carLoginimage">
@@ -144,7 +154,7 @@ const LoginScreen = () => {
           <p
             className="criarConta"
             onClick={() => handleCreateAccountClick()}
-            style={{cursor: "pointer"}}
+            style={{ cursor: "pointer" }}
           >
             Criar uma conta
           </p>
