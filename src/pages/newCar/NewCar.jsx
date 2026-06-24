@@ -6,11 +6,12 @@ import NavBar from '../../components/navBar/NavBar';
 import { ImagePlus, X } from "lucide-react";
 import api from "../../services/api";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { MySwal } from "../../config/swal";
 
 const NewCarScreen = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { id } = useParams(); 
+    const { id } = useParams();
 
     const editingVehicle = location.state?.vehicleData;
     const isEditMode = !!id;
@@ -26,7 +27,7 @@ const NewCarScreen = () => {
         placa: "",
         ano: "",
         cor: "",
-        quilometragem: "" 
+        quilometragem: ""
     });
 
     const [carImage, setCarImage] = useState(null);
@@ -45,7 +46,7 @@ const NewCarScreen = () => {
             });
 
             if (editingVehicle.foto_veiculo && !editingVehicle.foto_veiculo.includes("carNotFOund")) {
-                setCarImage(editingVehicle.foto_veiculo.replace("localhost", "127.0.0.1")); 
+                setCarImage(editingVehicle.foto_veiculo.replace("localhost", "127.0.0.1"));
             }
         }
     }, [isEditMode, editingVehicle]);
@@ -71,31 +72,30 @@ const NewCarScreen = () => {
         const { name, value } = e.target;
         let treatedValue = value;
 
-        if (name === "placa") {
-            treatedValue = value.toUpperCase();
-        }
-
-        if (name === "ano" || name === "quilometragem") {
-            treatedValue = value.replace(/\D/g, "");
-        }
+        if (name === "placa") treatedValue = value.toUpperCase();
+        if (name === "ano" || name === "quilometragem") treatedValue = value.replace(/\D/g, "");
 
         setCarData({ ...carData, [name]: treatedValue });
     };
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         if (!e || !e.target || !e.target.files || e.target.files.length === 0) return;
 
         const file = e.target.files[0];
         const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
-        
+
         if (!allowedTypes.includes(file.type)) {
-            alert("Apenas arquivos PNG ou JPEG são permitidos.");
+            await MySwal.fire({
+                icon: "warning",
+                title: "Formato inválido",
+                text: "Apenas arquivos PNG ou JPEG são permitidos",
+            });
             e.target.value = "";
             return;
         }
 
         if (carImage && !carImage.includes("http")) {
-            URL.revokeObjectURL(carImage); 
+            URL.revokeObjectURL(carImage);
         }
 
         setCarImage(URL.createObjectURL(file));
@@ -119,24 +119,46 @@ const NewCarScreen = () => {
     };
 
     const handleCancel = () => {
-        navigate(-1); 
+        navigate(-1);
     };
 
     const handleDelete = async () => {
-        if (!window.confirm("Atenção! Tem certeza que deseja excluir este veículo e todo o seu histórico?")) return;
+        const result = await MySwal.fire({
+            icon: "warning",
+            title: "Excluir veículo",
+            text: "Tem certeza que deseja excluir este veículo e todo o seu histórico?",
+            showCancelButton: true,
+            confirmButtonText: "Sim, excluir",
+            cancelButtonText: "Cancelar",
+        });
+
+        if (!result.isConfirmed) return;
 
         setIsLoading(true);
         try {
             const response = await api.delete(`/veiculo/${id}`);
-            
+
             if (response.data?.status || response.status === 200) {
-                alert("Veículo excluído com sucesso!");
-                navigate("/home"); 
+                await MySwal.fire({
+                    icon: "success",
+                    title: "Veículo excluído",
+                    text: "O veículo foi excluído com sucesso",
+                    confirmButtonText: "Ok",
+                });
+                navigate("/home");
             } else {
-                alert(response.data?.message || "Erro ao excluir veículo.");
+                await MySwal.fire({
+                    icon: "error",
+                    title: "Erro ao excluir",
+                    text: response.data?.message || "Erro ao excluir veículo",
+                });
             }
         } catch (error) {
-            alert(error.response?.data?.message || "Falha na conexão ao tentar excluir.");
+            await MySwal.fire({
+                icon: "error",
+                title: "Erro de conexão",
+                text: error.response?.data?.message || "Falha na conexão ao tentar excluir",
+            });
         } finally {
             setIsLoading(false);
         }
@@ -144,48 +166,93 @@ const NewCarScreen = () => {
 
     const handleConfirm = async () => {
         if (activeTab === "acquire") {
-            if (!transferCode) return alert("Por favor, digite o código de transferência.");
+            if (!transferCode) {
+                await MySwal.fire({
+                    icon: "warning",
+                    title: "Código obrigatório",
+                    text: "Por favor, digite o código de transferência",
+                });
+                return;
+            }
+
             try {
                 const storageUser = localStorage.getItem("user");
-                if (!storageUser) return alert("Usuário não identificado.");
-                
+                if (!storageUser) {
+                    await MySwal.fire({
+                        icon: "error",
+                        title: "Erro de sessão",
+                        text: "Usuário não identificado",
+                    });
+                    return;
+                }
+
                 const userLogged = JSON.parse(storageUser);
                 const payload = { codigo_verificacao: transferCode, id_usuario_destino: userLogged.id };
                 const response = await api.post("/transferencia/aceitar", payload);
 
                 if (response.data && (response.data.status === true || response.data.status_code === 200)) {
-                    alert(`Veículo adquirido com sucesso!`);
+                    await MySwal.fire({
+                        icon: "success",
+                        title: "Veículo adquirido!",
+                        text: "O veículo foi adquirido com sucesso",
+                        confirmButtonText: "Ir para garagem",
+                    });
                     navigate("/home");
                 } else {
-                    alert(response.data?.message || "Erro ao adquirir o veículo.");
+                    await MySwal.fire({
+                        icon: "error",
+                        title: "Erro ao adquirir",
+                        text: response.data?.message || "Erro ao adquirir o veículo",
+                    });
                 }
             } catch (error) {
-                alert(error.response?.data?.message || "Código inválido ou erro no servidor.");
+                await MySwal.fire({
+                    icon: "error",
+                    title: "Código inválido",
+                    text: error.response?.data?.message || "Código inválido ou erro no servidor",
+                });
             }
         } else {
             if (!carData.modelo || !carData.marca || !carData.placa || !carData.cor || !carData.ano || !carData.quilometragem) {
-                return alert("Por favor, preencha todos os campos do formulário.");
+                await MySwal.fire({
+                    icon: "warning",
+                    title: "Campos obrigatórios",
+                    text: "Por favor, preencha todos os campos do formulário",
+                });
+                return;
             }
 
             if (carData.ano.length < 4) {
-                return alert("O ano precisa ter exatamente 4 dígitos.");
+                await MySwal.fire({
+                    icon: "warning",
+                    title: "Ano inválido",
+                    text: "O ano precisa ter exatamente 4 dígitos",
+                });
+                return;
             }
 
             setIsLoading(true);
             try {
                 const storageUser = localStorage.getItem("user");
-                if (!storageUser) return alert("Usuário não identificado.");
+                if (!storageUser) {
+                    await MySwal.fire({
+                        icon: "error",
+                        title: "Erro de sessão",
+                        text: "Usuário não identificado",
+                    });
+                    setIsLoading(false);
+                    return;
+                }
                 const userLogged = JSON.parse(storageUser);
 
                 const formData = new FormData();
-                
                 formData.append("placa", carData.placa);
                 formData.append("modelo", carData.modelo);
                 formData.append("marca", carData.marca);
                 formData.append("cor", carData.cor);
                 formData.append("ano", carData.ano);
-                formData.append("quilometragem", carData.quilometragem); 
-                
+                formData.append("quilometragem", carData.quilometragem);
+
                 if (imageFile) {
                     formData.append("foto_veiculo", imageFile);
                 } else if (isEditMode && carImage) {
@@ -193,28 +260,49 @@ const NewCarScreen = () => {
                     const blob = await res.blob();
                     formData.append("foto_veiculo", blob, "foto_mantida.jpg");
                 } else {
+                    await MySwal.fire({
+                        icon: "warning",
+                        title: "Foto obrigatória",
+                        text: "A foto do veículo é obrigatória",
+                    });
                     setIsLoading(false);
-                    return alert("A foto do veículo é obrigatória.");
+                    return;
                 }
 
                 if (!isEditMode) {
                     formData.append("id_usuario", userLogged.id);
                     formData.append("is_ativo", true);
-                    formData.append("vinculo", JSON.stringify({})); 
+                    formData.append("vinculo", JSON.stringify({}));
                 }
 
                 const url = isEditMode ? `/veiculo/${id}` : "/veiculo-usuario";
-                const response = isEditMode ? await api.put(url, formData) : await api.post(url, formData);
+                const response = isEditMode
+                    ? await api.put(url, formData)
+                    : await api.post(url, formData);
 
                 if (response.data && (response.data.status || response.status === 200)) {
-                    alert(isEditMode ? "Veículo atualizado com sucesso!" : "Veículo cadastrado com sucesso!");
+                    await MySwal.fire({
+                        icon: "success",
+                        title: isEditMode ? "Veículo atualizado!" : "Veículo cadastrado!",
+                        text: isEditMode
+                            ? "As informações foram salvas com sucesso"
+                            : "O veículo foi cadastrado com sucesso",
+                        confirmButtonText: "Ir para garagem",
+                    });
                     navigate("/home");
                 } else {
-                    alert(response.data?.message || "Erro ao salvar o veículo.");
+                    await MySwal.fire({
+                        icon: "error",
+                        title: "Erro ao salvar",
+                        text: response.data?.message || "Erro ao salvar o veículo",
+                    });
                 }
-
             } catch (error) {
-                alert(error.response?.data?.message || "Não foi possível conectar ao servidor.");
+                await MySwal.fire({
+                    icon: "error",
+                    title: "Erro de conexão",
+                    text: error.response?.data?.message || "Não foi possível conectar ao servidor",
+                });
             } finally {
                 setIsLoading(false);
             }
@@ -245,7 +333,7 @@ const NewCarScreen = () => {
                     )}
 
                     <div className={`formsArea ${isFormVisibleMobile ? 'showOnMobile' : 'hideOnMobile'}`}>
-                        
+
                         {activeTab === "acquire" && !isEditMode && (
                             <div className="codeVehicle">
                                 <p className="instructionText">Digite o código gerado pelo proprietário para confirmar a transferência</p>
@@ -301,49 +389,22 @@ const NewCarScreen = () => {
                                     </div>
                                     <div className="formInputGroup">
                                         <label>Placa</label>
-                                        <Input
-                                            name="placa"
-                                            value={carData.placa}
-                                            onChange={handleChange}
-                                            maxLength={7}
-                                        />
+                                        <Input name="placa" value={carData.placa} onChange={handleChange} maxLength={7} />
                                     </div>
-
                                     <div className="formInputGroup">
                                         <label>Ano</label>
-                                        <Input
-                                            name="ano"
-                                            value={carData.ano}
-                                            onChange={handleChange}
-                                            inputMode="numeric"
-                                            maxLength={4}
-                                        />
+                                        <Input name="ano" value={carData.ano} onChange={handleChange} inputMode="numeric" maxLength={4} />
                                     </div>
-                                    
                                     <div className="formInputGroup">
                                         <label>Quilometragem (Km)</label>
-                                        <Input
-                                            name="quilometragem"
-                                            value={carData.quilometragem}
-                                            onChange={handleChange}
-                                            inputMode="numeric"
-                                            placeholder=""
-                                        />
+                                        <Input name="quilometragem" value={carData.quilometragem} onChange={handleChange} inputMode="numeric" placeholder="" />
                                     </div>
-
                                     <div className="formInputGroup">
                                         <label>Cor</label>
-                                        <select
-                                            name="cor"
-                                            value={carData.cor}
-                                            onChange={handleChange}
-                                            className="classSelectCor"
-                                        >
+                                        <select name="cor" value={carData.cor} onChange={handleChange} className="classSelectCor">
                                             <option value="" disabled></option>
                                             {VEHICLE_COLORS.map((cor) => (
-                                                <option key={cor.value} value={cor.value}>
-                                                    {cor.label}
-                                                </option>
+                                                <option key={cor.value} value={cor.value}>{cor.label}</option>
                                             ))}
                                         </select>
                                     </div>

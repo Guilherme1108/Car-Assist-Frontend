@@ -16,6 +16,7 @@ import {
   Gauge
 } from "lucide-react";
 import NavBar from "../../components/navBar/NavBar";
+import { MySwal } from "../../config/swal";
 
 const VehicleScreen = () => {
   const navigate = useNavigate();
@@ -37,27 +38,39 @@ const VehicleScreen = () => {
 
   const role = vehicle.papel_usuario;
 
-  const handleEditClick = () => {
+  const handleEditClick = async () => {
     if (role === 'Editor' || role === 'Proprietário') {
       navigate(`/home/veiculo/editar/${vehicle.id}`, { state: { vehicleData: vehicle } });
     } else {
-      alert("Permissão negada. Apenas usuários com perfil de Proprietário ou Editor podem editar este veículo.");
+      await MySwal.fire({
+        icon: "warning",
+        title: "Permissão negada",
+        text: "Apenas usuários com perfil de Proprietário ou Editor podem editar este veículo.",
+      });
     }
   };
 
-  const handleDonosClick = () => {
+  const handleDonosClick = async () => {
     if (role === 'Proprietário') {
       navigate(`/home/veiculo/gerenciamentousuarios/`, { state: { vehicleData: vehicle } });
     } else {
-      alert("Permissão negada. Apenas o Proprietário pode visualizar o histórico de donos.");
+      await MySwal.fire({
+        icon: "warning",
+        title: "Permissão negada",
+        text: "Apenas o Proprietário pode visualizar o histórico de donos.",
+      });
     }
   };
 
-  const handleTransferenciaClick = () => {
+  const handleTransferenciaClick = async () => {
     if (role === 'Proprietário') {
       navigate("./transferencia", { state: { vehicleData: vehicle } });
     } else {
-      alert("Permissão negada. Apenas o Proprietário pode transferir este veículo.");
+      await MySwal.fire({
+        icon: "warning",
+        title: "Permissão negada",
+        text: "Apenas o Proprietário pode transferir este veículo.",
+      });
     }
   };
 

@@ -2,6 +2,7 @@ import "../Transfer.css";
 import { useState } from "react";
 import Button from "../../../components/button/Button";
 import api from "../../../services/api.js";
+import { MySwal } from "../../../config/swal.js";
 
 const Step2 = ({ onSuccess, onCancel, permission, carName, carPlate, carId }) => {
     const [loading, setLoading] = useState(false);
@@ -12,7 +13,11 @@ const Step2 = ({ onSuccess, onCancel, permission, carName, carPlate, carId }) =>
         try {
             const storageUser = localStorage.getItem("user");
             if (!storageUser) {
-                alert("Sessão expirada. Faça login novamente.");
+                await MySwal.fire({
+                    icon: "error",
+                    title: "Sessão expirada",
+                    text: "Sessão expirada. Faça login novamente.",
+                });
                 setLoading(false);
                 return;
             }
@@ -35,17 +40,23 @@ const Step2 = ({ onSuccess, onCancel, permission, carName, carPlate, carId }) =>
 
             const response = await api.post("/transferencia/gerar", payload);
 
-
             if (response.data && (response.data.status === true || response.data.status_code === 201)) {
                 onSuccess(response.data.data);
             } else {
-                alert(response.data?.message || "O backend não retornou uma resposta válida.");
+                await MySwal.fire({
+                    icon: "error",
+                    title: "Erro na resposta",
+                    text: response.data?.message || "O backend não retornou uma resposta válida.",
+                });
             }
 
         } catch (error) {
-
             const mensagemErro = error.response?.data?.message || "Não foi possível conectar com o servidor.";
-            alert(`Erro ao gerar transferência: ${mensagemErro}`);
+            await MySwal.fire({
+                icon: "error",
+                title: "Erro ao transferir",
+                text: `Erro ao gerar transferência: ${mensagemErro}`,
+            });
         } finally {
             setLoading(false);
         }

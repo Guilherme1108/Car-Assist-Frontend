@@ -6,6 +6,7 @@ import NavBar from "../../components/navBar/NavBar";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { LogOut, LockKeyhole, Camera, Trash2 } from "lucide-react";
+import { MySwal } from "../../config/swal";
 
 const ProfileScreen = () => {
     const navigate = useNavigate();
@@ -89,7 +90,7 @@ const ProfileScreen = () => {
         }));
     };
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         if (!e.target.files || e.target.files.length === 0) return;
 
         const files = Array.from(e.target.files);
@@ -97,7 +98,11 @@ const ProfileScreen = () => {
         const allowedTypes = ["image/png", "image/jpeg"];
 
         if (!allowedTypes.includes(file.type)) {
-            alert("Apenas arquivos PNG ou JPEG são permitidos.");
+            await MySwal.fire({
+                icon: 'warning',
+                title: 'Imagens em formato inválido',
+                text: 'Apenas arquivos PNG ou JPEG são permitidos.'
+            });
             e.target.value = "";
             return;
         }
@@ -151,7 +156,11 @@ const ProfileScreen = () => {
         e.preventDefault();
 
         if (!profileData.nome || !profileData.email) {
-            alert("Os campos Nome e Email são obrigatórios.");
+            await MySwal.fire({
+                icon: 'warning',
+                title: 'Formato inválido',
+                text: 'Os campos Nome e Email são obrigatórios.'
+            });
             return;
         }
 
@@ -190,15 +199,28 @@ const ProfileScreen = () => {
                     foto_usuario: updatedUserResponse?.foto_usuario || userImage
                 }));
 
-                alert("Perfil atualizado com sucesso!");
+                await MySwal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Perfil atualizado com sucesso.'
+                });
+                
                 setIsEditable(false);
                 setSelectedFile(null);
             } else {
-                alert(response.data?.message || "Erro ao atualizar dados do perfil.");
+                await MySwal.fire({
+                    icon: 'error',
+                    title: 'Erro ao atualizar',
+                    text: response.data?.message || "Erro ao atualizar dados do perfil."
+                });
             }
         } catch (error) {
             console.error("Erro ao salvar alterações do perfil:", error);
-            alert(error.response?.data?.message || "Não foi possível conectar ao servidor.");
+            await MySwal.fire({
+                icon: 'error',
+                title: 'Erro de conexão',
+                text: error.response?.data?.message || "Não foi possível conectar ao servidor."
+            });
         }
     };
 
