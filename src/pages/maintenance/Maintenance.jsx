@@ -5,6 +5,7 @@ import NavBar from "../../components/navBar/NavBar";
 import Button from "../../components/button/Button";
 import MaintenanceItem from "../../components/maintenanceItem/MaintenanceItem.jsx";
 import api from "../../services/api";
+import { MySwal } from "../../config/swal";
 
 const MaintenanceScreen = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const MaintenanceScreen = () => {
   const { idVeiculo } = useParams();
 
   const role = location.state?.vehicleData?.papel_usuario;
-  const idVeiculoAtual = idVeiculo || location.state?.vehicleData?.id || location.state?.idVeiculo || 4; 
+  const idVeiculoAtual = idVeiculo || location.state?.vehicleData?.id || location.state?.idVeiculo || 4;
 
   const [maintenances, setMaintenances] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +26,7 @@ const MaintenanceScreen = () => {
         setError(null);
 
         const response = await api.get(`/manutencao-veiculo/${idVeiculoAtual}`);
-        
+
         if (response.data && response.data.status) {
           setMaintenances(response.data.data.manutencao || []);
         } else {
@@ -48,9 +49,13 @@ const MaintenanceScreen = () => {
     }
   }, [idVeiculoAtual]);
 
-  const handleNewMaintenence = () => {
+  const handleNewMaintenence = async () => {
     if (role === 'Visualizador') {
-      alert("Acesso Negado: Como visualizador, você não tem permissão para adicionar novas manutenções.");
+      await MySwal.fire({
+        icon: "error",
+        title: "Acesso negado",
+        text: "Como visualizador, você não tem permissão para adicionar novas manutenções",
+      });
       return;
     }
     navigate("./criar", { state: { idVeiculo: idVeiculoAtual, role: role } });
@@ -69,9 +74,9 @@ const MaintenanceScreen = () => {
 
       <div className="containerMaintenences">
         {isLoading && <p style={{ textAlign: "center" }}>Carregando histórico...</p>}
-        
+
         {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
-        
+
         {!isLoading && !error && maintenances.length === 0 && (
           <p style={{ textAlign: "center", color: "gray" }}>Nenhuma manutenção registrada para este veículo.</p>
         )}
@@ -94,10 +99,10 @@ const MaintenanceScreen = () => {
 
 const PureMaintenancesList = (list, onEditClick) => {
   return list.map((item) => (
-    <MaintenanceItem 
-      key={item.id} 
-      maintenance={item} 
-      onClick={() => onEditClick(item)} 
+    <MaintenanceItem
+      key={item.id}
+      maintenance={item}
+      onClick={() => onEditClick(item)}
     />
   ));
 };

@@ -6,26 +6,26 @@ import Input from "../../components/input/Input";
 import NavBar from "../../components/navBar/NavBar";
 import { Paperclip, X } from "lucide-react";
 import api from "../../services/api";
+import { MySwal } from "../../config/swal";
 
 const NewMaintenence = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const fileInputRef = useRef(null);
-  
-  const { id } = useParams(); 
+
+  const { id } = useParams();
   const isEditMode = !!id;
 
   const userRole = location.state?.role;
   const isReadOnly = userRole === "Visualizador";
 
   const [idUsuarioLogado, setIdUsuarioLogado] = useState(null);
-  const [idVeiculoAtual, setIdVeiculoAtual] = useState(null); 
+  const [idVeiculoAtual, setIdVeiculoAtual] = useState(null);
 
   const [tiposManutencao, setTiposManutencao] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
 
-  // ESTADO para guardar a data de criação que aparece no topo da tela
   const [dataCriacaoHeader, setDataCriacaoHeader] = useState("");
 
   const [formData, setFormData] = useState({
@@ -48,8 +48,12 @@ const NewMaintenence = () => {
   useEffect(() => {
     const storageUser = localStorage.getItem("user");
     if (!storageUser) {
-      alert("Sessão expirada. Faça login novamente.");
-      navigate("/");
+      MySwal.fire({
+        icon: "warning",
+        title: "Sessão expirada",
+        text: "Faça login novamente",
+        confirmButtonText: "Ir para login",
+      }).then(() => navigate("/"));
       return;
     }
     const loggedUser = JSON.parse(storageUser);
@@ -100,7 +104,7 @@ const NewMaintenence = () => {
         const dataCriacaoOriginal = dados.data || dados.data_criacao;
         if (dataCriacaoOriginal) {
           const dataCriacaoFormatada = new Date(dataCriacaoOriginal.replace(" ", "T"))
-                                        .toLocaleDateString("pt-BR", { timeZone: "UTC" });
+            .toLocaleDateString("pt-BR", { timeZone: "UTC" });
           setDataCriacaoHeader(dataCriacaoFormatada);
         }
 
@@ -141,12 +145,16 @@ const NewMaintenence = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     if (isReadOnly) return;
     const files = Array.from(e.target.files);
 
     if (images.length + files.length > 3) {
-      alert("Máximo de 3 fotos.");
+      await MySwal.fire({
+        icon: "warning",
+        title: "Limite atingido",
+        text: "Máximo de 3 fotos permitidas",
+      });
       e.target.value = "";
       return;
     }
@@ -155,14 +163,18 @@ const NewMaintenence = () => {
     const invalidFiles = files.filter(file => !allowedTypes.includes(file.type));
 
     if (invalidFiles.length > 0) {
-      alert("Apenas arquivos PNG ou JPEG são permitidos.");
+      await MySwal.fire({
+        icon: "warning",
+        title: "Formato inválido",
+        text: "Apenas arquivos PNG ou JPEG são permitidos",
+      });
       e.target.value = "";
       return;
     }
 
     const newImages = files.map(file => ({
-      url: URL.createObjectURL(file), 
-      file: file 
+      url: URL.createObjectURL(file),
+      file: file
     }));
 
     setImages([...images, ...newImages]);
@@ -184,20 +196,42 @@ const NewMaintenence = () => {
 
   const handleDelete = async () => {
     if (isReadOnly) return;
-    if (!window.confirm("Deseja realmente excluir esta manutenção?")) return;
-    
+
+    const result = await MySwal.fire({
+      icon: "warning",
+      title: "Excluir manutenção",
+      text: "Deseja realmente excluir esta manutenção?",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (!result.isConfirmed) return;
+
     try {
       setIsLoading(true);
       const response = await api.delete(`/manutencao/${id}`);
 
       if (response.data?.status || response.status === 200) {
-        alert("Manutenção excluída com sucesso!");
-        navigate(-1); 
+        await MySwal.fire({
+          icon: "success",
+          title: "Manutenção excluída",
+          text: "A manutenção foi excluída com sucesso",
+        });
+        navigate(-1);
       } else {
-        alert(response.data?.message || "Erro ao excluir.");
+        await MySwal.fire({
+          icon: "error",
+          title: "Erro ao excluir",
+          text: response.data?.message || "Erro ao excluir",
+        });
       }
     } catch (e) {
-      alert(e.response?.data?.message || "Falha na conexão.");
+      await MySwal.fire({
+        icon: "error",
+        title: "Erro de conexão",
+        text: e.response?.data?.message || "Falha na conexão",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -205,16 +239,48 @@ const NewMaintenence = () => {
 
   const handleSave = async () => {
     if (isReadOnly) return;
-    if (!idUsuarioLogado) return alert("Usuário não identificado.");
-    if (!idVeiculoAtual) return alert("Veículo não identificado."); 
-    if (!formData.fkIdTipoManutencao) return alert("Selecione um tipo de manutenção.");
-    if (images.length === 0) return alert("Adicione pelo menos uma evidência.");
+
+    if (!idUsuarioLogado) {
+      await MySwal.fire({
+        icon: "error",
+        title: "Erro de sessão",
+        text: "Usuário não identificado",
+      });
+      return;
+    }
+
+    if (!idVeiculoAtual) {
+      await MySwal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Veículo não identificado",
+      });
+      return;
+    }
+
+    if (!formData.fkIdTipoManutencao) {
+      await MySwal.fire({
+        icon: "warning",
+        title: "Campo obrigatório",
+        text: "Selecione um tipo de manutenção",
+      });
+      return;
+    }
+
+    if (images.length === 0) {
+      await MySwal.fire({
+        icon: "warning",
+        title: "Evidência obrigatória",
+        text: "Adicione pelo menos uma evidência",
+      });
+      return;
+    }
 
     setIsLoading(true);
 
     try {
       const payload = new FormData();
-      
+
       payload.append("data_manutencao", formData.dataManutencao);
       payload.append("custo", formData.valor);
       payload.append("quilometragem", formData.quilometragem);
@@ -223,11 +289,10 @@ const NewMaintenence = () => {
       payload.append("pecas", formData.pecas);
       payload.append("fk_id_tipo_manutencao", formData.fkIdTipoManutencao);
       payload.append("fk_id_usuario", idUsuarioLogado);
-      payload.append("fk_id_veiculo", idVeiculoAtual); 
+      payload.append("fk_id_veiculo", idVeiculoAtual);
 
       for (let i = 0; i < images.length; i++) {
         const img = images[i];
-        
         if (img.file) {
           payload.append("evidencias", img.file);
         } else {
@@ -238,17 +303,32 @@ const NewMaintenence = () => {
       }
 
       const url = isEditMode ? `/manutencao/${id}` : `/manutencao-evidencia`;
-      const apiResponse = isEditMode ? await api.put(url, payload) : await api.post(url, payload);
+      const apiResponse = isEditMode
+        ? await api.put(url, payload)
+        : await api.post(url, payload);
 
       if (apiResponse.data && (apiResponse.data.status === true || apiResponse.status === 200)) {
-        alert(isEditMode ? "Manutenção atualizada com sucesso!" : "Manutenção salva com sucesso!");
+        await MySwal.fire({
+          icon: "success",
+          title: isEditMode ? "Manutenção atualizada!" : "Manutenção salva!",
+          text: isEditMode
+            ? "As informações foram atualizadas com sucesso"
+            : "A manutenção foi salva com sucesso",
+        });
         navigate(-1);
       } else {
-        alert(`Erro ao salvar: ${apiResponse.data?.message || 'Erro desconhecido'}`);
+        await MySwal.fire({
+          icon: "error",
+          title: "Erro ao salvar",
+          text: apiResponse.data?.message || "Erro desconhecido",
+        });
       }
-
     } catch (e) {
-      alert(`Falha na conexão: ${e.response?.data?.message || e.message}`);
+      await MySwal.fire({
+        icon: "error",
+        title: "Erro de conexão",
+        text: e.response?.data?.message || e.message,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -269,8 +349,8 @@ const NewMaintenence = () => {
             <h3>Dados da Manutenção</h3>
             <div className="inputGroup">
               <label>Tipo da Manutenção</label>
-              <select 
-                className="typeMaintenanceOption" 
+              <select
+                className="typeMaintenanceOption"
                 name="fkIdTipoManutencao"
                 value={formData.fkIdTipoManutencao}
                 onChange={handleChange}
@@ -360,27 +440,27 @@ const NewMaintenence = () => {
 
             <div className="buttonActionGroup">
               {isReadOnly ? (
-                <Button 
-                  className="saveMaintenence" 
-                  text="Voltar" 
-                  variant="primary" 
-                  onClick={() => navigate(-1)} 
+                <Button
+                  className="saveMaintenence"
+                  text="Voltar"
+                  variant="primary"
+                  onClick={() => navigate(-1)}
                 />
               ) : (
                 <>
                   {isEditMode && (
-                    <Button 
-                      className="deleteMaintenence" 
-                      text="Excluir" 
-                      variant="secondary" 
+                    <Button
+                      className="deleteMaintenence"
+                      text="Excluir"
+                      variant="secondary"
                       onClick={handleDelete}
                       disabled={isLoading}
                     />
                   )}
-                  <Button 
-                    className="saveMaintenence" 
-                    text={isLoading ? "Processando..." : "Salvar"} 
-                    variant="primary" 
+                  <Button
+                    className="saveMaintenence"
+                    text={isLoading ? "Processando..." : "Salvar"}
+                    variant="primary"
                     onClick={handleSave}
                     disabled={isLoading}
                   />

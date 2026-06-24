@@ -1,6 +1,7 @@
 import "../Transfer.css";
 import Lottie from "lottie-react";
 import confirmGif from "../../../assets/animations/confirmGif.json";
+import { MySwal } from "../../../config/swal";
 
 const Step3 = ({ data }) => {
     const codigoVerificacao = data?.codigo_verificacao || "------";

@@ -6,6 +6,7 @@ import { CopyPlus, ChevronLeft, ChevronRight, CarFront } from "lucide-react";
 import NavBar from "../../components/navBar/NavBar";
 import CarCard from "../../components/carCard/CarCard.jsx";
 import api from "../../services/api";
+import { MySwal } from "../../config/swal";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -22,7 +23,12 @@ const HomeScreen = () => {
         const storageUser = localStorage.getItem("user");
 
         if (!storageUser) {
-          alert("Sessão expirada. Faça login novamente.");
+          await MySwal.fire({
+            icon: "warning",
+            title: "Sessão expirada",
+            text: "Faça login novamente",
+            confirmButtonText: "Ir para login",
+          });
           navigate("/");
           return;
         }
@@ -33,7 +39,6 @@ const HomeScreen = () => {
         const response = await api.get(`/usuario-veiculo/${userId}`);
 
         if (response.data && response.data.status) {
-          // Filtra apenas veículos onde is_ativo é 1
           const userVehicleRelations =
             response.data.data?.usuario_veiculo.filter(
               (relation) => relation.is_ativo === 1
@@ -67,7 +72,11 @@ const HomeScreen = () => {
         if (error.response?.status === 404) {
           setVehicles([]);
         } else {
-          alert("Não foi possível conectar à sua garagem.");
+          await MySwal.fire({
+            icon: "error",
+            title: "Erro de conexão",
+            text: "Não foi possível conectar à sua garagem",
+          });
         }
       } finally {
         setLoading(false);
@@ -91,7 +100,6 @@ const HomeScreen = () => {
   const getScoreColorClass = (score) => {
     if (score < 50) return "low-score";
     if (score <= 70) return "medium-score";
-
     return "high-score";
   };
 
@@ -100,8 +108,7 @@ const HomeScreen = () => {
 
   const scrollToVehicle = (index) => {
     if (carouselRef.current) {
-      const cardWidth =
-        carouselRef.current.firstChild?.offsetWidth || 300;
+      const cardWidth = carouselRef.current.firstChild?.offsetWidth || 300;
 
       carouselRef.current.scrollTo({
         left: index * cardWidth,
@@ -127,21 +134,18 @@ const HomeScreen = () => {
   if (loading) {
     return (
       <div className="homeScreen loadingContainer">
-        <span className="titleHome">
-          Carregando Garagem...
-        </span>
+        <span className="titleHome">Carregando Garagem...</span>
       </div>
     );
   }
 
   return (
     <div className="homeScreen">
-      {vehicles.length > 0 &&
-        vehicles[currentVehicleIndex] && (
-          <span className="backgorundCarName naoSelecionavel">
-            {vehicles[currentVehicleIndex].modelo}
-          </span>
-        )}
+      {vehicles.length > 0 && vehicles[currentVehicleIndex] && (
+        <span className="backgorundCarName naoSelecionavel">
+          {vehicles[currentVehicleIndex].modelo}
+        </span>
+      )}
 
       <span className="titleHome">Garagem</span>
 
@@ -151,24 +155,19 @@ const HomeScreen = () => {
             {garageAverageScore}
           </span>
 
-          <p className="textScore">
-            Score da garagem
-          </p>
+          <p className="textScore">Score da garagem</p>
         </div>
 
         <div className="bar">
           <div
             className={`filledBar ${scoreColorClass}`}
-            style={{
-              width: `${garageAverageScore}%`,
-            }}
+            style={{ width: `${garageAverageScore}%` }}
           ></div>
         </div>
       </div>
 
       {vehicles.length > 0 ? (
         <div className="carouselContainer">
-          
           {vehicles.length > 1 && currentVehicleIndex > 0 && (
             <button
               className="carouselBtn prev"
@@ -181,10 +180,7 @@ const HomeScreen = () => {
 
           <div className="cards" ref={carouselRef}>
             {vehicles.map((vehicle) => (
-              <div
-                key={vehicle.id}
-                className="carouselItem"
-              >
+              <div key={vehicle.id} className="carouselItem">
                 <CarCard
                   car={vehicle}
                   onNavigate={navigate}
@@ -203,41 +199,26 @@ const HomeScreen = () => {
               <ChevronRight size={32} />
             </button>
           )}
-
         </div>
       ) : (
         <div className="emptyGarageText">
-          <p>
-            Você ainda não possui veículos ativos na sua garagem.
-          </p>
+          <p>Você ainda não possui veículos ativos na sua garagem.</p>
         </div>
       )}
 
       <div className="addCarArea">
         <CarFront className="iconCarFront" />
 
-        <span className="textAddCar primaryText">
-          Adicione um novo carro
-        </span>
+        <span className="textAddCar primaryText">Adicione um novo carro</span>
 
-        <span className="textAddCar">
-          Mantenha seu perfil sempre atualizado
-        </span>
+        <span className="textAddCar">Mantenha seu perfil sempre atualizado</span>
 
         <button
           className="addCarButton"
-          onClick={() => {
-            navigate("./cadastrarveiculo");
-          }}
+          onClick={() => navigate("./cadastrarveiculo")}
         >
-          <CopyPlus
-            className="iconAddCarButton"
-            size={18}
-          />
-
-          <p className="textScore">
-            Adicionar Carro
-          </p>
+          <CopyPlus className="iconAddCarButton" size={18} />
+          <p className="textScore">Adicionar Carro</p>
         </button>
       </div>
 

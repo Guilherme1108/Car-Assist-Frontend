@@ -3,6 +3,7 @@ import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import {useNavigate} from "react-router-dom";
 import api from "../../services/api";
+import { MySwal } from "../../config/swal";
 import "./RegisterAccount.css";
 
 const RegisterAccountScreen = ({onToggle}) => {
@@ -28,47 +29,66 @@ const RegisterAccountScreen = ({onToggle}) => {
   const isDesktop = window.innerWidth >= 1024;
 
   const handleRegister = async () => {
-  if (formData.senha.length < 8) {
-    alert("A senha deve ter no mínimo 8 caracteres");
-    return;
-  }
-
-  if (formData.senha !== formData.confirmeSenha) {
-    alert("As senhas não são iguais!");
-    return;
-  }
-
-  try {
-    const payload = {
-      nome: formData.nome,
-      cpf: formData.cpf.replace(/\D/g, ""),
-      data_nascimento: formData.data_nascimento,
-      email: formData.email,
-      senha: formData.senha,
-      is_ativo: true
-    };
-
-    const response = await api.post("/usuario", payload
-    );
-
-    console.log(response.data);
-
-    if (isDesktop) {
-      alert("Conta criada com sucesso!");
-      onToggle();
-    } else {
-      navigate("/");
+    if (formData.senha.length < 8) {
+      await MySwal.fire({
+        icon: "warning",
+        title: "Senha muito curta",
+        text: "A senha deve ter no mínimo 8 caracteres",
+      });
+      return;
     }
 
-  } catch (error) {
-    console.log(error.response?.data);
+    if (formData.senha !== formData.confirmeSenha) {
+      await MySwal.fire({
+        icon: "warning",
+        title: "Senhas diferentes",
+        text: "As senhas digitadas não são iguais",
+      });
+      return;
+    }
 
-    alert(
-      error.response?.data?.message ||
-      "Erro ao cadastrar usuário"
-    );
-  }
-};
+    try {
+      const payload = {
+        nome: formData.nome,
+        cpf: formData.cpf.replace(/\D/g, ""),
+        data_nascimento: formData.data_nascimento,
+        email: formData.email,
+        senha: formData.senha,
+        is_ativo: true
+      };
+
+      const response = await api.post("/usuario", payload);
+
+      console.log(response.data);
+
+      if (isDesktop) {
+        await MySwal.fire({
+          icon: "success",
+          title: "Conta criada!",
+          text: "Seu cadastro foi realizado com sucesso",
+          confirmButtonText: "Fazer login",
+        });
+        onToggle();
+      } else {
+        await MySwal.fire({
+          icon: "success",
+          title: "Conta criada!",
+          text: "Seu cadastro foi realizado com sucesso",
+          confirmButtonText: "Fazer login",
+        });
+        navigate("/");
+      }
+
+    } catch (error) {
+      console.log(error.response?.data);
+
+      await MySwal.fire({
+        icon: "error",
+        title: "Erro ao cadastrar",
+        text: error.response?.data?.message || "Erro ao cadastrar usuário",
+      });
+    }
+  };
 
   const handleCancel = () => {
     if (isDesktop) {
